@@ -1,0 +1,33 @@
+{
+  "name": "local-dialysis",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": "~0.10.28",
+    "npm": "~1.4.9"
+  },
+  "dependencies": {
+    "async": "^0.8.0",
+    "bower": "*",
+    "errorhandler": "*",
+    "express": ">= 4.x",
+    "jade": ">= 1.x",
+    "lodash": "*",
+    "morgan": "*",
+    "numeral": "^1.5.3",
+    "request": "^2.34.0",
+    "serve-favicon": "*"
+  },
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-concurrent": "*",
+    "grunt-nodemon": "*",
+    "grunt-contrib-less": "*",
+    "grunt-contrib-cssmin": "*",
+    "grunt-contrib-uglify": "*"
+  },
+  "scripts": {
+    "postinstall": "node ./node_modules/bower/bin/bower install"
+  }
+}

@@ -1,0 +1,14 @@
+{
+	"views": {
+		"23ew-n7w9": {
+			"id": "23ew-n7w9",
+			"name": "Dialysis Facility Compare - Listing by Facility",
+			"description": "A list of all dialysis facilities registered with Medicare that includes addresses and phone numbers, as well as services and quality of care provided."
+		},
+		"qg5v-bgia": {
+			"id": "qg5v-bgia",
+			"name": "Complete QIP Data - Payment Year 2014",
+			"description": "Includes data for number of eligible patients by measure, % patients with Hemoglobin >12, % patients with median URR >=65%, % of hemodialysis patients using an arteriovenous fistula during last treatment of the month, % of hemodialysis patients using an intravenous catheter during the last treatment of the month and for at least 89 days priorHemoglobin measure score, URR measure score, the Total Performance Score, and payment reduction percentage."
+		}
+	}
+}

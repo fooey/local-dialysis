@@ -1,0 +1,75 @@
+extends layout
+
+
+block content
+	#home.container
+		.row
+			.col-lg-24 
+				h1.page-header.welcome Welcome to <a href="/">Local Dialysis Providers</a>!
+					small.text-muted We can help you find and compare all #{numeral(metaNational.count).format('0,0')} Medicare certified dialysis facilties near you.
+
+				.leader
+					if process.env.NODE_ENV === 'development'
+						ins.adsbygoogle.placeholder
+					else
+						ins.adsbygoogle(
+							style="display:block",
+							data-ad-client="ca-pub-2680194687384513",
+							data-ad-slot="6633509987",
+							data-ad-format="auto",
+						)
+						script (adsbygoogle = window.adsbygoogle || []).push({});
+
+				h2.page-header Browse #{numeral(metaNational.count).format('0,0')} local dialysis providers by selecting a state or city from the list below&hellip;
+
+
+				.row#geoFacilities
+					.col-md-7
+						.sky
+							if process.env.NODE_ENV === 'development'
+								ins.adsbygoogle.placeholder
+							else
+								ins.adsbygoogle(
+									style="display:block",
+									data-ad-client="ca-pub-2680194687384513",
+									data-ad-slot="6633509987",
+									data-ad-format="auto",
+								)
+								script (adsbygoogle = window.adsbygoogle || []).push({});
+
+					.col-md-17: .row
+						- var colSize = (24 / numCols);
+						-for(var ixCol = 0; ixCol < numCols; ixCol ++)
+							+geoFacilitiesList(colSize, ixCol)
+
+				//- .row
+				//- 	.col-lg-24
+				//- 		ul
+				//- 			- each state, stateKey in states
+				//- 				//- - var state = states[stateKey];
+				//- 				- if(geoAgg.states.hasOwnProperty(stateKey))
+				//- 					- var aggState = geoAgg.states[stateKey];
+				//- 					- var stateCities = _.filter(topCities, {state: stateKey})
+				//- 					li
+				//- 						span= state.name 
+				//- 						span (#{numeral(aggState.count).format('0,0')})
+				//- 						if stateCities.length
+				//- 							ul
+				//- 								- each topCity in stateCities
+				//- 									li
+				//- 										span= topCity.city
+				//- 										span (#{numeral(topCity.count).format('0,0')})
+
+
+
+mixin geoFacilitiesList(colSize, colNum)
+	- var colGeo = _.filter(geoFacilties, {column: colNum});
+	div(class="col-sm-#{colSize} col-xs-#{colSize*2}")
+		ul.states.list-unstyled
+			- each state, index in colGeo
+				li
+					a.state(href="/#{state.slug}") #{state.name}
+					- if (state.cities.length)
+						ul.cities.list-unstyled
+							- each city in state.cities
+								li: a.city(href="/#{state.slug}/#{city.citySlug}") #{city.city.toLowerCase()}
