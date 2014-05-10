@@ -1,6 +1,16 @@
 
 /*
 *
+*	GLOBAL path helpers
+*
+*/
+
+GLOBAL.paths = require('./config/paths');
+
+
+
+/*
+*
 * Express
 *
 */
@@ -9,13 +19,15 @@ const express = require('express');
 const app = express();
 
 
+
 /*
 *
 * Configuration
 *
 */
 
-require('./config/express')(app, express);
+require(GLOBAL.paths.getConfig('express'))(app, express);
+
 
 
 /*
@@ -24,7 +36,7 @@ require('./config/express')(app, express);
 *
 */
 
-require('./routes')(app, express);
+require(GLOBAL.paths.getRoute())(app, express);
 
 
 

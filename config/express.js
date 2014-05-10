@@ -1,7 +1,6 @@
 'use strict';
-module.exports = function(app, express) {
-	const path = require('path');
 
+module.exports = function(app, express) {
 
 	/*
 	*
@@ -26,12 +25,14 @@ module.exports = function(app, express) {
 
 	// all environments
 	app.set('port', process.env.PORT || 3003);
-	app.set('views', process.cwd() + '/views');
+	app.set('views', GLOBAL.paths.getView());
 	app.set('view engine', 'jade');
 
 
 
-	app.use(favicon(process.cwd() + '/public/img/favicon.ico'));
+	app.use(
+		favicon(GLOBAL.paths.getPublic('img/favicon.ico'))
+	);
 
 
 
@@ -41,7 +42,11 @@ module.exports = function(app, express) {
 		maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
 	};
 
-	app.use(express.static(process.cwd() + '/public', staticOptions));
-	app.use(express.static(process.cwd() + '/bower_components', staticOptions));
+	app.use(
+		express.static(GLOBAL.paths.getPublic(), staticOptions)
+	);
+	app.use(
+		express.static(GLOBAL.paths.getBower(), staticOptions)
+	);
 };
 
