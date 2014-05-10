@@ -6,9 +6,6 @@
     "node": "~0.10.28",
     "npm": "~1.4.9"
   },
-  "scripts": {
-    "start": "node app/server.js"
-  },
   "dependencies": {
     "async": "^0.8.0",
     "bower": "*",
