@@ -2,13 +2,11 @@
 	"views": {
 		"23ew-n7w9": {
 			"id": "23ew-n7w9",
-			"name": "Dialysis Facility Compare - Listing by Facility",
-			"rowsUpdatedAt": 1395434206
+			"name": "Dialysis Facility Compare - Listing by Facility"
 		},
 		"qg5v-bgia": {
 			"id": "qg5v-bgia",
-			"name": "Complete QIP Data - Payment Year 2014",
-			"rowsUpdatedAt": 1387898187
+			"name": "Complete QIP Data - Payment Year 2014"
 		}
 	}
 }
