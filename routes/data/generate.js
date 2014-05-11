@@ -142,7 +142,7 @@ module.exports = function(req, res, next) {
 
 				async.eachLimit(
 					jsonData,
-					32,
+					8,
 					function(data, callback) {
 						data.citySlug = data.city.toLowerCase();
 						data.citySlug = data.citySlug.replace(/[^a-z\-]{1,}/g, '-');
