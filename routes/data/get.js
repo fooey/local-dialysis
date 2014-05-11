@@ -46,7 +46,11 @@ module.exports = function(req, res, next) {
 					var viewData = JSON.parse(data);
 
 					if (viewData.rowsUpdatedAt > lastUpdateOnDisk) {
+						console.log('needs update', viewId);
 						toUpdate.push(viewData);
+					}
+					else {
+						console.log('is updated', viewId);
 					}
 
 					nextView();
