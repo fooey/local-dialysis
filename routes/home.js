@@ -8,8 +8,9 @@ const numeral = require('numeral');
 
 module.exports = function(req, res, next) {
 
-	const states = require('../data/states.json');
-	const geoAgg = require('../data/incoming/agg/geo.json');
+	const states = require(GLOBAL.paths.getData('states.json'));
+	const geoAgg = require(GLOBAL.paths.getData('incoming/agg/geo.json'));
+	var topCities = require(GLOBAL.paths.getData('incoming/agg/topCities.json'));
 
 	const metaNational = {
 		count: geoAgg.count,
@@ -22,10 +23,6 @@ module.exports = function(req, res, next) {
 		peritoneal: geoAgg.peritoneal,
 		training: geoAgg.training,
 	};
-
-
-
-	var topCities = require('../data/incoming/agg/topCities.json');
 
 	topCities = _.filter(topCities, function(city) {return city.count >= 10});
 

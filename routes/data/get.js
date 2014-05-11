@@ -27,7 +27,11 @@ module.exports = function(req, res, next) {
 		'notify': ['updateData', sendNotification],
 	}, function(err, results) {
 		console.log('update complete');
-		res.json(dataConfig);
+		if (res) {
+			res.json(dataConfig);
+		}
+
+		if (next) next();
 	});
 
 
@@ -43,14 +47,13 @@ module.exports = function(req, res, next) {
 				var lastUpdateOnDisk = view.rowsUpdatedAt || 0;
 
 				medicare.getView(viewId, function(err, data) {
+					if (err) throw (err);
 					var viewData = JSON.parse(data);
 
+					console.log(viewId, viewData.rowsUpdatedAt, lastUpdateOnDisk, viewData.rowsUpdatedAt > lastUpdateOnDisk);
+
 					if (viewData.rowsUpdatedAt > lastUpdateOnDisk) {
-						console.log('needs update', viewId);
 						toUpdate.push(viewData);
-					}
-					else {
-						console.log('is updated', viewId);
 					}
 
 					nextView();
@@ -63,6 +66,8 @@ module.exports = function(req, res, next) {
 
 
 	function updateData(callback, results) {
+		console.log('updateData()', results.toUpdate.length);
+
 		async.each(
 			results.toUpdate,
 			function(viewData, nextView) {
@@ -86,6 +91,8 @@ module.exports = function(req, res, next) {
 
 
 	function updateConfig(callback, results) {
+		console.log('updateConfig()', results.toUpdate.length);
+
 		async.each(
 			results.toUpdate,
 			function(viewData, nextView) {
@@ -110,20 +117,25 @@ module.exports = function(req, res, next) {
 		);
 	}
 
-	function sendNotification(callback) {
-		const AmazonSES = require('amazon-ses');
-  		const ses = new AmazonSES(process.env.AMAZON_ACCESS_KEY, process.env.AMAZON_SECRET_KEY);
+	function sendNotification(callback, results) {
+		console.log('sendNotification()', results.toUpdate.length);
 
-  		console.log('Emailing Update Notification');
+		if (results.toUpdate.length) {
 
-  		ses.send({
-			from: 'heroku+local-dialysis@the-ln.com',
-			to: ['heroku+local-dialysis@the-ln.com'],
-			subject: 'Local-Dialysis.com: New Data Updated',
-			body: {
-				text: 'Local-Dialysis.com\nNew Data Updated'
-			}
-		});
+			const AmazonSES = require('amazon-ses');
+	  		const ses = new AmazonSES(process.env.AMAZON_ACCESS_KEY, process.env.AMAZON_SECRET_KEY);
+
+	  		console.log('Emailing Update Notification');
+
+	  		ses.send({
+				from: 'notifications@the-ln.com',
+				to: ['heroku+local-dialysis@the-ln.com'],
+				subject: 'Local-Dialysis.com: New Data Updated',
+				body: {
+					text: 'Local-Dialysis.com\nNew Data Updated'
+				}
+			});
+		}
 
 		callback();
 
