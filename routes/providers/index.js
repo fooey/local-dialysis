@@ -9,7 +9,7 @@ module.exports = function(app, express) {
 
 
 	router.get(
-		'/:facilitySlug.:subSlug?.:facilityId.html',
+		'/:facilitySlug.:subSlug?.:facilityId([0-9]{6}).html',
 		require(GLOBAL.paths.getRoute('facility'))
 	);
 

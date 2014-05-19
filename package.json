@@ -16,6 +16,8 @@
     "lodash": "*",
     "mkdirp": "^0.5.0",
     "morgan": "*",
+    "mv": "^2.0.0",
+    "node-uuid": "^1.4.1",
     "numeral": "^1.5.3",
     "request": "^2.34.0",
     "serve-favicon": "*"

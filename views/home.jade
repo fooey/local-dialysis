@@ -5,8 +5,8 @@ block content
 	#home.container
 		.row
 			.col-lg-24 
-				h1.page-header.welcome Welcome to <a href="/">Local Dialysis Providers</a>!
-					small.text-muted We can help you find and compare all #{numeral(metaNational.count).format('0,0')} Medicare certified dialysis facilties near you.
+				h1.pageTitle.page-header Welcome to Local Dialysis Providers!
+					small.pageDescription.text-muted We can help you find and compare all #{numeral(metaNational.count).format('0,0')} Medicare certified dialysis facilties near you.
 
 				.leader
 					if (true || process.env.NODE_ENV === 'development')
@@ -41,24 +41,6 @@ block content
 						- var colSize = (24 / numCols);
 						-for(var ixCol = 0; ixCol < numCols; ixCol ++)
 							+geoFacilitiesList(colSize, ixCol)
-
-				//- .row
-				//- 	.col-lg-24
-				//- 		ul
-				//- 			- each state, stateKey in states
-				//- 				//- - var state = states[stateKey];
-				//- 				- if(geoAgg.states.hasOwnProperty(stateKey))
-				//- 					- var aggState = geoAgg.states[stateKey];
-				//- 					- var stateCities = _.filter(topCities, {state: stateKey})
-				//- 					li
-				//- 						span= state.name 
-				//- 						span (#{numeral(aggState.count).format('0,0')})
-				//- 						if stateCities.length
-				//- 							ul
-				//- 								- each topCity in stateCities
-				//- 									li
-				//- 										span= topCity.city
-				//- 										span (#{numeral(topCity.count).format('0,0')})
 
 
 

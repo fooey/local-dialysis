@@ -8,9 +8,8 @@ const numeral = require('numeral');
 
 module.exports = function(req, res, next) {
 
-	const states = require(GLOBAL.paths.getData('states.json'));
-	const geoAgg = require(GLOBAL.paths.getData('incoming/agg/geo.json'));
-	var topCities = require(GLOBAL.paths.getData('incoming/agg/topCities.json'));
+	const geoAgg = require(GLOBAL.paths.getData('medicare/agg/geo.json'));
+	var topCities = require(GLOBAL.paths.getData('medicare/agg/topCities.json'));
 
 	const metaNational = {
 		count: geoAgg.count,
@@ -47,29 +46,30 @@ module.exports = function(req, res, next) {
 
 	var runningTotal = 0;
 
-	_.forEach(states, function(state) {
-		runningTotal++;
+	_.forEach(geoAgg.states, function(geoState) {
 
-		state.hasFacilities = geoAgg.states.hasOwnProperty(state.abbr);
-		state.column = Math.floor(runningTotal / itemsPerCol);
+		var stateTopCities = _.filter(topCities, {state: geoState.abbr});
+		var colNumber = Math.floor(runningTotal / itemsPerCol);
 
-		if (state.hasFacilities) {
-			state.cities = _.filter(topCities, {state: state.abbr});
-			runningTotal += state.cities.length;
-		}
+		// runningTotal++;
+		runningTotal += (stateTopCities.length + 1);
 
 
-		geoFacilties.push(state);
+		geoFacilties.push({
+			name: geoState.name,
+			abbr: geoState.abbr,
+			slug: geoState.slug,
+			column: colNumber,
+			cities: stateTopCities
+		});
 	});
-
-	geoFacilties = _.filter(geoFacilties, {hasFacilities: true});
 
 
 
 
 
 	res.render('home', {
-		title: 'Local Dialysis Providers',
+		metaTitle: 'Local Dialysis Providers',
 		metaDescription: 'We can help you find and compare the ' + numeral(metaNational.count).format('0,0') + ' Medicare certified dialysis facilties near you',
 
 		numCols: numCols,

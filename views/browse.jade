@@ -1,0 +1,40 @@
+extends layout
+
+
+block content
+	#browse.container
+		.row
+			.col-lg-24 
+				h1.page-header.pageTitle= pageTitle
+					small.pageDescription.text-muted= pageDescription
+
+		.row
+			.col-lg-5
+				p Filters
+			.col-lg-19
+				-if (facilities.count !== stateFacilities)
+					h1 Facilities matching requested filters: #{facilities.count}
+				ol(start="#{startRow+1}")
+					each facility in facilities.results
+						li
+							h2.page-header
+								a(href=facility.getLink()) #{facility.facility_name}
+
+							dl.dl-horizontal
+								dt home
+								dd #{facility.getLink()}
+								dt statistics
+								dd #{facility.getLink('statistics')}
+								dt jobs
+								dd #{facility.getLink('jobs')}
+								dt hotels
+								dd #{facility.getLink('hotels')}
+
+								dt Phone Number
+								dd #{facility.phone_number.phone_number}
+
+								dt Address
+								dd #{facility.address_line_1} <br> #{facility.address_line_2}
+
+								dt City
+								dd #{facility.city}

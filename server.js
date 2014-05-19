@@ -46,32 +46,41 @@ require(GLOBAL.paths.getRoute())(app, express);
 *
 */
 
-const async = require('async');
 
-async.series([
-	function(callback) {
-		console.log('call /data/get');
-		if (process.env.NODE_ENV !== 'development') {
-			require(GLOBAL.paths.getRoute('data/get'))(null, null, callback);
-		}
-		else {
-			callback()
-		}
-	},
-	function(callback) {
-		console.log('call /data/generate');
-		if (process.env.NODE_ENV !== 'development') {
-			require(GLOBAL.paths.getRoute('data/generate'))(null, null, callback);
-		}
-		else {
-			callback()
-		}
-	},
-], function(err) {
+if (process.env.NODE_ENV === 'development') {
+	startServer();
+}
+else {
+	const async = require('async');
+	const dataGetter = require(GLOBAL.paths.getLib('data/get'));
+	const dataGenerator = require(GLOBAL.paths.getLib('data/generate'));
+
+	async.series([
+		function(callback) {
+			console.log('INIT DATA: Retrieving');
+			dataGetter(function() {
+				console.log('INIT DATA: Retrieval Complete');
+				callback();
+			});
+		},
+		function(callback) {
+			console.log('INIT DATA: Generating');
+			dataGenerator(function() {
+				console.log('INIT DATA: Generation Complete');
+				callback();
+			});
+		},
+	], startServer);
+}
+
+
+
+function startServer() {
 	console.log(Date.now(), 'Running Node.js ' + process.version + ' with flags "' + process.execArgv.join(' ') + '"');
 	app.listen(app.get('port'), function() {
-		console.log(Date.now(), 'Express server listening on port ' + app.get('port'));
+		console.log(Date.now(), 'Express server listening on port ' + app.get('port') + ' in mode: ' + process.env.NODE_ENV);
+		// console.log(Date.now(), 'ENVIRONMENT:', process.env);
 	});
-});
 
+}
 
