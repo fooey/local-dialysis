@@ -10,6 +10,7 @@
     "amazon-ses": "0.0.3",
     "async": "^0.8.0",
     "bower": "*",
+    "case": "^1.0.3",
     "errorhandler": "*",
     "express": ">= 4.x",
     "jade": ">= 1.x",
@@ -21,17 +22,17 @@
     "numeral": "^1.5.3",
     "request": "^2.34.0",
     "serve-favicon": "*",
-    "sqlite3": "^2.2.3",
-    "title-case": "^0.1.0"
+    "sqlite3": "^2.2.3"
   },
   "devDependencies": {
     "grunt": "*",
-    "grunt-contrib-watch": "*",
     "grunt-concurrent": "*",
-    "grunt-nodemon": "*",
-    "grunt-contrib-less": "*",
     "grunt-contrib-cssmin": "*",
-    "grunt-contrib-uglify": "*"
+    "grunt-contrib-less": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-nodemon": "*",
+    "longjohn": "^0.2.4"
   },
   "scripts": {
     "postinstall": "node ./node_modules/bower/bin/bower install"

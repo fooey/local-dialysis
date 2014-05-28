@@ -28,6 +28,38 @@ const app = express();
 
 require(GLOBAL.paths.getConfig('express'))(app, express);
 
+if (app.get('env') === 'development') {
+	require('longjohn');
+
+	// ['log', 'warn'].forEach(function(method) {
+	// 	var old = console[method];
+	// 	console[method] = function() {
+	// 	var stack = (new Error()).stack.split(/\n/);
+	// 	// Chrome includes a single "Error" line, FF doesn't.
+	// 	if (stack[0].indexOf('Error') === 0) {
+	// 		stack = stack.slice(1);
+	// 	}
+	// 	var args = [].slice.apply(arguments).concat(['\n', stack[1].trim(), '\n']);
+	// 	return old.apply(console, args);
+	// 	};
+	// });
+}
+
+
+
+
+/*
+*
+* Data
+*
+*/
+
+GLOBAL.DATA = {
+	reference: {}
+};
+
+GLOBAL.DATABASE = require(GLOBAL.paths.getConfig('db'))(app.get('env'));
+
 
 
 /*
@@ -46,24 +78,28 @@ require(GLOBAL.paths.getRoute())(app, express);
 *
 */
 
+var generateDatabase = (process.env.NODE_ENV !== 'development');
+// generateDatabase = false;
 
-if (process.env.NODE_ENV === 'development') {
-	startServer();
+
+if (!generateDatabase) {
+	const referenceData = require(GLOBAL.paths.getService('data/reference'));
+	referenceData.setGlobals(startServer);
 }
 else {
 	const async = require('async');
-	const dataGetter = require(GLOBAL.paths.getLib('data/get'));
-	const dataGenerator = require(GLOBAL.paths.getLib('data/generate'));
+	const dataGetter = require(GLOBAL.paths.getService('data/get'));
+	const dataGenerator = require(GLOBAL.paths.getService('data/generate'));
 
 	async.series([
-		function(callback) {
+		function retrieveData(callback) {
 			console.log('INIT DATA: Retrieving');
 			dataGetter(function() {
 				console.log('INIT DATA: Retrieval Complete');
 				callback();
 			});
 		},
-		function(callback) {
+		function generateData(callback) {
 			console.log('INIT DATA: Generating');
 			dataGenerator(function() {
 				console.log('INIT DATA: Generation Complete');
@@ -81,6 +117,5 @@ function startServer() {
 		console.log(Date.now(), 'Express server listening on port ' + app.get('port') + ' in mode: ' + process.env.NODE_ENV);
 		// console.log(Date.now(), 'ENVIRONMENT:', process.env);
 	});
-
 }
 

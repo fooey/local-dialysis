@@ -1,0 +1,12 @@
+section#filters
+
+	p Filters!!
+
+	ul.list-unstyled
+		each filter, key in options.filters
+			li: a(href=place.getLink() + filter.link)
+				if (filter.isActive)
+					i.fa.fa-check-square-o
+				else 
+					i.fa.fa-square-o
+				| #{filter.label}

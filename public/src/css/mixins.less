@@ -4,26 +4,33 @@
 */
 
 /*
-	xs-min: 480px;
-	sm-min: 768px;
-	md-min: 992px;
-	lg-min: 1200px;
+	breakpoints
+	@screen-xxs-min: 360px;
+	@screen-xs-min: 480px;
+	@screen-sm-min: 768px;
+	@screen-md-min: 992px;
+	@screen-lg-min: 1200px;
+
+	containers
+	@container-sm: ((720px + @grid-gutter-width))
+	@container-md: ((940px + @grid-gutter-width));
+	@container-lg: ((1140px + @grid-gutter-width));
 */
 
 
 
 .gad-hori {
 	width: 234px; height: 60px;
-	@media(min-width: 360px) { width: 320px; height: 50px; }
+	@media(min-width: @screen-xxs-min) { width: 320px; height: 50px; }
 	@media(min-width: @screen-xs-min) { width: 468px; height: 60px; }
 	@media(min-width: @screen-sm-min) { width: 728px; height: 90px; }
-	@media(min-width: 1024px) { width: 970px; height: 90px; }
+	@media(min-width: @screen-lg-min) { width: 970px; height: 90px; }
 }
 
 
- .gad-mdCol-smRow() {
+.gad-mdCol-smRow() {
 	width: 234px; height: 60px;
-	@media(min-width: 360px) { width: 320px; height: 50px; }
+	@media(min-width: @screen-xxs-min) { width: 320px; height: 50px; }
 	@media(min-width: @screen-xs-min) { width: 468px; height: 60px; }
 	@media(min-width: @screen-sm-min) { width: 728px; height: 90px; }
 	@media(min-width: @screen-md-min) { width: 160px; height: 600px; }

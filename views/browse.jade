@@ -8,33 +8,65 @@ block content
 				h1.page-header.pageTitle= pageTitle
 					small.pageDescription.text-muted= pageDescription
 
-		.row
+		.row-fluid
 			.col-lg-5
-				p Filters
+				include includes/filters
 			.col-lg-19
-				-if (facilities.count !== stateFacilities)
-					h1 Facilities matching requested filters: #{facilities.count}
-				ol(start="#{startRow+1}")
-					each facility in facilities.results
-						li
-							h2.page-header
-								a(href=facility.getLink()) #{facility.facility_name}
+				-if (facilities.length !== stateFacilities)
+					div Facilities matching requested filters: #{numResults}
+					div Page #{options.pageNum} of #{options.numPages}
+				
+				each facility in facilities
+					section.facility
+						h1: a(href=facility.getLink()) #{facility.name}
 
-							dl.dl-horizontal
-								dt home
-								dd #{facility.getLink()}
-								dt statistics
-								dd #{facility.getLink('statistics')}
-								dt jobs
-								dd #{facility.getLink('jobs')}
-								dt hotels
-								dd #{facility.getLink('hotels')}
+						.row
+							.col-sm-12
 
-								dt Phone Number
-								dd #{facility.phone_number.phone_number}
+								dl.dl-horizontal
 
-								dt Address
-								dd #{facility.address_line_1} <br> #{facility.address_line_2}
+									dt <abbr title="End-Stage Renal Disease">ESRD</abbr> <abbr title="Quality Incentive Program">QIP</abbr> Score
+									dd #{facility.performanceScore || 'N/A'}
+									
+									dt Survival Rate
+									dd #{facility.getText('mortality').val}
 
-								dt City
-								dd #{facility.city}
+									dt Hospitalization Rate
+									dd #{facility.getText('hospitalization').val}
+							.col-sm-12
+								ul.list-unstyled.attributes
+									each filter in options.filters
+										if ((filter.val === 'yes' && facility[filter.col] === 1) || (filter.val === 'no' && facility[filter.col] === 0))
+											-var className = (filter.isActive) ? 'active' : '';
+											li(class=className)
+												i.fa.fa-check-square-o
+												= filter.label
+
+							//- 	dt Phone Number
+							//- 	dd #{facility.phone || 'N/A'}
+
+							//- 	dt Address
+							//- 	dd #{facility.address || 'N/A'}#{(facility.address2) ? ', ' + facility.address2 : ''}
+
+							//- 	dt City
+							//- 	dd #{facility.city || 'N/A'}
+
+							//- 	dt State
+							//- 	dd #{facility.state || 'N/A'}
+
+							//- 	dt home
+							//- 	dd #{facility.getLink()}
+							//- 	dt statistics
+							//- 	dd #{facility.getLink('statistics')}
+							//- 	dt jobs
+							//- 	dd #{facility.getLink('jobs')}
+							//- 	dt hotels
+							//- 	dd #{facility.getLink('hotels')}
+
+							//- 	dt numStations
+							//- 	dd #{facility.numStations}
+
+							//- 	dt Chain
+							//- 	dd #{facility.getChain().label}
+
+							//- //- p= JSON.stringify(facility)

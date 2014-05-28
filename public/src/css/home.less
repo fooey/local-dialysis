@@ -20,40 +20,88 @@
 	}
 
 	h1 {
-		margin-top: 0;
+		margin: .5em 0;
 		text-align: center;
-		font-size: 32pt;
-		@media(min-width: @screen-md-min) { font-size: 48pt; }
-		@media(min-width: @screen-lg-min) { font-size: 64pt; }
+		font-size: 28pt;
+		@media(min-width: @screen-md-min) { font-size: 40pt; }
+		@media(min-width: @screen-lg-min) { font-size: 48pt; }
 		small {
 			font-size: 40%;
-			margin-top: .25em;
+			margin-top: .5em;
+			line-height: 140%;
+			font-weight: 200;
 		}
 	}
 	h2 {
-		font-size: 14pt;
-		@media(min-width: @screen-md-min) { font-size: 18pt; }
-		@media(min-width: @screen-lg-min) { font-size: 24pt; }
+		font-size: 12pt;
+		@media(min-width: @screen-md-min) { font-size: 14pt; }
+		@media(min-width: @screen-lg-min) { font-size: 18pt; }
+	}
+
+	.thresholds {
+		margin: 1em 0;
+		font-size: 8pt;
+
+		a{
+			font-size: 7pt;
+			display: inline-block;
+			text-transform: uppercase;
+			padding-left: .5em;
+		}
 	}
 }
 
 #geoFacilities {
 
 	ul, li {
-		line-height: 16pt;
+		margin: 0;
+		padding: 0;
 		white-space: nowrap;
-		overflow-x: hidden;
+		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+	li {
+		line-height: 24pt;
+		height: 24pt;
 	}
 
 	a.state {
 		font-size: 14pt;
+		line-height: inherit;
 	}
 
 	a.city {
-		font-size: 10pt;
-		text-transform: capitalize;
-		margin-left: 1em;
+		font-size: 12pt;
+		line-height: inherit;
+		padding-left: .5em;
+		color: darken(@link-color, 20%);
+	}
+
+
+	@media(max-width: @screen-xs-max) { 
+		li {
+			line-height: 40pt;
+			height: 40pt;
+
+			.border-radius(6pt);
+			background-color: @gray-lightest;
+			border: 1px solid @gray-lighter;
+			margin: 1px auto;
+			max-width: @screen-xxs-max;
+		}
+		a {
+			display: block;
+
+			text-align: center;
+
+			&.state {
+				font-size: 24pt;
+			}
+
+			&.city {
+				font-size: 12pt;
+			}
+		}
 	}
 
 }

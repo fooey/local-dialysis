@@ -4,23 +4,26 @@ extends layout
 block content
 	#home.container
 		.row
-			.col-lg-24 
-				h1.pageTitle.page-header Welcome to Local Dialysis Providers!
-					small.pageDescription.text-muted We can help you find and compare all #{numeral(metaNational.count).format('0,0')} Medicare certified dialysis facilties near you.
+			.col-lg-24
+				header
+					h1.pageTitle Welcome to Local Dialysis Providers!
+						small.pageDescription.text-muted Research and compare all #{numeral(nation.numFacilities).format('0,0')} <abbr title="The Centers for Medicare &amp; Medicaid Services">CMS</abbr> certified dialysis facilties
 
-				.leader
-					if (true || process.env.NODE_ENV === 'development')
-						ins.adsbygoogle.placeholder
-					else
-						ins.adsbygoogle(
-							style="display:block",
-							data-ad-client="ca-pub-2680194687384513",
-							data-ad-slot="6633509987",
-							data-ad-format="auto",
-						)
-						script (adsbygoogle = window.adsbygoogle || []).push({});
+				br
 
-				h2.page-header Browse #{numeral(metaNational.count).format('0,0')} local dialysis providers by selecting a state or city from the list below&hellip;
+				//- .leader
+				//- 	if (true || process.env.NODE_ENV === 'development')
+				//- 		ins.adsbygoogle.placeholder
+				//- 	else
+				//- 		ins.adsbygoogle(
+				//- 			style="display:block",
+				//- 			data-ad-client="ca-pub-2680194687384513",
+				//- 			data-ad-slot="6633509987",
+				//- 			data-ad-format="auto",
+				//- 		)
+				//- 		script (adsbygoogle = window.adsbygoogle || []).push({});
+
+				//- h2.page-header Browse #{numeral(nation.numFacilities).format('0,0')} local dialysis providers by selecting a state or city from the list below&hellip;
 
 
 				.row#geoFacilities
@@ -37,21 +40,34 @@ block content
 								)
 								script (adsbygoogle = window.adsbygoogle || []).push({});
 
-					.col-md-17: .row
-						- var colSize = (24 / numCols);
-						-for(var ixCol = 0; ixCol < numCols; ixCol ++)
-							+geoFacilitiesList(colSize, ixCol)
+					.col-md-17
+						.row
+							- var colSize = (24 / numCols);
+							-for(var ixCol = 0; ixCol < numCols; ixCol ++)
+								+writeCol(colSize, ixCol)
+						.row: .col-sm-24
+							div.thresholds
+								| Including #{numCities} cities with at least #{threshold} facilities: 
+								a(href="/?threshold=4") most
+								a(href="/?threshold=8") more
+								a(href="/") normal
+								a(href="/?threshold=18") fewer
+								a(href="/?threshold=999") none
+
+block headClose
+	if (thresholdDefault !== threshold)
+		link(rel="canonical", href="/")
 
 
 
-mixin geoFacilitiesList(colSize, colNum)
-	- var colGeo = _.filter(geoFacilties, {column: colNum});
-	div(class="col-sm-#{colSize} col-xs-#{colSize*2}")
+mixin writeCol(colSize, colNum)
+	- var colStates = _.filter(states, {column: colNum});
+	div(class="col-sm-#{colSize}")
 		ul.states.list-unstyled
-			- each state, index in colGeo
+			- each state, index in colStates
 				li
-					a.state(href="/#{state.slug}") #{state.name}
-					- if (state.cities.length)
-						ul.cities.list-unstyled
-							- each city in state.cities
-								li: a.city(href="/#{state.slug}/#{city.citySlug}") #{city.city.toLowerCase()}
+					a.state(href="#{state.getLink()}") #{state.name}
+				- if (state.cities.length)
+					ul.cities.list-unstyled
+						- each city in state.cities
+							li: a.city(href="#{city.getLink()}") #{city.name}
