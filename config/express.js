@@ -2,6 +2,9 @@
 
 module.exports = function(app, express) {
 
+	app.set('env', (process.env.NODE_ENV === 'development') ? 'development' : 'production');
+
+
 	/*
 	*
 	* Middleware

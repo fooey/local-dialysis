@@ -19,7 +19,6 @@ const express = require('express');
 const app = express();
 
 
-
 /*
 *
 * Configuration
@@ -27,6 +26,7 @@ const app = express();
 */
 
 require(GLOBAL.paths.getConfig('express'))(app, express);
+console.log('App Environment', app.get('env'));
 
 if (app.get('env') === 'development') {
 	require('longjohn');
