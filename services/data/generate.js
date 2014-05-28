@@ -24,8 +24,6 @@ const facilityData = require(GLOBAL.paths.getService('data/facilities'));
 
 const fsSvc = require(GLOBAL.paths.getService('fs'));
 
-const dataConfigSrc = GLOBAL.paths.getData('config.json');
-
 
 var db = GLOBAL.DATABASE;
 
@@ -35,20 +33,14 @@ var db = GLOBAL.DATABASE;
 
 
 module.exports = function(fnCallback) {
-	console.log('generate::main()');
-
-	if (require.cache.hasOwnProperty(dataConfigSrc)) {
-		delete require.cache[dataConfigSrc];
-	}
-	var dataConfig = require(dataConfigSrc);
+	console.log('data::generate::main()');
 
 
 	async.auto({
-		// FIXME
 		'transformData': [transformData],
 		'mergeData': ['transformData', mergeData],
 
-		'reference': ['transformData', referenceData.init],
+		'reference': ['mergeData', referenceData.init],
 		'facilities': ['reference', facilityData.init],
 
 	}, function(err, results) {
@@ -61,7 +53,7 @@ module.exports = function(fnCallback) {
 
 
 function transformData(callback, results) {
-	console.log('transformData()');
+	console.log('data::generate::transformData()');
 
 	async.each(
 		['23ew-n7w9', 'qg5v-bgia'],
@@ -85,16 +77,17 @@ function transformData(callback, results) {
 
 
 function mergeData(callback, results) {
-	console.log('mergeData()');
+	console.log('data::generate::mergeData()');
 	var mergedData = {};
 
-	var facilities = require(GLOBAL.paths.getData('medicare/23ew-n7w9.json'));
-	var scores = require(GLOBAL.paths.getData('medicare/qg5v-bgia.json'));
+	var facilitiesPath = require(GLOBAL.paths.getData('medicare/23ew-n7w9.json'));
+	var scoresPath = require(GLOBAL.paths.getData('medicare/qg5v-bgia.json'));
+	var mergedPath = GLOBAL.paths.getData('medicare/merged.json');
 
 	async.auto({
 		'mergeFacilities': function(cbFacilities) {
 			async.each(
-				facilities,
+				facilitiesPath,
 				function(data, fn) {
 					mergedData[data.provider_number] = data;
 					fn();
@@ -104,7 +97,7 @@ function mergeData(callback, results) {
 		},
 		'mergeScores': ['mergeFacilities', function(cbFacilities) {
 			async.each(
-				scores,
+				scoresPath,
 				function(data, fn) {
 					if (mergedData[data.cmscertificationnumber]) {
 						var provider_number = mergedData[data.cmscertificationnumber].provider_number;
@@ -123,7 +116,7 @@ function mergeData(callback, results) {
 
 	}, function(err, results) {
 
-		fsSvc.writeJson(GLOBAL.paths.getData('medicare/merged.json'), mergedData, callback);
+		fsSvc.writeJson(mergedPath, mergedData, callback);
 
 	});
 }
