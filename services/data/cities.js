@@ -111,8 +111,8 @@ me.getTotals = function getTotals(filters, fnCallback) {
 		'ORDER BY state, stateSlug, stateCode, city, citySlug',
 	].join(' ');
 
-	console.log(statement);
-	console.log(params);
+	// console.log(statement);
+	// console.log(params);
 
 	db.all(statement, params, fnCallback);
 };

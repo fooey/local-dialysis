@@ -83,5 +83,8 @@ me.getTotals = function getTotals(fnCallback) {
 		'FROM facilities AS f'
 	].join(' ');
 
+	// console.log(statement);
+	// console.log(params);
+
 	db.all(statement, fnCallback);
 };

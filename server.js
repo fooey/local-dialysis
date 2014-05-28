@@ -78,36 +78,36 @@ require(GLOBAL.paths.getRoute())(app, express);
 *
 */
 
-var generateDatabase = (process.env.NODE_ENV !== 'development');
-// generateDatabase = false;
+// var generateDatabase = (process.env.NODE_ENV !== 'development');
+// // generateDatabase = false;
 
 
-if (!generateDatabase) {
+// if (!generateDatabase) {
 	const referenceData = require(GLOBAL.paths.getService('data/reference'));
 	referenceData.setGlobals(startServer);
-}
-else {
-	const async = require('async');
-	const dataGetter = require(GLOBAL.paths.getService('data/get'));
-	const dataGenerator = require(GLOBAL.paths.getService('data/generate'));
+// }
+// else {
+// 	const async = require('async');
+// 	const dataGetter = require(GLOBAL.paths.getService('data/get'));
+// 	const dataGenerator = require(GLOBAL.paths.getService('data/generate'));
 
-	async.series([
-		function retrieveData(callback) {
-			console.log('INIT DATA: Retrieving');
-			dataGetter(function() {
-				console.log('INIT DATA: Retrieval Complete');
-				callback();
-			});
-		},
-		function generateData(callback) {
-			console.log('INIT DATA: Generating');
-			dataGenerator(function() {
-				console.log('INIT DATA: Generation Complete');
-				callback();
-			});
-		},
-	], startServer);
-}
+// 	async.series([
+// 		function retrieveData(callback) {
+// 			console.log('INIT DATA: Retrieving');
+// 			dataGetter(function() {
+// 				console.log('INIT DATA: Retrieval Complete');
+// 				callback();
+// 			});
+// 		},
+// 		function generateData(callback) {
+// 			console.log('INIT DATA: Generating');
+// 			dataGenerator(function() {
+// 				console.log('INIT DATA: Generation Complete');
+// 				callback();
+// 			});
+// 		},
+// 	], startServer);
+// }
 
 
 

@@ -2,7 +2,6 @@
 
 module.exports = function(environment) {
 	var sqlite3 = require('sqlite3');
-	var storage = ':memory:';
 	var config = [
 		'PRAGMA synchronous = off',
 		'PRAGMA read_uncommitted = true',
@@ -10,9 +9,11 @@ module.exports = function(environment) {
 	];
 
 
-	if (environment === 'development') {
-		storage = GLOBAL.paths.getData('sqlite.bin');
-	}
+	// var storage = ':memory:';
+	var storage = GLOBAL.paths.getData('sqlite.bin');
+	// if (environment === 'development') {
+	// 	storage = GLOBAL.paths.getData('sqlite.bin');
+	// }
 
 
 	var db = new sqlite3.Database(storage);

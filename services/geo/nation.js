@@ -49,8 +49,6 @@ me.getTotals = function data_getTotals(fnCallback) {
 	nationData.getTotals(function(err, data) {
 		var nation = new Nation(data[0]);
 
-		// console.log(nation);
-
 		fnCallback(err, nation);
 	});
 };

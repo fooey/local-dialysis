@@ -85,7 +85,7 @@ me.STATICS = {
 
 me.render = function(res, place, facilities, options){
 	var title = util.format('Dialysis Providers in %s', place.placeName);
-	var description = util.format('We can help you find and compare the %d Medicare certified dialysis facilties in %s', place.numFacilities, place.placeName);
+	var description = util.format('Find and compare the %d Medicare certified dialysis facilties in %s', place.numFacilities, place.placeName);
 
 	options.numPages = Math.ceil(facilities.length / options.perPage);
 

@@ -9,9 +9,9 @@ block content
 					small.pageDescription.text-muted= pageDescription
 
 		.row-fluid
-			.col-lg-5
+			.col-md-5
 				include includes/filters
-			.col-lg-19
+			.col-md-19
 				-if (facilities.length !== stateFacilities)
 					div Facilities matching requested filters: #{numResults}
 					div Page #{options.pageNum} of #{options.numPages}
