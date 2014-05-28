@@ -48,7 +48,7 @@ module.exports = function(fnCallback) {
 		'transformData': [transformData],
 		'mergeData': ['transformData', mergeData],
 
-		'reference': [referenceData.init],
+		'reference': ['transformData', referenceData.init],
 		'facilities': ['reference', facilityData.init],
 
 	}, function(err, results) {
