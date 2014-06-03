@@ -29,12 +29,22 @@ const nationData = require(GLOBAL.paths.getService('data/nation'));
 *
 */
 
-function Nation(jsonData) {
+me.Nation = function(jsonData) {
 	_.assign(this, jsonData);
 
-	this.link = '/';
-
 	return this;
+}
+
+
+me.Nation.prototype.getLink = function getLink(subPage) {
+	var pageLink = [
+		'', // leading slash
+	];
+	if (subPage && !_.isEmpty(subPage)) {
+		pageLink.push(subPage + '.html');
+	}
+
+	return pageLink.join('/');
 }
 
 
@@ -47,7 +57,7 @@ function Nation(jsonData) {
 
 me.getTotals = function data_getTotals(fnCallback) {
 	nationData.getTotals(function(err, data) {
-		var nation = new Nation(data[0]);
+		var nation = new me.Nation(data[0]);
 
 		fnCallback(err, nation);
 	});

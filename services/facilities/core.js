@@ -22,6 +22,9 @@ const async = require('async');
 
 const facilitiesData = require(GLOBAL.paths.getService('data/facilities'));
 
+const statesSvc = require(GLOBAL.paths.getService('geo/states'));
+const citiesSvc = require(GLOBAL.paths.getService('geo/cities'));
+
 
 
 /*
@@ -32,6 +35,32 @@ const facilitiesData = require(GLOBAL.paths.getService('data/facilities'));
 
 me.Facility = function Facility(facilityData) {
 	_.assign(this, facilityData);
+
+	this.state = new statesSvc.State({
+		name: this.stateName,
+		slug: this.stateSlug,
+		code: this.stateCode,
+	});
+
+	delete this.stateName;
+	delete this.stateSlug;
+	delete this.stateCode;
+
+
+
+	this.city = new citiesSvc.City({
+		name: this.cityName,
+		slug: this.citySlug,
+		code: this.cityCode,
+		state: this.state,
+	});
+
+	delete this.cityName;
+	delete this.citySlug;
+	delete this.cityCode;
+
+
+
 	return this;
 }
 

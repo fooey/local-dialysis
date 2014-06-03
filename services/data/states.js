@@ -56,8 +56,12 @@ me.getTotals = function getTotals(filters, fnCallback) {
 		'SUM(offersHemo) AS offersHemoSum',
 		'SUM(offersPeri) AS offersPeriSum',
 		'SUM(offersTraining) AS offersTrainingSum',
+
 		'SUM(forProfit) AS forProfitSum',
+		'SUM(CASE WHEN forProfit = 0 THEN 1 ELSE NULL END) AS nonProfitSum',
+
 		'SUM(isChain) AS isChainSum',
+		'SUM(CASE WHEN isChain = 0 THEN 1 ELSE NULL END) AS notChainSum',
 
 		'AVG(performanceScore) AS performanceScoreAvg',
 		'MIN(performanceScore) AS performanceScoreMin',

@@ -148,6 +148,11 @@ me.get = function getTotals(filters, fnCallback) {
 		params.$isChain = filters.isChain;
 	}
 
+	if (_.has(filters, 'performanceScore')) {
+		where.push('performanceScore >= $performanceScore');
+		params.$performanceScore = filters.performanceScore;
+	}
+
 
 	if (_.has(filters, 'perPage')) {
 		limit = 'LIMIT $perPage';
@@ -159,10 +164,55 @@ me.get = function getTotals(filters, fnCallback) {
 		}
 	}
 
+	var columns = [
+		'id',
+		'name',
+		'phone',
+		'address',
+		'address2',
+		'state as stateName',
+		'stateCode',
+		'stateSlug',
+		'city as cityName',
+		'citySlug',
+		'county',
+		'countySlug',
+		'zip',
+		'locationLat',
+		'locationLon',
+
+		'networkId',
+		'chainId',
+		'ownerId',
+		'payReductId',
+
+		'numStations',
+		'offersLate',
+		'offersHemo',
+		'offersPeri',
+		'offersTraining',
+		'forProfit',
+		'isChain',
+
+		'performanceScore',
+		'vascularScore',
+		'ichScore',
+		'nhsnScore',
+		'mineralScore',
+
+		'hospitalizationRatio',
+		'hospitalizationId',
+		'mortalityRatio',
+		'mortalityId',
+
+		'certificationDate',
+	];
+
 
 	var statement = [
-		'SELECT *',
-		'FROM facilities AS f',
+		'SELECT',
+		columns.join(','),
+		'FROM facilities',
 		(where.length) ? 'WHERE ' + where.join(' and ') : '',
 		(having.length) ? 'HAVING ' + having.join(' and ') : '',
 		'ORDER BY name',

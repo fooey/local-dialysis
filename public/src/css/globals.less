@@ -3,13 +3,9 @@
 /*
 *	Global Overrides
 */
-// h1, h2, h3, h4, h5, h6, .navbar-brand {
-// 	font-family: "Yanone Kaffeesatz";
-// 	font-weight: 400;
-// }
 
 
-html { min-width: 280px; }
+body { min-width: 260px; }
 
 .adsbygoogle.placeholder {
 	display:block;
@@ -17,19 +13,6 @@ html { min-width: 280px; }
 	background-color: #eee;
 }
 
-
-// @media (max-width: (@screen-xs-min - 1)) {
-// 	[class^="col-"] {
-// 		padding: 0;
-// 		margin: 0;
-// 	}
-// }
-
-// body {}
-
-// nav.navbar.navbar-default {
-// 	.box-shadow(0 0 10 @gray-darker)
-// }
 
 
 .pageTitle {
@@ -40,4 +23,17 @@ html { min-width: 280px; }
 	small {
 		display: block;
 	}
+}
+
+
+
+
+@panel-primary-text:		@alert-info-text;
+@panel-primary-border:		@alert-info-border;
+@panel-primary-heading-bg:	@alert-info-bg;
+
+.panel-info .panel-heading {
+	color: @panel-primary-text;
+	background-color: @panel-primary-border;
+	border-color: @panel-primary-heading-bg;
 }

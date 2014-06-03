@@ -1,5 +1,9 @@
 extends layout
 
+block headClose
+	if (thresholdDefault !== threshold)
+		link(rel="canonical", href="/")
+
 
 block content
 	#home.container
@@ -54,10 +58,6 @@ block content
 								a(href="/?threshold=18") fewer
 								a(href="/?threshold=999") none
 
-block headClose
-	if (thresholdDefault !== threshold)
-		link(rel="canonical", href="/")
-
 
 
 mixin writeCol(colSize, colNum)
@@ -67,7 +67,10 @@ mixin writeCol(colSize, colNum)
 			- each state, index in colStates
 				li
 					a.state(href="#{state.getLink()}") #{state.name}
+					//- .badge.pull-right= state.numFacilities
 				- if (state.cities.length)
 					ul.cities.list-unstyled
 						- each city in state.cities
-							li: a.city(href="#{city.getLink()}") #{city.name}
+							li
+								a.city(href="#{city.getLink()}") #{city.name}
+								//- .badge.pull-right= city.numFacilities

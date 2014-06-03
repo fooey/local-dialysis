@@ -36,3 +36,40 @@
 	@media(min-width: @screen-md-min) { width: 160px; height: 600px; }
 	@media(min-width: @screen-lg-min) { width: 300px; height: 600px; }
 }
+
+
+
+// http://codepen.io/geoffyuen/pen/FCBEg/?editors=110
+
+.rwd-table() {	
+	
+	th {
+		display: none; // for accessibility, use a visually hidden method here instead! Thanks, reddit!   
+	}
+	
+	td {
+		display: block; 
+
+		&:before {
+			content: attr(data-th)": "; // who knew you could do this? The internet, that's who.
+			font-weight: bold;
+
+			// optional stuff to make it look nicer
+			width: 6.5em; // magic number :( adjust according to your own content
+			display: inline-block;
+			// end options
+			
+			@media (min-width: @screen-xs-min) {
+				display: none;
+			}
+		}
+	}
+	
+	th, td {
+		@media (min-width: @screen-xs-min) {
+			display: table-cell;
+		}
+	}
+	
+	
+}

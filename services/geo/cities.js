@@ -32,15 +32,18 @@ const citiesData = require(GLOBAL.paths.getService('data/cities'));
 me.City = function(jsonData) {
 	_.assign(this, jsonData);
 
-	this.state = new statesSvc.State({
-		name: this.stateName,
-		slug: this.stateSlug,
-		code: this.stateCode,
-	});
+	if (!_.has(this, 'state')) {
+		this.state = new statesSvc.State({
+			name: this.stateName,
+			slug: this.stateSlug,
+			code: this.stateCode,
+		});
 
-	delete this.stateName;
-	delete this.stateSlug;
-	delete this.stateCode;
+		delete this.stateName;
+		delete this.stateSlug;
+		delete this.stateCode;
+	}
+
 
 	this.placeName = this.name + ', ' + this.state.name;
 
@@ -52,7 +55,6 @@ me.City = function(jsonData) {
 
 me.City.prototype.getLink = function getLink(subPage) {
 	var pageLink = [
-		'', // leading slash
 		this.state.getLink(), 
 		this.slug,
 	];
@@ -60,7 +62,7 @@ me.City.prototype.getLink = function getLink(subPage) {
 		pageLink.push(subPage + '.html');
 	}
 
-	return _.compact(pageLink).join('/');
+	return pageLink.join('/');
 }
 
 

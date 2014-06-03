@@ -1,12 +1,45 @@
 section#filters
 
-	p Filters!!
+	.panel.panel-info
+		.panel-heading
+			.panel-title
+				a.toggle
+					span.expando.visible-sm.visible-xs
+						i.fa.fa-plus-square-o
+					| Filters
+		.panel-body.hidden-sm.hidden-xs
 
-	ul.list-unstyled
-		each filter, key in options.filters
-			li: a(href=place.getLink() + filter.link)
-				if (filter.isActive)
-					i.fa.fa-check-square-o
-				else 
-					i.fa.fa-square-o
-				| #{filter.label}
+			.btn-group
+				button.btn.btn-sm.btn-default.dropdown-toggle(type="button" data-toggle="dropdown")
+					| States 
+					span.caret
+				ul.dropdown-menu(role="menu")
+					each state in states
+						li(class=(options.currentState && state.slug === options.currentState.slug) ? 'active' : '')
+							a(href=state.getLink())= state.name
+
+			.btn-group
+				button.btn.btn-sm.btn-default.dropdown-toggle(type="button" data-toggle="dropdown")
+					| Cities 
+					span.caret
+				ul.dropdown-menu(role="menu")
+					each city in cities
+						li: a(href=city.getLink())= city.name
+
+			//- hr
+
+			ul.list-unstyled.toggles
+				each filter, key in options.filters
+					- var link = place.getLink() + filter.link;
+					- var className = (filter.isActive) ? 'active' : '';
+					li.toggle(class=className)
+						a(href=link)
+							if (filter.isActive)
+								i.fa.fa-check-square-o
+							else 
+								i.fa.fa-square-o
+							| #{filter.label}
+						span.badge= place[filter.aggCol]
+
+				li.toggle.text-center.small
+					a(href=place.getLink()) Remove All Filters

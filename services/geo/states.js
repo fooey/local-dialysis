@@ -46,7 +46,7 @@ me.State.prototype.getLink = function getLink(subPage) {
 		pageLink.push(subPage + '.html');
 	}
 
-	return _.compact(pageLink).join('/');
+	return pageLink.join('/');
 }
 
 
