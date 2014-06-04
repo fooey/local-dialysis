@@ -16,114 +16,21 @@ block content
 					h1.page-header.pageTitle !{pageTitle}
 						small.pageDescription.text-muted= pageDescription
 
-				section.description
-					p There are #{numeral(place.numFacilities).format('0,0')} dialysis providers in #{place.placeName}
-						if place.type === 'state'
-							| , spread across #{numeral(cities.length).format('0,0')} cities, 
-						| with a total of #{numeral(place.numStationsSum).format('0,0')} dialysis stations
-						| and an average <abbr title="Quality Incentive Program">QIP</abbr> rating of #{numeral(place.performanceScoreAvg).format('0,0')} out of 100.
+				include includes/browse/description
 
-					p Of these providers, #{numeral(place.offersHemoSum).format('0,0')} offer Hemodialysis,
-						| #{numeral(place.offersPeriSum).format('0,0')} offer Peritoneal Dialysis,
-						| #{numeral(place.offersTrainingSum).format('0,0')} offer Home Training,
-						| and #{numeral(place.offersLateSum).format('0,0')} of them are open after 5pm.
+		.row: .col-lg-24
+			-var activeTab = 'providers'
+			include includes/browse/tabs
 
-						| For profit dialysis providers account for #{numeral(place.forProfitSum).format('0,0')} of the facilities, with the other #{numeral(place.nonProfitSum).format('0,0')} listed as Non-Profit.
-						| #{numeral(place.isChainSum).format('0,0')} facilities are part of a chain of dialysis providers.
 		.row
 			#browseOptions.col-md-6.col-md-push-18
 
 				if (options.numPages > 1 || numResults !== place.numFacilities)
-					div.alert.alert-info 
+					include includes/browse/paging
 
-						if (numResults !== place.numFacilities)
-							section.describeMatches Matching Facilities: #{numResults}
-
-						if (options.numPages > 1)
-							-var prevClass = (options.pageNum <= 1) ? 'disabled' : '';
-							-var nextClass = (options.pageNum >= options.numPages) ? 'disabled' : '';
-							.pagingInfo.clearfix
-								.prev(class=prevClass)
-									a(href=options.firstPageUrl, title="First Page"): i.fa.fa-angle-double-left
-									a(href=options.prevPageUrl, title="Previous Page"): i.fa.fa-angle-left
-								.numbers
-									| Page #{options.pageNum} of #{options.numPages}
-								.next(class=nextClass)
-									a(href=options.nextPageUrl, title="Next Page"): i.fa.fa-angle-right
-									a(href=options.lastPageUrl, title="Last Page"): i.fa.fa-angle-double-right
-
-					//- - var activeFilters = [];
-					//- each filter in options.filters
-					//- 	-if (filter.isActive) activeFilters.push(filter.label);
-
-				include includes/filters
+				include includes/browse/filters
 
 			.col-md-18.col-md-pull-6
 
 				each facility in facilities
-					section.facility
-						h1: a(href=facility.getLink()) #{facility.name}
-
-						.row
-							.col-sm-4.hidden-xs
-								div.facilityScore.clearfix(class=scoreLabel(facility.performanceScore), title="ESRC QIP Score")
-									span: span: span: span= facility.performanceScore || 'N/A'
-									//- = facility.performanceScore || 'N/A'
-							.col-sm-20
-								.row
-									.col-sm-14.facilityDetails
-										h2.subTitle Provider Details
-										address
-											div.phone Phone: #{facility.phone}
-											div.address1 #{facility.address}
-											if(facility.address2)
-												div.address2 #{facility.address2}
-											div
-												span.city: a(href=facility.city.getLink()) #{facility.city.name}
-												| ,  
-												span.state: a(href=facility.state.getLink()) #{facility.state.name} 
-												span.zip #{facility.zip}
-									.col-sm-10.facilityDetails
-										h2.subTitle Services Offered
-										ul.list-unstyled.attributes
-											each filter in options.filters
-												if ((filter.val === 'yes' && facility[filter.col] === 1) || (filter.val === 'no' && facility[filter.col] === 0))
-													-var className = (filter.isActive) ? 'active' : '';
-													li(class=className)
-														i.fa.fa-check-square-o
-														= filter.label
-
-
-
-										//- div.chain= facility.getChain().label
-										//- div.label(class=scoreLabel(facility.performanceScore))
-										//- 	span
-										//- 		abbr(title="End-Stage Renal Disease") ESRD
-										//- 		| 
-										//- 		abbr(title="Quality Incentive Program") QIP
-										//- 		| 
-										//- 		| Score: 
-										//- 	span= facility.performanceScore || 'N/A' 
-										//- dl.dl-horizontal
-										//- 	dt
-										//- 		abbr(title="End-Stage Renal Disease") ESRD
-										//- 		| 
-										//- 		abbr(title="Quality Incentive Program") QIP
-										//- 		| 
-										//- 		| Score
-										//- 	dd: span.label(class=scoreLabel(facility.performanceScore))
-										//- 		= facility.performanceScore || 'N/A'
-											
-										//- 	dt Survival Rate
-										//- 	dd: span.label(class=textLabel(facility.getText('mortality').val))
-										//- 		= facility.getText('mortality').val
-
-										//- 	dt Hospitalization Rate
-										//- 	dd: span.label(class=textLabel(facility.getText('hospitalization').val))
-										//- 		= facility.getText('hospitalization').val
-											
-										//- 	dt Number of Stations
-										//- 	dd: span
-										//- 		= facility.numStations
-
-						//- = JSON.stringify(facility)
+					include includes/browse/facility

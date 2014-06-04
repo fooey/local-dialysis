@@ -117,9 +117,13 @@ me.get = function getTotals(filters, fnCallback) {
 	var having = [];
 	var limit = '';
 
-	if (filters.stateSlug) {
+	if (_.has(filters, 'stateSlug')) {
 		where.push('stateSlug = $stateSlug');
 		params.$stateSlug = filters.stateSlug;
+	}
+	if (_.has(filters, 'citySlug')) {
+		where.push('citySlug = $citySlug');
+		params.$citySlug = filters.citySlug;
 	}
 
 
@@ -167,6 +171,7 @@ me.get = function getTotals(filters, fnCallback) {
 	var columns = [
 		'id',
 		'name',
+		'slug',
 		'phone',
 		'address',
 		'address2',

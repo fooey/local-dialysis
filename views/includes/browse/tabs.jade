@@ -1,0 +1,7 @@
+ul.nav.nav-tabs
+	li(class=(activeTab === 'providers')?'active':'')
+		a(href=place.getLink()) #{place.placeName} Providers
+	li(class=(activeTab === 'statistics')?'active':'')
+		a(href=place.getLink('statistics')) Statistics
+	li(class=(activeTab === 'jobs')?'active':'')
+		a(href=place.getLink('jobs')) Jobs Available

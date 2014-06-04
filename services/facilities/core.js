@@ -51,9 +51,8 @@ me.Facility = function Facility(facilityData) {
 	this.city = new citiesSvc.City({
 		name: this.cityName,
 		slug: this.citySlug,
-		code: this.cityCode,
 		state: this.state,
-	});
+	}, this.state);
 
 	delete this.cityName;
 	delete this.citySlug;
@@ -71,7 +70,7 @@ me.Facility.prototype.getLink = function getLink(subPage) {
 		this.id, 
 		'html'
 	];
-
+	
 	return '/providers/' + _.compact(pageLink).join('.');
 }
 

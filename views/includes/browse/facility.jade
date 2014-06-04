@@ -1,0 +1,70 @@
+section.facility
+	h1: a(href=facility.getLink()) #{facility.name}
+
+	.row
+		.col-sm-4.hidden-xs
+			div.facilityScore.clearfix(class=scoreLabel(facility.performanceScore), title="ESRC QIP Score")
+				span: span: span: span= facility.performanceScore || 'N/A'
+				//- = facility.performanceScore || 'N/A'
+		.col-sm-20
+
+			.row
+				.col-sm-14.facilityDetails
+					h2.subTitle Provider Details
+					address
+						div.phone Phone: #{facility.phone}
+						div.address1 #{facility.address}
+						if(facility.address2)
+							div.address2 #{facility.address2}
+						div
+							span.city: a(href=facility.city.getLink()) #{facility.city.name}
+							| ,  
+							span.state: a(href=facility.state.getLink()) #{facility.state.name} 
+							span.zip #{facility.zip}
+				.col-sm-10.facilityDetails
+					h2.subTitle Services Offered
+					ul.list-unstyled.attributes
+						each filter in options.filters
+							if ((filter.val === 'yes' && facility[filter.col] === 1) || (filter.val === 'no' && facility[filter.col] === 0))
+								-var className = (filter.isActive) ? 'active' : '';
+								li(class=className)
+									i.fa.fa-check-square-o
+									= filter.label
+
+
+									
+
+
+
+//- div.chain= facility.getChain().label
+//- div.label(class=scoreLabel(facility.performanceScore))
+//- 	span
+//- 		abbr(title="End-Stage Renal Disease") ESRD
+//- 		| 
+//- 		abbr(title="Quality Incentive Program") QIP
+//- 		| 
+//- 		| Score: 
+//- 	span= facility.performanceScore || 'N/A' 
+//- dl.dl-horizontal
+//- 	dt
+//- 		abbr(title="End-Stage Renal Disease") ESRD
+//- 		| 
+//- 		abbr(title="Quality Incentive Program") QIP
+//- 		| 
+//- 		| Score
+//- 	dd: span.label(class=scoreLabel(facility.performanceScore))
+//- 		= facility.performanceScore || 'N/A'
+	
+//- 	dt Survival Rate
+//- 	dd: span.label(class=textLabel(facility.getText('mortality').val))
+//- 		= facility.getText('mortality').val
+
+//- 	dt Hospitalization Rate
+//- 	dd: span.label(class=textLabel(facility.getText('hospitalization').val))
+//- 		= facility.getText('hospitalization').val
+	
+//- 	dt Number of Stations
+//- 	dd: span
+//- 		= facility.numStations
+
+//- = JSON.stringify(facility)

@@ -1,0 +1,21 @@
+div.alert.alert-info 
+
+	if (numResults !== place.numFacilities)
+		section.describeMatches Matching Facilities: #{numResults}
+
+	if (options.numPages > 1)
+		-var prevClass = (options.pageNum <= 1) ? 'disabled' : '';
+		-var nextClass = (options.pageNum >= options.numPages) ? 'disabled' : '';
+		.pagingInfo.clearfix
+			.prev(class=prevClass)
+				a(href=options.firstPageUrl, title="First Page"): i.fa.fa-angle-double-left
+				a(href=options.prevPageUrl, title="Previous Page"): i.fa.fa-angle-left
+			.numbers
+				| Page #{options.pageNum} of #{options.numPages}
+			.next(class=nextClass)
+				a(href=options.nextPageUrl, title="Next Page"): i.fa.fa-angle-right
+				a(href=options.lastPageUrl, title="Last Page"): i.fa.fa-angle-double-right
+
+//- - var activeFilters = [];
+//- each filter in options.filters
+//- 	-if (filter.isActive) activeFilters.push(filter.label);

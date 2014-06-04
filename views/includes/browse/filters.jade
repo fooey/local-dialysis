@@ -15,8 +15,10 @@ section#filters
 					span.caret
 				ul.dropdown-menu(role="menu")
 					each state in states
-						li(class=(options.currentState && state.slug === options.currentState.slug) ? 'active' : '')
-							a(href=state.getLink())= state.name
+						li(class=(options.state && state.slug === options.state.slug) ? 'active' : '')
+							a(href=state.getLink())
+								= state.name
+								span.badge.pull-right= state.numFacilities
 
 			.btn-group
 				button.btn.btn-sm.btn-default.dropdown-toggle(type="button" data-toggle="dropdown")
@@ -24,7 +26,10 @@ section#filters
 					span.caret
 				ul.dropdown-menu(role="menu")
 					each city in cities
-						li: a(href=city.getLink())= city.name
+						li(class=(options.city && city.slug === options.city.slug) ? 'active' : '')
+							a(href=city.getLink())
+								= city.name
+								span.badge.pull-right= city.numFacilities
 
 			//- hr
 

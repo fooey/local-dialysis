@@ -1,0 +1,14 @@
+section.description
+	p There are #{numeral(place.numFacilities).format('0,0')} dialysis providers in #{place.placeName} 
+		if place.type === 'state'
+			| , spread across #{numeral(cities.length).format('0,0')} cities, 
+		| with a total of #{numeral(place.numStationsSum).format('0,0')} dialysis stations
+		| and an average <abbr title="Quality Incentive Program">QIP</abbr> rating of #{numeral(place.performanceScoreAvg).format('0,0')} out of 100.
+
+	p Of these providers, #{numeral(place.offersHemoSum).format('0,0')} offer Hemodialysis,
+		| #{numeral(place.offersPeriSum).format('0,0')} offer Peritoneal Dialysis,
+		| #{numeral(place.offersTrainingSum).format('0,0')} offer Home Training,
+		| and #{numeral(place.offersLateSum).format('0,0')} of them are open after 5pm.
+
+		| For profit dialysis providers account for #{numeral(place.forProfitSum).format('0,0')} of the facilities, with the other #{numeral(place.nonProfitSum).format('0,0')} listed as Non-Profit.
+		| #{numeral(place.isChainSum).format('0,0')} facilities are part of a chain of dialysis providers.

@@ -29,6 +29,8 @@ const statesData = require(GLOBAL.paths.getService('data/states'));
 */
 
 me.State = function(jsonData) {
+	if (!jsonData) return null;
+
 	_.assign(this, jsonData);
 
 	this.placeName = this.name;
@@ -70,8 +72,8 @@ me.getTotals = function getTotals(fnCallback) {
 
 
 me.getBySlug = function getBySlug(slug, fnCallback) {
-
 	statesData.getTotals({stateSlug: slug}, function(err, data) {
-		fnCallback(err, new me.State(data[0]));
+		var state = (data.length) ? new me.State(data[0]) : null;
+		fnCallback(err, state);
 	});
 }

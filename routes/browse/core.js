@@ -97,7 +97,7 @@ const STATICS = {
 *
 */
 
-me.render = function(req, res, place, facilities) {
+me.render = function(req, res, place, facilities, state, city) {
 	var options = {
 		perPage: 20,
 	};
@@ -116,7 +116,7 @@ me.render = function(req, res, place, facilities) {
 	options.firstPageUrl = getPageLink(1, req.originalUrl);
 	options.lastPageUrl = getPageLink(options.numPages, req.originalUrl);
 
-	if (options.pageNum > options.numPages) {
+	if (options.numPages && options.pageNum > options.numPages) {
 		res.redirect(301, options.lastPageUrl);
 	}
 
@@ -124,8 +124,11 @@ me.render = function(req, res, place, facilities) {
 		res.redirect(301, getPageLink(Math.abs(options.pageNum), req.originalUrl));
 	}
 
-	options.currentState = (place.type === 'state') ? place : place.state;
+	options.state = state;
+	options.city = city;
 
+	// options.currentState = (state) ? state : null;
+	// options.currentCity = (city) ? city : null;
 
 	var title = util.format('%s Dialysis Providers', place.placeName);
 	var description = util.format('Find and compare the %d Medicare certified dialysis facilties in %s', place.numFacilities, place.placeName);
@@ -135,11 +138,6 @@ me.render = function(req, res, place, facilities) {
 	var pageDescription = description;
 
 	// console.log('OPTIONS', options);
-
-	var state = place;
-	if (_.has(place, 'state')) {
-		state = place.state;
-	}
 
 	async.auto({
 		states: statesSvc.getTotals,
@@ -204,6 +202,32 @@ me.getFilters = function(inQuery) {
 	})
 
 	return filters;
+};
+
+
+me.getState = function(stateSlug, callback) {
+	statesSvc.getBySlug(stateSlug, function(err, state) {
+		var httpErr = null;
+		if (!state) {
+			httpErr = {code: 404, msg: 'Not Found'};
+		}
+
+		// console.log('getState()', state);
+
+		callback(httpErr, state);
+	});
+};
+
+
+me.getCity = function(state, citySlug, callback) {
+	citiesSvc.getBySlug(state, citySlug, function(err, city) {
+		var httpErr = null;
+		if (!city) {
+			httpErr = {code: 404, msg: 'Not Found'};
+		}
+
+		callback(httpErr, city);
+	});
 };
 
 

@@ -11,7 +11,10 @@ const browse = require(GLOBAL.paths.getRoute('browse/core'));
 module.exports = function(req, res) {
 	async.auto({
 		'state': browse.getState.bind(null, req.params.stateSlug),
-		'facilities': ['state', getFacilities.bind(null, req)],
+		'city': ['state', function(callback, results) {
+			browse.getCity(results.state, req.params.citySlug, callback);
+		}],
+		'facilities': ['state', 'city', getFacilities.bind(null, req)],
 	}, function(err, results) {
 		if (err && err.code && err.msg) {
 			res.status(err.code);
@@ -21,24 +24,27 @@ module.exports = function(req, res) {
 			});
 		}
 		else {
-			var place = results.state;
+			var place = results.city;
 			var facilities = results.facilities;
 
-			place.type = 'state';
+			place.type = 'city';
 
-			browse.render(req, res, place, facilities, results.state);
+			browse.render(req, res, place, facilities, results.state, results.city);
 		}
 	});
 };
 
 
 function getFacilities(req, callback, results) {
-	var stateSlug = results.state.slug;
-
+	// console.log('browse::city::getFacilities()', results);
 	var browseFilters = browse.getFilters(req.query);
 
+	var state = results.state;
+	var city = results.city;
+
 	var dataFilters = {
-		stateSlug: stateSlug,
+		stateSlug: state.slug,
+		citySlug: city.slug,
 		// performanceScore: 80,
 	}
 

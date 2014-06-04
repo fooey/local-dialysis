@@ -44,6 +44,10 @@ me.getTotals = function getTotals(filters, fnCallback) {
 		where.push('stateSlug = $stateSlug');
 		params.$stateSlug = filters.stateSlug;
 	}
+	if (filters.citySlug) {
+		where.push('citySlug = $citySlug');
+		params.$citySlug = filters.citySlug;
+	}
 
 	if (filters.threshold) {
 		having.push('COUNT(*) >= $threshold');

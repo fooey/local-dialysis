@@ -29,20 +29,28 @@ const citiesData = require(GLOBAL.paths.getService('data/cities'));
 *
 */
 
-me.City = function(jsonData) {
+me.City = function(jsonData, state) {
+	if (!jsonData) return null;
+
 	_.assign(this, jsonData);
 
-	if (!_.has(this, 'state')) {
-		this.state = new statesSvc.State({
-			name: this.stateName,
-			slug: this.stateSlug,
-			code: this.stateCode,
-		});
 
-		delete this.stateName;
-		delete this.stateSlug;
-		delete this.stateCode;
+	if (!_.has(this, 'state')) {
+		if (state) {
+			this.state = state;
+		}
+		else {
+			this.state = new statesSvc.State({
+				name: this.stateName,
+				slug: this.stateSlug,
+				code: this.stateCode,
+			});
+		}
 	}
+
+	delete this.stateName;
+	delete this.stateSlug;
+	delete this.stateCode;
 
 
 	this.placeName = this.name + ', ' + this.state.name;
@@ -74,7 +82,6 @@ me.City.prototype.getLink = function getLink(subPage) {
 
 
 me.getTotals = function data_getTotals(filters, fnCallback) {
-
 	if (typeof filters === 'function') {
 		fnCallback = filters;
 		filters = {};
@@ -91,3 +98,13 @@ me.getTotals = function data_getTotals(filters, fnCallback) {
 		fnCallback(err, cities);
 	});
 };
+
+
+
+me.getBySlug = function getBySlug(state, citySlug, fnCallback) {
+	var filters = {stateSlug: state.slug, citySlug: citySlug};
+	citiesData.getTotals(filters, function(err, data) {
+		var city = (data.length) ? new me.City(data[0], state) : null;
+		fnCallback(err, city);
+	});
+}

@@ -7038,6 +7038,9 @@ body {
 #browse .description p {
   text-indent: 2em;
 }
+#browse .nav-tabs {
+  margin-bottom: 1em;
+}
 #browse .facility {
   margin: 0 0 50px 0;
 }
