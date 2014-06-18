@@ -60,6 +60,9 @@ GLOBAL.DATA = {
 
 GLOBAL.DATABASE = require(GLOBAL.paths.getConfig('db'))(app.get('env'));
 
+// GLOBAL.showAds = (process.env.NODE_ENV === 'development'); //FIXME
+GLOBAL.showAds = false;
+
 
 
 /*

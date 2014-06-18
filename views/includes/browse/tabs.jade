@@ -1,7 +1,13 @@
 ul.nav.nav-tabs
 	li(class=(activeTab === 'providers')?'active':'')
-		a(href=place.getLink()) #{place.placeName} Providers
+		a(href=place.getLink(), title="#{place.placeName} Dialysis Providers")
+			i.fa.fa-hospital-o
+			| Providers
 	li(class=(activeTab === 'statistics')?'active':'')
-		a(href=place.getLink('statistics')) Statistics
+		a(href=place.getLink('statistics'), title="Compare #{place.placeName} Regional Statitics")
+			i.fa.fa-bar-chart-o
+			| Statistics
 	li(class=(activeTab === 'jobs')?'active':'')
-		a(href=place.getLink('jobs')) Jobs Available
+		a(href=place.getLink('jobs'), title="Jobs Available in #{place.placeName}")
+			i.fa.fa-clock-o
+			| Jobs Available

@@ -11,10 +11,12 @@ block headClose
 block content
 	#browse.container
 		.row
-			.col-lg-24 
-				header
-					h1.page-header.pageTitle !{pageTitle}
-						small.pageDescription.text-muted= pageDescription
+			.col-lg-24: header
+				h1.page-header.pageTitle !{pageTitle}
+					small.pageDescription.text-muted= pageDescription
+
+
+				.leader: include includes/adsense
 
 				include includes/browse/description
 
@@ -30,7 +32,14 @@ block content
 
 				include includes/browse/filters
 
-			.col-md-18.col-md-pull-6
+				//- .sky: include includes/adsense
 
-				each facility in facilities
+			.col-md-18.col-md-pull-6
+				-var inlineSlot1 = 0;
+				-var inlineSlot2 = (facilities.length >= 4) ? 5 : ((facilities.length > 1) ? facilities.length - 1 : infinity ); // 5 or last or none
+
+				each facility, ixFacility in facilities
 					include includes/browse/facility
+
+					if (ixFacility === inlineSlot1 || ixFacility === inlineSlot2)
+						.inlined: include includes/adsense

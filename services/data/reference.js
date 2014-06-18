@@ -36,24 +36,29 @@ const arraySvc = require(GLOBAL.paths.getService('array'));
 
 me.referenceTableMeta = {
 	"networks": {
+		"type": "networks",
 		"dataType": "int",
 		"src": "network",
 	},
 	"chains": {
+		"type": "chains",
 		"dataType": "string",
 		"src": "chain_organization",
 		"useLabel": true,
 	},
 	"owners": {
+		"type": "owners",
 		"dataType": "string",
 		"src": "ownership_as_of_december_31_2012",
 		"useLabel": true,
 	},
 	"paymentReductions": {
+		"type": "paymentReductions",
 		"dataType": "string",
 		"src": "py2014_payment_reduction_percentage",
 	},
 	"texts": {
+		"type": "texts",
 		"dataType": "string",
 		"src": [
 			"patient_transfusion_category_text",
@@ -62,6 +67,7 @@ me.referenceTableMeta = {
 		],
 	},
 	"applies": {
+		"type": "applies",
 		"dataType": "string",
 		"src": [
 			"hemoglobin_12_g_dl_performance_score_applied",
@@ -71,6 +77,7 @@ me.referenceTableMeta = {
 		],
 	},
 	"codes": {
+		"type": "codes",
 		"dataType": "string",
 		"src": [
 			"hgb_10_data_availability_code",
@@ -87,7 +94,28 @@ me.referenceTableMeta = {
 			"patient_hospitalization_data_availability_code",
 			"patient_survival_data_availability_code",
 		],
+		"useLabel": true,
 	},
+};
+
+
+
+
+/*
+*
+*	Private Variables
+*
+*/
+
+var codeFootnotes = {
+	"001": null,
+	"199": "The number of patients is too small to report. Call the facility to discuss this quality measure.",
+	"201": "Data not reported – Call the facility to discuss this quality measure.",
+	"255": "CMS determined that the percentage was not accurate.",
+	"258": "The facility was not open for the entire reporting period.",
+	"256": "The facility does not provide hemodialysis.",
+	"254": "The facility does not provide hemodialysis to pediatric patients.",
+	"257": "The facility does not provide peritoneal dialysis.",
 };
 
 
@@ -114,18 +142,13 @@ me.init = function(fnCallback) {
 
 
 me.get = function(tableName, lookupVal, fnCallback) {
-	if (_.isNull(lookupVal)) {
-		fnCallback(null);
-	}
-	else {
-		async.detect(
-			GLOBAL.DATA.REFERENCE[tableName],
-			function(record, fn) {
-				fn(record.val === lookupVal);
-			},
-			fnCallback
-		);
-	}
+	async.detect(
+		GLOBAL.DATA.REFERENCE[tableName],
+		function(record, fn) {
+			fn(record.val === lookupVal);
+		},
+		fnCallback
+	);
 }
 
 
@@ -170,7 +193,8 @@ function generateData(fnCallback) {
 		_.keys(me.referenceTableMeta),
 		function(rtKey, fnEach) {
 			var rtMeta = me.referenceTableMeta[rtKey];
-			buildReferenceTable(rtMeta.dataType, rtMeta.src, function(err, data) {
+			buildReferenceTable(rtMeta, rtMeta.src, function(err, data) {
+				// console.log(rtKey, data);
 				tables[rtKey] = data;
 				fnEach();
 			});
@@ -283,21 +307,24 @@ function checkTables(fnCallback) {
 }
 
 
-function buildReferenceTable(dataType, column, fnCallback) {
+function buildReferenceTable(meta, column, fnCallback) {
+
 	if (_.isArray(column)) {
 		async.concat(
 			column,
-			buildReferenceTable.bind(null, dataType),
+			buildReferenceTable.bind(null, meta),
 			function(err, result) {
 				arraySvc.sort(
 					_.uniq(result),
-					dataType,
+					meta.dataType,
 					fnCallback
 				);
 			}
 		);
 	}
 	else {
+		// console.log('reference:buildReferenceTable()', column);
+
 		var facilities = require(GLOBAL.paths.getData('medicare/merged.json'));
 		var table = [];
 
@@ -306,25 +333,29 @@ function buildReferenceTable(dataType, column, fnCallback) {
 			function(facilityId, cbEach) {
 				var thisVal = facilities[facilityId][column] || null;
 
-				if (dataType === 'int') {
+				if (meta.dataType === 'int') {
 					thisVal = _.parseInt(thisVal);
 				}
-				else if (dataType === 'float') {
+				else if (meta.dataType === 'float') {
 					thisVal = parseFloat(thisVal);
 				}
 
-				if ((dataType === 'int' || dataType === 'float') && _.isNaN(thisVal)) {
+				if ((meta.dataType === 'int' || meta.dataType === 'float') && _.isNaN(thisVal)) {
 					thisVal = null;
 				}
 
-				if (!_.isNull(thisVal) && !_.contains(table, thisVal)) {
+				if (typeof thisVal === 'string' && (_.isEmpty(thisVal) || thisVal.toUpperCase() === 'N/A' || thisVal.toUpperCase() === 'NOT AVAILABLE')) {
+					thisVal = null;
+				}
+
+				if (!_.contains(table, thisVal)) {
 					table.push(thisVal);
-					// sortArray(table, dataType, cbEach);
+					// sortArray(table, meta.dataType, cbEach);
 				}
 				cbEach();
 			},
 			function(err) {
-				arraySvc.sort(table, dataType, fnCallback);
+				arraySvc.sort(table, meta.dataType, fnCallback);
 				// fnCallback(err, table);
 			}
 		);
@@ -340,8 +371,14 @@ function arrayToTable(array, meta, fnCallback) {
 			id: index + 1,
 			val: val,
 		};
+
 		if (meta.useLabel) {
-			row.label = stringSvc.toTitleCase(val);
+			if (meta.type === 'codes') {
+				row.label = codeFootnotes[val];
+			}
+			else {
+				row.label = stringSvc.toTitleCase(val);
+			}
 		}
 
 		return row;

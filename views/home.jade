@@ -15,48 +15,33 @@ block content
 
 				br
 
-				//- .leader
-				//- 	if (true || process.env.NODE_ENV === 'development')
-				//- 		ins.adsbygoogle.placeholder
-				//- 	else
-				//- 		ins.adsbygoogle(
-				//- 			style="display:block",
-				//- 			data-ad-client="ca-pub-2680194687384513",
-				//- 			data-ad-slot="6633509987",
-				//- 			data-ad-format="auto",
-				//- 		)
-				//- 		script (adsbygoogle = window.adsbygoogle || []).push({});
+				//- .leader: include includes/adsense
 
 				//- h2.page-header Browse #{numeral(nation.numFacilities).format('0,0')} local dialysis providers by selecting a state or city from the list below&hellip;
 
+		.row: .col-lg-24
+			-var activeTab = 'providers'
+			include includes/browse/tabs
 
-				.row#geoFacilities
-					.col-md-7
-						.sky
-							if (true || process.env.NODE_ENV === 'development')
-								ins.adsbygoogle.placeholder
-							else
-								ins.adsbygoogle(
-									style="display:block",
-									data-ad-client="ca-pub-2680194687384513",
-									data-ad-slot="6633509987",
-									data-ad-format="auto",
-								)
-								script (adsbygoogle = window.adsbygoogle || []).push({});
+		.row
+			.col-md-7.col-md-push-17
+				.sky: include includes/adsense
 
-					.col-md-17
-						.row
-							- var colSize = (24 / numCols);
-							-for(var ixCol = 0; ixCol < numCols; ixCol ++)
-								+writeCol(colSize, ixCol)
-						.row: .col-sm-24
-							div.thresholds
-								| Including #{numCities} cities with at least #{threshold} facilities: 
-								a(href="/?threshold=4") most
-								a(href="/?threshold=8") more
-								a(href="/") normal
-								a(href="/?threshold=18") fewer
-								a(href="/?threshold=999") none
+			.col-md-17.col-md-pull-7
+
+				section#geoFacilities
+					.row
+						- var colSize = (24 / numCols);
+						-for(var ixCol = 0; ixCol < numCols; ixCol ++)
+							+writeCol(colSize, ixCol)
+					.row: .col-sm-24
+						div.thresholds
+							| Including #{numCities} cities with at least #{threshold} facilities: 
+							a(href="/?threshold=4") most
+							a(href="/?threshold=8") more
+							a(href="/") normal
+							a(href="/?threshold=18") fewer
+							a(href="/?threshold=999") none
 
 
 

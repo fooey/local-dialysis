@@ -38,6 +38,9 @@ module.exports = function(req, res, next) {
 			return state;
 		});
 
+		var place = results.nation;
+		place.type = 'nation';
+
 
 		res.render('home', {
 			metaTitle: 'Local Dialysis Providers',
@@ -48,6 +51,7 @@ module.exports = function(req, res, next) {
 			numCities: numCities,
 			numPlaces: numPlaces,
 			
+			place: place,
 			nation: results.nation,
 			states: results.stateCities,
 

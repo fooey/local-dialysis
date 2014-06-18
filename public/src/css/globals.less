@@ -26,14 +26,107 @@ body { min-width: 260px; }
 }
 
 
+.panel.panel-default {
+	color: @panel-default-text;
+	border-color: @panel-default-border;
+	& > .panel-heading {
+		color: @text-color;
+		background-color: @panel-default-heading-bg;
+		border-color: @panel-default-border;
+	}
+}
 
+.panel.panel-info {
+	color: @panel-info-text;
+	border-color: @panel-info-border;
+	& > .panel-heading {
+		color: @panel-primary-text;
+		background-color: @panel-info-border;
+		border-color: @panel-info-border;
+	}
+}
 
-@panel-primary-text:		@alert-info-text;
-@panel-primary-border:		@alert-info-border;
-@panel-primary-heading-bg:	@alert-info-bg;
-
-.panel-info .panel-heading {
+.panel.panel-primary {
 	color: @panel-primary-text;
-	background-color: @panel-primary-border;
-	border-color: @panel-primary-heading-bg;
+	border-color: @panel-primary-border;
+	& > .panel-heading {
+		color: @panel-primary-text;
+		background-color: @panel-primary-border;
+		border-color: @panel-primary-border;
+	}
+}
+
+.panel.panel-success {
+	color: @panel-success-text;
+	border-color: @panel-success-border;
+	& > .panel-heading {
+		color: @panel-primary-text;
+		background-color: @panel-success-border;
+		border-color: @panel-success-border;
+	}
+}
+
+.panel.panel-warning {
+	color: @panel-warning-text;
+	border-color: @panel-warning-border;
+	& > .panel-heading {
+		color: @panel-primary-text;
+		background-color: @panel-warning-border;
+		border-color: @panel-warning-border;
+	}
+}
+
+.panel.panel-danger {
+	color: @panel-danger-text;
+	border-color: @panel-danger-border;
+	& > .panel-heading {
+		color: @panel-primary-text;
+		background-color: @panel-danger-border;
+		border-color: @panel-danger-border;
+	}
+}
+
+
+
+
+
+/*
+*	tabs
+*/
+
+#browse {
+}
+.nav-tabs {
+	margin-bottom: 1em;
+	font-size: 12pt;
+	font-family: @font-family-condensed;
+
+	@media(min-width: @screen-md-min) { font-size: 14pt; }
+
+	white-space: nowrap;
+	overflow-y: hidden;;
+	overflow-x: auto;
+
+
+	li, a {
+			white-space: nowrap;
+			display: block;
+			float: none;
+	}
+
+	i.fa {
+		width: 1.4em;
+	}
+
+	// li.active a {}
+
+	@media(min-width: @screen-xs-min) {
+		li, a {
+ 			display: inline-block;
+ 			float: none;
+		}
+		a {
+ 			font-size: 14pt;
+		}
+	}
 }

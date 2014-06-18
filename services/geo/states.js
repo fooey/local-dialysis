@@ -36,7 +36,7 @@ me.State = function(jsonData) {
 	this.placeName = this.name;
 
 	return this;
-}
+};
 
 
 me.State.prototype.getLink = function getLink(subPage) {
@@ -49,7 +49,7 @@ me.State.prototype.getLink = function getLink(subPage) {
 	}
 
 	return pageLink.join('/');
-}
+};
 
 
 
@@ -61,6 +61,7 @@ me.State.prototype.getLink = function getLink(subPage) {
 
 me.getTotals = function getTotals(fnCallback) {
 	statesData.getTotals({}, function(err, data) {
+		if (err) throw (err);
 
 		var states = data.map(function(stateData) {
 			return new me.State(stateData);
@@ -73,7 +74,22 @@ me.getTotals = function getTotals(fnCallback) {
 
 me.getBySlug = function getBySlug(slug, fnCallback) {
 	statesData.getTotals({stateSlug: slug}, function(err, data) {
+		if (err) throw (err);
+
 		var state = (data.length) ? new me.State(data[0]) : null;
 		fnCallback(err, state);
 	});
-}
+};
+
+
+me.getStatsBySlug = function getStatsBySlug(slug, fnCallback) {
+	statesData.getStats({stateSlug: slug}, function(err, data) {
+		if (err) throw (err);
+
+		// console.log('getStatsBySlug()', slug, err, data);
+
+
+		var state = (data.length) ? new me.State(data[0]) : null;
+		fnCallback(err, state);
+	});
+};

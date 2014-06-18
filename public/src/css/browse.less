@@ -2,7 +2,7 @@
 #browse {
 
 	h1.page-header {
-		margin: .25em 0 .5em;
+		margin: .25em 0 0;
 		border: none;
 		text-align: center;
 
@@ -22,6 +22,8 @@
 			white-space: normal;
 		}
 	}
+
+
 	
 
 	.description {
@@ -34,15 +36,23 @@
 			text-indent: 2em;
 		}
 	}
+}
 
 
-	.nav-tabs {
-		margin-bottom: 1em;
+
+
+/*
+*	Facility Listings
+*/
+
+#browse {
+
+	.facility + .facility {
+		margin-top: 50px;
 	}
 
-
 	.facility {
-		margin: 0 0 50px 0;
+		margin: 0;
 
 		h1{
 			border-bottom: 1px solid @gray-lighter;
@@ -61,25 +71,20 @@
 			margin: 0 0 4px 0;
 		}
 
+
 		.facilityScore {
-			display: block;
-			width: 64px;
-			height: 64px;
-
-			position:relative;
-			top: 12px;
-			margin: 0 auto 20px;
-
-			.rotate(-72deg);
-			line-height: 64px;
-			font-size: 32px;
 			text-align: center;
 
-			& span {
-				display: block;
-				width: 64px;
-				height: 64px;
-				.rotate(18deg);
+			font-size: 16pt;
+			line-height: 200%;
+			max-width: 180px;
+			margin-bottom: 20px;
+
+			@media(min-width: @screen-sm-min) {
+				line-height: 96px;
+				font-size: 32px;
+				max-width: 100%;
+				margin-bottom: 0;
 			}
 
 			&.label-success, &.label-success span {
@@ -105,6 +110,7 @@
 				text-shadow: none;
 			}
 		}
+
 
 
 		.facilityDetails + .facilityDetails {
@@ -135,6 +141,46 @@
 
 	}
 }
+
+
+
+
+/*
+*	Adsense
+*/
+
+#browse {
+
+	.leader {
+		text-align: center;
+		padding: 12px 0;
+
+		.adsbygoogle {
+			margin: 0 auto;
+			.gad-hori();
+		}
+	}
+
+	.inlined {
+		text-align: center;
+		padding: 32px 0;
+
+		.adsbygoogle {
+			margin: 0 auto;
+			.gad-inline-results();
+		}
+	}
+	.sky {
+		text-align: center;
+		.adsbygoogle {
+			margin: 0 auto;
+			.gad-mdCol-smRow();
+		}
+		margin-bottom: 12px;
+	}
+}
+
+
 
 
 

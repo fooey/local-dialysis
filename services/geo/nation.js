@@ -32,19 +32,27 @@ const nationData = require(GLOBAL.paths.getService('data/nation'));
 me.Nation = function(jsonData) {
 	_.assign(this, jsonData);
 
+	this.placeName = 'Nation';
+
 	return this;
 }
 
 
 me.Nation.prototype.getLink = function getLink(subPage) {
-	var pageLink = [
-		'', // leading slash
-	];
+	var pageLink = '/';
 	if (subPage && !_.isEmpty(subPage)) {
-		pageLink.push(subPage + '.html');
+		pageLink += subPage + '.html';
 	}
 
-	return pageLink.join('/');
+	return pageLink;
+}
+
+
+
+me.NationStats = function(jsonData) {
+	_.assign(this, jsonData);
+
+	return this;
 }
 
 
@@ -57,8 +65,20 @@ me.Nation.prototype.getLink = function getLink(subPage) {
 
 me.getTotals = function data_getTotals(fnCallback) {
 	nationData.getTotals(function(err, data) {
-		var nation = new me.Nation(data[0]);
+		if (err) throw (err);
 
+		var nation = new me.Nation(data[0]);
 		fnCallback(err, nation);
+	});
+};
+
+
+me.getStats = function data_getStats(fnCallback) {
+	nationData.getStats(function(err, data) {
+		if (err) throw (err);
+
+		var nationStats = new me.Nation(data[0]);
+
+		fnCallback(err, nationStats);
 	});
 };

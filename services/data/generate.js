@@ -37,14 +37,17 @@ module.exports = function(fnCallback) {
 
 
 	async.auto({
-		'transformData': [transformData],
-		'mergeData': ['transformData', mergeData],
+		// 'transformData': [transformData],
+		// 'mergeData': ['transformData', mergeData],
+
+		'mergeData': function(callback) {callback();}, //FIXME
 
 		'reference': ['mergeData', referenceData.init],
 		'facilities': ['reference', facilityData.init],
 
 	}, function(err, results) {
-		console.log(err, results);
+		if (err) console.log('!!ERROR!!', err);
+		console.log('data::generate::main() complete');
 
 		db.exec('VACUUM', fnCallback);
 	});

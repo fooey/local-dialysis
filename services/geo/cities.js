@@ -102,9 +102,25 @@ me.getTotals = function data_getTotals(filters, fnCallback) {
 
 
 me.getBySlug = function getBySlug(state, citySlug, fnCallback) {
+	console.log('cities::getBySlug');
 	var filters = {stateSlug: state.slug, citySlug: citySlug};
 	citiesData.getTotals(filters, function(err, data) {
+		if (err) throw (err);
+		
 		var city = (data.length) ? new me.City(data[0], state) : null;
 		fnCallback(err, city);
 	});
 }
+
+
+me.getStatsBySlug = function getStatsBySlug(state, citySlug, fnCallback) {
+	console.log('cities::getStatsBySlug');
+	var filters = {stateSlug: state.slug, citySlug: citySlug};
+
+	citiesData.getStats(filters, function(err, data) {
+		if (err) throw (err);
+
+		var city = (data.length) ? new me.City(data[0], state) : null;
+		fnCallback(err, city);
+	});
+};

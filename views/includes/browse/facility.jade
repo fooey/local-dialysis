@@ -2,10 +2,11 @@ section.facility
 	h1: a(href=facility.getLink()) #{facility.name}
 
 	.row
-		.col-sm-4.hidden-xs
-			div.facilityScore.clearfix(class=scoreLabel(facility.performanceScore), title="ESRC QIP Score")
-				span: span: span: span= facility.performanceScore || 'N/A'
-				//- = facility.performanceScore || 'N/A'
+		.col-sm-4
+			//- div.facilityScore.starburst.clearfix(class=scoreLabel(facility.performanceScore), title="ESRC QIP Score")
+			//- 	span: span: span: span= facility.performanceScore || 'N/A'
+			div.facilityScore(class=scoreLabel(facility.performanceScore), title="ESRC QIP Score")
+				= facility.performanceScore || 'N/A'
 		.col-sm-20
 
 			.row

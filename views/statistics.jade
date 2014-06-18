@@ -1,0 +1,164 @@
+extends layout
+
+block content
+	#home.container
+		.row
+			.col-lg-24: header
+				h1.page-header.pageTitle !{pageTitle}
+					small.pageDescription.text-muted= pageDescription
+				br
+
+		.row: .col-lg-24
+			-var activeTab = 'statistics'
+			include includes/browse/tabs
+
+		.row
+
+			.col-md-18
+
+				-var sections = {};
+				article#statistics
+					.row.col-md-24
+
+						-sections['Overview'] = {key: 'Overview', label: 'General Overview', subs: []}
+						section#Overview.panel.panel-info
+							.panel-heading: h2 General Overview
+							.panel-body
+								+writeTable('Overview', 'Number of Dialysis Providers', 'numFacilities', 'int')
+
+								+writeTable('Overview', 'Total Number of Dialysis Stations', 'numStationsSum', 'int')
+								+writeTable('Overview', 'Average Number of Dialysis Stations', 'numStationsAvg', 'float')
+
+								+writeTable('Overview', 'Total Number Offering Hemodialysis', 'offersHemoSum', 'int')
+								+writeTable('Overview', 'Total Number Offering Peritoneal Dialysis', 'offersPeriSum', 'int')
+								+writeTable('Overview', 'Total Number Offering Home Training', 'offersTrainingSum', 'int')
+								+writeTable('Overview', 'Have Shifts after 5pm', 'offersLateSum', 'int')
+
+								+writeTable('Overview', 'Total Number of For Profit Facilities', 'forProfitSum', 'int')
+								+writeTable('Overview', 'Total Number of Non Profit Facilities', 'nonProfitSum', 'int')
+								+writeTable('Overview', 'Total Number of Chain Owned', 'isChainSum', 'int')
+								+writeTable('Overview', 'Total Number of Not Chain Owned', 'notChainSum', 'int')
+
+						//- +writeTable('Number of Dialysis Providers', 'numFacilities', 'int')
+
+
+						-sections['DialysisAdequacy'] = {key: 'DialysisAdequacy', label: 'Dialysis Adequacy', subs: []}
+						section#DialysisAdequacy.panel.panel-info
+							.panel-heading: h2 Dialysis Adequacy
+							.panel-body
+								//- +writeTable('DialysisAdequacy', 'hasHgb10Data', 'hasHgb10Data', 'int')
+								+writeAvgMinMax('DialysisAdequacy', 'Patient(s) who had an average hemoglobin value less than 10.0 g/dL', 'percentage_of_medicare_patients_with_hgb_10_g_dl', 'int')
+								+writeCodes('DialysisAdequacy', 'Data Availablilty', 'hgb_10_data_availability_code', 'int')
+
+								//- +writeTable('DialysisAdequacy', 'hasHgb12Data', 'hasHgb12Data', 'int')
+								+writeAvgMinMax('DialysisAdequacy', 'Patient(s) who had an average hemoglobin value greater than 12.0 g/dL', 'percentage_of_medicare_patients_with_hgb_12_g_dl', 'int')
+								+writeCodes('DialysisAdequacy', 'Data Availablilty', 'hgb_12_data_availability_code', 'int')
+
+								+writeAvgMinMax('DialysisAdequacy', 'number_of_dialysis_patients_with_hgb_data', 'number_of_dialysis_patients_with_hgb_data', 'int')
+							
+
+						-sections['AnemiaManagement'] = {key: 'AnemiaManagement', label: 'Anemia Management', subs: []}
+						section#AnemiaManagement.panel.panel-info
+							.panel-heading: h2 Anemia Management
+							.panel-body
+							
+
+						-sections['VascularAccess'] = {key: 'VascularAccess', label: 'Vascular Access', subs: []}
+						section#VascularAccess.panel.panel-info
+							.panel-heading: h2 Vascular Access
+							.panel-body
+							
+
+						-sections['MineralAndBoneDisorder'] = {key: 'MineralAndBoneDisorder', label: 'Mineral and Bone Disorder', subs: []}
+						section#MineralAndBoneDisorder.panel.panel-info
+							.panel-heading: h2 Mineral and Bone Disorder
+							.panel-body
+
+						pre#debug= JSON.stringify(places, null, '\t')	
+
+
+			.col-md-6
+				//- .sky: include includes/adsense
+				aside#statisticsNav.hidden-xs.hidden-sm
+					ul.nav
+						each section in sections
+							li
+								a(href='#' + section.key)= section.label
+								if (section.subs.length)
+									ul.nav
+										each subSection in section.subs
+											li: a(href='#' + subSection.key)= subSection.label
+						li.top: a(href="#") Back to Top
+
+
+
+
+
+
+mixin writeTable(section, label, key, dataType)
+	-sections[section].subs.push({key: key, label: label})
+	.panel.panel-default.simple(id=key)
+		.panel-heading: h3= label
+		.panel-body: table
+			each region in ['nation', 'state', 'city', 'facility']
+				if (places.hasOwnProperty(region))
+					-var val = (places && places[region] && places[region][key]) ? places[region][key] : null;
+					tr
+						th= places[region].placeName
+						+writeVal(val, dataType)
+
+
+
+mixin writeCodes(section, label, key, dataType)
+	.panel.panel-default.codes(id=key)
+		.panel-heading
+			h3
+				span.expando
+					i.fa.fa-plus-square-o
+				= label
+		.panel-body
+			each region, ixRegion in ['nation', 'state', 'city', 'facility']
+				if (places.hasOwnProperty(region))
+					table
+						col(width="10%")
+						col
+						caption= places[region].placeName
+						each code, ixCode in GLOBAL.DATA.REFERENCE.codes
+							-var codeKey = ('code' + code.id + '_' + key)
+							-var val = (places && places[region] && places[region][codeKey]) ? places[region][codeKey] : null;
+							tr
+								+writeVal(val, dataType)
+								td.code-label= code.label || 'Data Available'
+
+
+mixin writeAvgMinMax(section, label, key, dataType)
+	-sections[section].subs.push({key: key, label: label})
+	.panel.panel-default.agg(id=key)
+		.panel-heading: h3= label
+		.panel-body
+			each region, ixRegion in ['nation', 'state', 'city', 'facility']
+				if (places.hasOwnProperty(region))
+					table
+						caption= places[region].placeName
+						each aggType, ixAgg in [{label: 'Average', key: 'avg', dataType: 'float'}, {label: 'Least', key: 'min', dataType: dataType}, {label: 'Most', key: 'max', dataType: dataType}]
+							-var aggKey = (aggType.key + '_' + key)
+							-var val = (places && places[region] && places[region][aggKey]) ? places[region][aggKey] : null;
+							tr
+								td.agg-label= aggType.label
+								+writeVal(val, aggType.dataType)
+
+
+
+
+
+
+mixin writeVal(val, dataType)
+	if (dataType === 'int')
+		td.value.int= numeral(val).format('0,0')
+
+	else if (dataType === 'float')
+		td.value.float= numeral(val).format('0,0.00')
+		
+	else
+		td.value= val
+	

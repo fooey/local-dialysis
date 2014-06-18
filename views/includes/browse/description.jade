@@ -1,8 +1,8 @@
 section.description
-	p There are #{numeral(place.numFacilities).format('0,0')} dialysis providers in #{place.placeName} 
+	p There are #{numeral(place.numFacilities).format('0,0')} dialysis providers in #{place.placeName}, 
 		if place.type === 'state'
-			| , spread across #{numeral(cities.length).format('0,0')} cities, 
-		| with a total of #{numeral(place.numStationsSum).format('0,0')} dialysis stations
+			| spread across #{numeral(cities.length).format('0,0')} cities, 
+		| providing a total of #{numeral(place.numStationsSum).format('0,0')} dialysis stations
 		| and an average <abbr title="Quality Incentive Program">QIP</abbr> rating of #{numeral(place.performanceScoreAvg).format('0,0')} out of 100.
 
 	p Of these providers, #{numeral(place.offersHemoSum).format('0,0')} offer Hemodialysis,

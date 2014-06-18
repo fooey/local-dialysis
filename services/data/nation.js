@@ -19,6 +19,8 @@ var me = module.exports = {};
 const _ = require('lodash');
 const async = require('async');
 
+const common = require('./common.js');
+
 var db = GLOBAL.DATABASE;
 
 
@@ -32,60 +34,30 @@ var db = GLOBAL.DATABASE;
 me.getTotals = function getTotals(fnCallback) {
 	console.log('data::nation::getTotals');
 
-	var columns = [
-		'COUNT(*) AS numFacilities',
-		'SUM(numStations) AS numStationsSum',
-		'AVG(numStations) AS numStationsAvg',
-		'SUM(offersLate) AS offersLateSum',
-		'SUM(offersHemo) AS offersHemoSum',
-		'SUM(offersPeri) AS offersPeriSum',
-		'SUM(offersTraining) AS offersTrainingSum',
+	var statement = [
+		'SELECT',
+			common.getTotalsColumns().join(', '),
+		'FROM facilities'
+	].join('\n');
 
-		'SUM(forProfit) AS forProfitSum',
-		'SUM(CASE WHEN forProfit = 0 THEN 1 ELSE NULL END) AS nonProfitSum',
+	// console.log(statement);
+	// console.log(params);
 
-		'SUM(isChain) AS isChainSum',
-		'SUM(CASE WHEN isChain = 0 THEN 1 ELSE NULL END) AS notChainSum',
+	db.all(statement, fnCallback);
+};
 
-		'AVG(performanceScore) AS performanceScoreAvg',
-		'MIN(performanceScore) AS performanceScoreMin',
-		'MAX(performanceScore) AS performanceScoreMax',
 
-		'AVG(vascularScore) AS vascularScoreAvg',
-		'MIN(vascularScore) AS vascularScoreMin',
-		'MAX(vascularScore) AS vascularScoreMax',
 
-		'AVG(CASE WHEN typeOf(ichScore) <> "integer" THEN NULL ELSE ichScore END) AS ichScoreAvg',
-		'MIN(CASE WHEN typeOf(ichScore) <> "integer" THEN NULL ELSE ichScore END) AS ichScoreMin',
-		'MAX(CASE WHEN typeOf(ichScore) <> "integer" THEN NULL ELSE ichScore END) AS ichScoreMax',
-		
-		'AVG(nhsnScore) AS nhsnScoreAvg',
-		'MIN(nhsnScore) AS nhsnScoreMin',
-		'MAX(nhsnScore) AS nhsnScoreMax',
+me.getStats = function getStats(fnCallback) {
+	console.log('data::nation::getStats');
 
-		'AVG(mineralScore) AS mineralScoreAvg',
-		'MIN(mineralScore) AS mineralScoreMin',
-		'MAX(mineralScore) AS mineralScoreMax',
-		
-
-		'AVG(hospitalizationRatio) AS hospitalizationRatioAvg',
-		'MIN(hospitalizationRatio) AS hospitalizationRatioMin',
-		'MAX(hospitalizationRatio) AS hospitalizationRatioMax',
-
-		'AVG(mortalityRatio) AS mortalityRatioAvg',
-		'MIN(mortalityRatio) AS mortalityRatioMin',
-		'MAX(mortalityRatio) AS mortalityRatioMax',
-
-		// 'AVG(certificationDate) AS certificationDateAvg',
-		'MIN(certificationDate) AS certificationDateMin',
-		'MAX(certificationDate) AS certificationDateMax',
-	];
+	var columns = common.getTotalsColumns().concat(common.getStatsColumns());
 
 	var statement = [
 		'SELECT',
 			columns.join(', '),
-		'FROM facilities AS f'
-	].join(' ');
+		'FROM facilityStats INNER JOIN facilities ON facilities.id = facilityStats.id'
+	].join('\n');
 
 	// console.log(statement);
 	// console.log(params);

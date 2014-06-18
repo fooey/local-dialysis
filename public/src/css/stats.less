@@ -1,0 +1,163 @@
+#statisticsNav {
+	&.affix {
+		top: 12px;
+	}
+
+	max-width: 20em;
+
+	ul, li, a{
+		margin: 0;
+		padding: 0;
+		line-height: 100%;
+		display: block;
+	}
+
+	li {
+		padding: .25em 0;
+	}
+
+	li a,
+	li.active li a {
+		border-left: 2px solid white;
+		padding: .25em .5em;
+		font-size: 12pt;
+		color: @gray-light;
+	}
+	li.active a,
+	li.active li.active a {
+		border-left: 2px solid @link-color;
+		color: @link-color;
+	}
+
+	ul.nav ul.nav {
+		margin-left: 1em;
+		margin-top: .5em;
+
+		display: none;
+
+		li a {
+			font-size: 10pt;
+		}
+	}
+
+	ul.nav > li.active > ul.nav {
+		display: block;
+	}
+	// position: relative;
+}
+
+#statistics {
+	section {
+		margin-bottom: 40px;
+	}
+
+	.panel {
+		margin: 0;
+	}
+
+	section.panel + section.panel {
+		margin-top: 40px;
+	}
+
+	.panel + .panel.simple,
+	.panel + .panel.agg {
+		margin-top: 20px;
+	}
+
+	.panel + .panel.codes {
+		border-top: none;
+	}
+
+
+	.panel-heading h2 {
+		font-size: 32pt;
+		margin: 0;
+		padding: 0;
+	}
+
+	.panel-heading h3 {
+		font: 18pt/100% @font-family-condensed;
+		margin: 0;
+		padding: 0;
+		@media(max-width: @screen-sm-min) {font-size: 14pt;}
+		@media(min-width: @screen-md-min) and (max-width: @screen-md-max) {font-size: 14pt;}
+	}
+
+	table {
+		width: 100%;
+
+		& + table {
+			margin-top: 20px;
+		}
+
+		caption {
+			font: 15pt/100% @font-family-condensed;
+			border-bottom: 1px solid @gray-light;
+			margin-bottom: .25em;
+			padding-bottom: 0;
+			text-align: left;
+		}
+
+		tr {
+			& + tr {
+				border-top: 1px solid @table-border-color;
+			}
+			&:nth-child(odd) {
+				background-color: @table-bg-accent;
+			}
+			&:hover {
+				background-color: @table-bg-hover;
+			}
+		}
+
+		th, td {
+			font-size: 10pt;
+			line-height: 120%;
+			padding: .3em .5em;
+			vertical-align: top;
+
+			&.int, &.float {
+				text-align: right;
+			}
+		}
+	}
+
+	.codes table,
+	.agg table {
+		tr.new-section {
+			border-top-color: #fff;
+		}
+		tr + tr.new-section {
+			border-top-width: 12px;
+		}
+	}
+
+	.codes {
+		.panel-heading {
+			border: none;
+			h3 {
+				font-size: 8pt;
+				font-style: italic;
+				cursor: pointer;
+
+				&:hover {
+					text-decoration: underline;
+				}
+
+				.fa {
+					margin-right: .5em;
+				}
+			}
+		}
+		.panel-body {
+			border-top: 1px solid @panel-default-border;
+			display: none;
+		}
+		table {
+			th, td {
+				font-size: 7.5pt;
+			}
+		}
+	}
+
+}
