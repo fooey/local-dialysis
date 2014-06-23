@@ -1,28 +1,38 @@
 extends layout
 
+
+
+
 block content
-	#home.container
+
+	#statistics.container
 		.row
 			.col-lg-24: header
-				h1.page-header.pageTitle !{pageTitle}
+				h1.pageTitle !{pageTitle}
 					small.pageDescription.text-muted= pageDescription
-				br
+
 
 		.row: .col-lg-24
 			-var activeTab = 'statistics'
 			include includes/browse/tabs
 
-		.row
 
+		.row
 			.col-md-18
 
 				-var sections = {};
-				article#statistics
+				-var aggTypes = {}
+				-aggTypes.sum = {label: 'Total', key: 'sum'}
+				-aggTypes.avg = {label: 'Average', key: 'avg', dataType: 'float'}
+				-aggTypes.min = {label: 'Least', key: 'min'}
+				-aggTypes.max = {label: 'Most', key: 'max'}
+
+				article
 					.row.col-md-24
 
 						-sections['Overview'] = {key: 'Overview', label: 'General Overview', subs: []}
-						section#Overview.panel.panel-info
-							.panel-heading: h2 General Overview
+						section.panel.panel-info(id=sections['Overview'].key)
+							.panel-heading: h2= sections['Overview'].label
 							.panel-body
 								+writeTable('Overview', 'Number of Dialysis Providers', 'numFacilities', 'int')
 
@@ -39,42 +49,194 @@ block content
 								+writeTable('Overview', 'Total Number of Chain Owned', 'isChainSum', 'int')
 								+writeTable('Overview', 'Total Number of Not Chain Owned', 'notChainSum', 'int')
 
-						//- +writeTable('Number of Dialysis Providers', 'numFacilities', 'int')
 
 
-						-sections['DialysisAdequacy'] = {key: 'DialysisAdequacy', label: 'Dialysis Adequacy', subs: []}
-						section#DialysisAdequacy.panel.panel-info
-							.panel-heading: h2 Dialysis Adequacy
+
+						-sections['PerformanceScores'] = {key: 'PerformanceScores', label: 'Performance Scores', subs: []}
+						section.panel.panel-info(id=sections['PerformanceScores'].key)
+							.panel-heading: h2= sections['PerformanceScores'].label
 							.panel-body
-								//- +writeTable('DialysisAdequacy', 'hasHgb10Data', 'hasHgb10Data', 'int')
-								+writeAvgMinMax('DialysisAdequacy', 'Patient(s) who had an average hemoglobin value less than 10.0 g/dL', 'percentage_of_medicare_patients_with_hgb_10_g_dl', 'int')
-								+writeCodes('DialysisAdequacy', 'Data Availablilty', 'hgb_10_data_availability_code', 'int')
+								+writeAgg('PerformanceScores', 'Total Performance Score', 'total_performance_score', ['avg', 'min', 'max'], 'float')
+								+writeAgg('PerformanceScores', '<abbr title="In-Center Hemodialysis">ICH</abbr> <abbr title="Consumer Assessment of Healthcare Providers and Systems">CAHPS</abbr> Admin Score', 'ich_cahps_admin_score', ['avg', 'min', 'max'], 'float')
+								+writeAgg('PerformanceScores', '<abbr title="National Healthcare Safety Network">NHSN</abbr> Event Reporting Score', 'nhsn_event_reporting_score', ['avg', 'min', 'max'], 'float')
+								+writeAgg('PerformanceScores', 'Vascular Access Combined Measure Score', 'vascular_access_combined_measure_score', ['avg', 'min', 'max'], 'float')
+								+writeAgg('PerformanceScores', 'Mineral Metabolism Reporting Score', 'mineral_metabolism_reporting_score', ['avg', 'min', 'max'], 'float')
 
-								//- +writeTable('DialysisAdequacy', 'hasHgb12Data', 'hasHgb12Data', 'int')
-								+writeAvgMinMax('DialysisAdequacy', 'Patient(s) who had an average hemoglobin value greater than 12.0 g/dL', 'percentage_of_medicare_patients_with_hgb_12_g_dl', 'int')
-								+writeCodes('DialysisAdequacy', 'Data Availablilty', 'hgb_12_data_availability_code', 'int')
 
-								+writeAvgMinMax('DialysisAdequacy', 'number_of_dialysis_patients_with_hgb_data', 'number_of_dialysis_patients_with_hgb_data', 'int')
-							
+						-sections['MeasureScores'] = {key: 'MeasureScores', label: 'Measure Scores', subs: []}
+						section.panel.panel-info(id=sections['MeasureScores'].key)
+							.panel-heading: h2= sections['MeasureScores'].label
+							.panel-body
+								+writeAgg('MeasureScores', 'Patient(s) who had an average hemoglobin value greater than 12.0 g/dL', 'hg_12_g_dlmeasurescore', ['avg', 'min', 'max'], 'float')
+								+writeApplied('MeasureScores', 'Hemoglobin Score Applied', 'hemoglobin_12_g_dl_performance_score_applied', 'int')
+								
+								+writeAgg('MeasureScores', 'Hemodialysis patients who had enough wastes removed from their blood during dialysis: Urea Reduction Ratio greater than or equal to 65%', 'urr_65_measurescore', ['avg', 'min', 'max'], 'float')
+								+writeApplied('MeasureScores', 'URR Score Applied', 'urr_performance_score_applied', 'int')
+
+								+writeAgg('MeasureScores', 'Vascular Catheter Measure Score', 'catheter_measure_score', ['avg', 'min', 'max'], 'float')
+								+writeApplied('MeasureScores', 'Vascular Catheter Score Applied', 'catheter_performance_score_applied', 'int')
+
+								+writeAgg('MeasureScores', '<abbr title="Arteriovenous Fistula">Fistula</abbr> Measure Score', 'fistula_measure_score', ['avg', 'min', 'max'], 'float')
+								+writeApplied('MeasureScores', 'Fistula Score Applied', 'fistula_performance_score_applied', 'int')
+
+
+
+
+						-sections['Hospitalization'] = {key: 'Hospitalization', label: 'Hospitalization Rate', subs: []}
+						section.panel.panel-info(id=sections['Hospitalization'].key)
+							.panel-heading: h2= sections['Hospitalization'].label
+							.panel-body
+								+writeTexts('Hospitalization', 'Hospitalization Rate', 'patient_hospitalization_category_text', 'int')
+								+writeCodes('Hospitalization', 'Data Availablilty', 'patient_hospitalization_data_availability_code', 'int')
+								+writeAgg('Hospitalization', 'Number of Patients Included in Hospitalization Summary', 'number_of_patients_included_in_hospitalization_summary', ['sum', 'avg', 'min', 'max'], 'int')
+								+writeAgg('Hospitalization', 'Standardized Hospitalization Ratio', 'standardized_hospitalization_ratio', ['avg', 'min', 'max'], 'float')
+
+
+						-sections['Survivability'] = {key: 'Survivability', label: 'Survivability Rate', subs: []}
+						section.panel.panel-info(id=sections['Survivability'].key)
+							.panel-heading: h2= sections['Survivability'].label
+							.panel-body
+								+writeTexts('Survivability', 'Survival Rate', 'patient_survival_category_text', 'int')
+								+writeCodes('Survivability', 'Data Availablilty', 'patient_survival_data_availability_code', 'int')
+								+writeAgg('Survivability', 'Number of Patients Included in Survival Summary', 'number_of_patients_included_in_survival_summary', ['sum', 'avg', 'min', 'max'], 'int')
+								+writeAgg('Survivability', 'Standardized Mortality Ratio', 'standardized_mortality_ratio', ['avg', 'min', 'max'], 'float')
+
+
+
 
 						-sections['AnemiaManagement'] = {key: 'AnemiaManagement', label: 'Anemia Management', subs: []}
-						section#AnemiaManagement.panel.panel-info
-							.panel-heading: h2 Anemia Management
+						section.panel.panel-info(id=sections['AnemiaManagement'].key)
+							.panel-heading: h2= sections['AnemiaManagement'].label
 							.panel-body
+
+								+writeTexts('AnemiaManagement', 'Patient Transfusions Rate', 'patient_transfusion_category_text', 'int')
+								+writeCodes('AnemiaManagement', 'Data Availablilty', 'patient_transfusion_data_availability_code', 'int')
+
+								+writeAgg('AnemiaManagement', 'Performance Rate 1 - Average hemoglobin value greater than 12.0 g/dL', 'hg_12_g_dlperformancerate_1', ['avg', 'min', 'max'], 'float')
+								+writeAgg('AnemiaManagement', 'Performance Rate 2 - Average hemoglobin value greater than 12.0 g/dL', 'hg_12_g_dlperformancerate_2', ['avg', 'min', 'max'], 'float')
+
+								+writeAgg('AnemiaManagement', 'Standarized Transfusion Ratio', 'lists_the_facility_s_standardized_transfusion_ratio_facility', ['avg', 'min', 'max'], 'float')
+								+writeAgg('AnemiaManagement', 'Number of Patients in Summary', 'lists_the_number_of_patients_included_in_the_facility_s_transfusion_summary_facility', ['sum', 'avg', 'min', 'max'], 'int')
+								//- +writeAgg('AnemiaManagement', 'lists_the_upper_confident_limit_97_5_for_standardized_transfusion_ratio_strr', 'lists_the_upper_confident_limit_97_5_for_standardized_transfusion_ratio_strr', 'int')
+								//- +writeAgg('AnemiaManagement', 'lists_the_lower_confident_limit_2_5_for_standardized_transfusion_ratio_strr', 'lists_the_lower_confident_limit_2_5_for_standardized_transfusion_ratio_strr', 'int')
+								//- +writeAgg('AnemiaManagement', 'lists_the_lower_confident_limit_2_5_for_standardized_transfusion_ratio_strr', 'lists_the_lower_confident_limit_2_5_for_standardized_transfusion_ratio_strr', 'int')
+
+								//- +writeTable('AnemiaManagement', 'hasHgb12Data', 'hasHgb12Data', 'int')
+								+writeAgg('AnemiaManagement', 'Patient(s) who had an average hemoglobin value greater than 12.0 g/dL', 'percentage_of_medicare_patients_with_hgb_12_g_dl', ['sum', 'avg', 'min', 'max'], 'int')
+								+writeCodes('AnemiaManagement', 'Data Availablilty', 'hgb_12_data_availability_code', 'int')
+
+
+								+writeAgg('AnemiaManagement', 'Patient(s) who had an average hemoglobin value less than 10.0 g/dL', 'percentage_of_medicare_patients_with_hgb_10_g_dl', ['sum', 'avg', 'min', 'max'], 'int')
+								+writeCodes('AnemiaManagement', 'Data Availablilty', 'hgb_10_data_availability_code', 'int')
+
+								+writeAgg('AnemiaManagement', 'Number of Dialysis Patients with Hemoglobin Data', 'number_of_dialysis_patients_with_hgb_data', ['sum', 'avg', 'min', 'max'], 'int')
+								+writeAgg('AnemiaManagement', 'Number of Hemoglobin Eligible Patients - Performance Period', 'number_of_hemoglobin_eligible_patients_performance_period', ['sum', 'avg', 'min', 'max'], 'int')
+								+writeAgg('AnemiaManagement', 'Number of Hemoglobin Eligible Patients - Baseline Period', 'number_of_hemoglobin_eligible_patients_baseline_period', ['sum', 'avg', 'min', 'max'], 'int')
+
+
+
+
+						-sections['DialysisAdequacyURR'] = {key: 'DialysisAdequacyURR', label: 'Dialysis Adequacy - URR', subs: []}
+						section.panel.panel-info(id=sections['DialysisAdequacyURR'].key)
+							.panel-heading: h2= sections['DialysisAdequacyURR'].label
+							.panel-body
+								+writeAgg('DialysisAdequacyURR', 'Hemodialysis patients who had enough wastes removed from their blood during dialysis: Urea Reduction Ratio greater than or equal to 65%', 'percentage_of_hd_patients_with_urr_65', ['avg', 'min', 'max'], 'float')
+								+writeCodes('DialysisAdequacyURR', 'Data Availablilty', 'urr_data_availability_code', 'int')
+
+								+writeAgg('DialysisAdequacyURR', 'Performance Rate #1 - Urea Reduction Ratio greater than or equal to 65%', 'urr_65_performancerate_1', ['avg', 'min', 'max'], 'float')
+								+writeAgg('DialysisAdequacyURR', 'Performance Rate #2 - Urea Reduction Ratio greater than or equal to 65%', 'urr_65_performancerate_2', ['avg', 'min', 'max'], 'float')
+
+								+writeAgg('DialysisAdequacyURR', 'Number of Hemodialysis Patients with URR Data', 'number_of_hd_patients_with_urr_data', ['sum', 'avg', 'min', 'max'], 'int')
+								+writeAgg('DialysisAdequacyURR', 'Number of URR Eligible Patients - Performance Period', 'number_of_urr_eligible_patients_performance_period', ['sum', 'avg', 'min', 'max'], 'int')
+								+writeAgg('DialysisAdequacyURR', 'Number of URR Eligible Patients - Baseline Period', 'number_of_urr_eligible_patients_baseline_period', ['sum', 'avg', 'min', 'max'], 'int')
+
+						-sections['DialysisAdequacyHD'] = {key: 'DialysisAdequacyHD', label: 'Dialysis Adequacy - Adult HD', subs: []}
+						section.panel.panel-info(id=sections['DialysisAdequacyHD'].key)
+							.panel-heading: h2= sections['DialysisAdequacyHD'].label
+							.panel-body
+								+writeAgg('DialysisAdequacyHD', 'Adult hemodialysis patients who had enough wastes removed from their blood during dialysis: Kt/V greater than or equal to 1.2', 'percent_of_adult_hd_patients_with_kt_v_1_2', ['avg', 'min', 'max'], 'float')
+								+writeCodes('DialysisAdequacyHD', 'Data Availablilty', 'adult_hd_kt_v_data_availability_code', 'int')
+								+writeAgg('DialysisAdequacyHD', 'Number of Adult HD Patients with Kt/V Data', 'number_of_adult_hd_patients_with_kt_v_data', ['avg', 'min', 'max'], 'float')
+								+writeAgg('DialysisAdequacyHD', 'Number of Adult HD Patient-Months with Kt/V Data', 'number_of_adult_hd_patient_months_with_kt_v_data', ['avg', 'min', 'max'], 'float')
+
+						-sections['DialysisAdequacyPD'] = {key: 'DialysisAdequacyPD', label: 'Dialysis Adequacy - Adult PD', subs: []}
+						section.panel.panel-info(id=sections['DialysisAdequacyPD'].key)
+							.panel-heading: h2= sections['DialysisAdequacyPD'].label
+							.panel-body
+								+writeAgg('DialysisAdequacyPD', 'Adult Peritoneal Dialysis patients who had enough wastes removed from their blood during dialysis: Kt/V greater than or equal to 1.7', 'percentage_of_adult_pd_pts_with_kt_v_1_7', ['avg', 'min', 'max'], 'float')
+								+writeCodes('DialysisAdequacyPD', 'Data Availablilty', 'adult_pd_kt_v_data_availability_code', 'int')
+								+writeAgg('DialysisAdequacyPD', 'Number of Adult PD Patients with Kt/V Data', 'number_of_adult_pd_patients_with_kt_v_data', ['avg', 'min', 'max'], 'float')
+								+writeAgg('DialysisAdequacyPD', 'Number of Adult PD Patient-Months with Kt/V Data', 'number_of_adult_pd_patient_months_with_kt_v_data', ['avg', 'min', 'max'], 'float')
+
+						-sections['DialysisAdequacyPed'] = {key: 'DialysisAdequacyPed', label: 'Dialysis Adequacy - Ped. HD', subs: []}
+						section.panel.panel-info(id=sections['DialysisAdequacyPed'].key)
+							.panel-heading: h2= sections['DialysisAdequacyPed'].label
+							.panel-body
+								+writeAgg('DialysisAdequacyPed', 'Pediatric hemodialysis patients who had enough wastes removed from their blood during dialysis: Kt/V greater than or equal to 1.2', 'percentage_of_pediatric_hd_patients_with_kt_v_1_2', ['avg', 'min', 'max'], 'float')
+								+writeCodes('DialysisAdequacyPed', 'Data Availablilty', 'pediatric_hd_kt_v_data_availability_code', 'int')
+								+writeAgg('DialysisAdequacyPed', 'Number of Pediatric HD Patients with Kt/V Data', 'number_of_pediatric_hd_patients_with_kt_v_data', ['avg', 'min', 'max'], 'float')
+								+writeAgg('DialysisAdequacyPed', 'Number of Pediatric HD Patient-Months with Kt/V Data', 'number_of_pediatric_hd_patient_months_with_kt_v_data', ['avg', 'min', 'max'], 'float')
+								
+
 							
 
-						-sections['VascularAccess'] = {key: 'VascularAccess', label: 'Vascular Access', subs: []}
-						section#VascularAccess.panel.panel-info
-							.panel-heading: h2 Vascular Access
+						-sections['VascularCatheters'] = {key: 'VascularCatheters', label: 'Vascular Catheters', subs: []}
+						section.panel.panel-info(id=sections['VascularCatheters'].key)
+							.panel-heading: h2= sections['VascularCatheters'].label
 							.panel-body
+								+writeAgg('VascularCatheters', 'Percentage of Patients with Vascular Catheter in Use for 90 Days or Longer', 'percentage_of_patients_with_vascular_catheter_in_use_for_90_days_or_longer', ['avg', 'min', 'max'], 'float')
+								+writeCodes('VascularCatheters', 'Data Availablilty', 'vascular_catheter_data_availability_code', 'int')
+
+								+writeAgg('VascularCatheters', 'Performance Period - Catheter Rate', 'catheter_performance_period_rate', ['avg', 'min', 'max'], 'float')
+								+writeAgg('VascularCatheters', 'Performance Period - Number of Catheter Patient Months', 'number_of_catheter_patient_months_performance_period', ['sum', 'avg', 'min', 'max'], 'int')
+
+								+writeAgg('VascularCatheters', 'Baseline Period - Catheter Rate', 'catheter_baseline_period_rate', ['avg', 'min', 'max'], 'float')
+								+writeAgg('VascularCatheters', 'Baseline Period - Number of Catheter Patient Months', 'number_of_catheter_patient_months_baseline_period', ['sum', 'avg', 'min', 'max'], 'int')
+
+
+
+						-sections['ArteriovenousFistulae'] = {key: 'ArteriovenousFistulae', label: 'Arteriovenous Fistulae', subs: []}
+						section.panel.panel-info(id=sections['ArteriovenousFistulae'].key)
+							.panel-heading: h2= sections['ArteriovenousFistulae'].label
+							.panel-body
+								+writeAgg('ArteriovenousFistulae', 'Percentage of Patients with Arteriovenous Fistulae in Place', 'percentage_of_patients_with_arteriovenous_fistulae_in_place', ['avg', 'min', 'max'], 'float')
+								+writeCodes('ArteriovenousFistulae', 'Data Availablilty', 'arteriovenous_fistulae_in_place_data_availability_code', 'int')
+								
+								+writeAgg('ArteriovenousFistulae', 'Performance Period - Fistula Rate', 'fistula_performance_period_rate', ['avg', 'min', 'max'], 'float')
+								+writeAgg('ArteriovenousFistulae', 'Performance Period - Number of Fistula Patient Months', 'number_of_fistula_patient_months_performance_period', ['sum', 'avg', 'min', 'max'], 'int')
+
+								+writeAgg('ArteriovenousFistulae', 'Baseline Period - Fistula Rate', 'fistula_baseline_period_rate', ['avg', 'min', 'max'], 'float')
+								+writeAgg('ArteriovenousFistulae', 'Baseline Period - Number of Fistula Patient Months', 'number_of_fistula_patient_months_baseline_period', ['sum', 'avg', 'min', 'max'], 'int')
+
 							
 
-						-sections['MineralAndBoneDisorder'] = {key: 'MineralAndBoneDisorder', label: 'Mineral and Bone Disorder', subs: []}
-						section#MineralAndBoneDisorder.panel.panel-info
-							.panel-heading: h2 Mineral and Bone Disorder
-							.panel-body
 
-						pre#debug= JSON.stringify(places, null, '\t')	
+						-sections['Hypercalcemia'] = {key: 'Hypercalcemia', label: 'Hypercalcemia', subs: []}
+						section.panel.panel-info(id=sections['Hypercalcemia'].key)
+							.panel-heading: h2= sections['Hypercalcemia'].label
+							.panel-body
+								+writeAgg('Hypercalcemia', 'Percentage Of Adult Patients With Hypercalcemia Serum Calcium Greater Than 10.2 mg/dL', 'lists_the_percentage_of_adult_patients_with_hypercalcemia_serum_calcium_greater_than_10_2_mg_dl_facility', ['avg', 'min', 'max'], 'float')
+								+writeCodes('Hypercalcemia', 'Data Availablilty', 'hypercalcemia_data_availability_code', 'int')
+
+								+writeAgg('Hypercalcemia', 'Number of Patients in Summary', 'lists_the_number_of_patients_included_in_the_facility_s_hypercalcemia_summary_facility', ['sum', 'avg', 'min', 'max'], 'int')
+								+writeAgg('Hypercalcemia', 'Number of Patient Months in Summary', 'lists_the_number_of_patient_months_included_in_the_facility_s_hypercalcemia_summary_facility', ['sum', 'avg', 'min', 'max'], 'int')
+
+
+						-sections['SerumPhosphorus'] = {key: 'SerumPhosphorus', label: 'Serum Phosphorus', subs: []}
+						section.panel.panel-info(id=sections['SerumPhosphorus'].key)
+							.panel-heading: h2= sections['SerumPhosphorus'].label
+							.panel-body
+								+writeAgg('SerumPhosphorus', 'Number of Patients in Serum Phosphorus Summary', 'lists_the_number_of_patients_included_in_the_facility_s_serum_phosphorus_summary_facility', ['sum', 'avg', 'min', 'max'], 'int')
+								+writeCodes('SerumPhosphorus', 'Data Availablilty', 'serum_phosphorus_data_availability_code', 'int')
+								+writeAgg('SerumPhosphorus', 'Number of Patient Months in Summary', 'lists_the_number_of_patient_months_included_in_the_facility_s_serum_phosphorus_summary_facility', ['sum', 'avg', 'min', 'max'], 'int')
+
+								+writeAgg('SerumPhosphorus', 'Percentage of Adult Patients with <abbr title="Serum Phosphorus">SP</abbr> Less Than 3.5 mg/dL', 'lists_the_percentage_of_adult_patients_with_serum_phosphorus_less_than_3_5_mg_dl_facility', ['avg', 'min', 'max'], 'float')
+								+writeAgg('SerumPhosphorus', 'Percentage of Adult Patients with <abbr title="Serum Phosphorus">SP</abbr> Between 3.5 &ndash; 4.5 mg/dl', 'lists_the_percentage_of_adult_patients_with_serum_phosphorus_between_3_5_4_5_mg_dl_facility', ['avg', 'min', 'max'], 'float')
+								+writeAgg('SerumPhosphorus', 'Percentage of Adult Patients with <abbr title="Serum Phosphorus">SP</abbr> Between 4.6 &ndash; 5.5 mg/dl', 'lists_the_percentage_of_adult_patients_with_serum_phosphorus_between_4_6_5_5_mg_dl_facility', ['avg', 'min', 'max'], 'float')
+								+writeAgg('SerumPhosphorus', 'Percentage of Adult Patients with <abbr title="Serum Phosphorus">SP</abbr> Between 5.6 &ndash; 7.0 mg/dl', 'lists_the_percentage_of_adult_patients_with_serum_phosphorus_between_5_6_7_0_mg_dl_facility', ['avg', 'min', 'max'], 'float')
+								+writeAgg('SerumPhosphorus', 'Percentage of Adult Patients with <abbr title="Serum Phosphorus">SP</abbr> Greater Than 7.0 mg/dl', 'lists_the_percentage_of_adult_patients_with_serum_phosphorus_greater_than_7_0_mg_dl_facility', ['avg', 'min', 'max'], 'float')
+
+						//- pre#debug= JSON.stringify(places, null, '\t')	
 
 
 			.col-md-6
@@ -83,11 +245,11 @@ block content
 					ul.nav
 						each section in sections
 							li
-								a(href='#' + section.key)= section.label
+								a(href='#' + section.key) !{section.label}
 								if (section.subs.length)
 									ul.nav
 										each subSection in section.subs
-											li: a(href='#' + subSection.key)= subSection.label
+											li: a(href='#' + subSection.key) !{subSection.label}
 						li.top: a(href="#") Back to Top
 
 
@@ -98,14 +260,14 @@ block content
 mixin writeTable(section, label, key, dataType)
 	-sections[section].subs.push({key: key, label: label})
 	.panel.panel-default.simple(id=key)
-		.panel-heading: h3= label
+		.panel-heading: h3 !{label}
 		.panel-body: table
 			each region in ['nation', 'state', 'city', 'facility']
 				if (places.hasOwnProperty(region))
 					-var val = (places && places[region] && places[region][key]) ? places[region][key] : null;
-					tr
-						th= places[region].placeName
+					tr(class=region)
 						+writeVal(val, dataType)
+						th !{places[region].placeName}
 
 
 
@@ -122,30 +284,81 @@ mixin writeCodes(section, label, key, dataType)
 					table
 						col(width="10%")
 						col
-						caption= places[region].placeName
-						each code, ixCode in GLOBAL.DATA.REFERENCE.codes
+						caption !{places[region].placeName}
+						each code, ixText in GLOBAL.DATA.REFERENCE.codes
 							-var codeKey = ('code' + code.id + '_' + key)
-							-var val = (places && places[region] && places[region][codeKey]) ? places[region][codeKey] : null;
-							tr
-								+writeVal(val, dataType)
-								td.code-label= code.label || 'Data Available'
+							-var val = places[region][codeKey]
+							if (val !== null)
+								tr
+									+writeVal(val, dataType)
+									td.code-label !{code.label || 'Data Available'}
 
 
-mixin writeAvgMinMax(section, label, key, dataType)
+
+
+mixin writeAgg(section, label, key, cols, dataType)
 	-sections[section].subs.push({key: key, label: label})
 	.panel.panel-default.agg(id=key)
-		.panel-heading: h3= label
+		.panel-heading: h3 !{label}
 		.panel-body
 			each region, ixRegion in ['nation', 'state', 'city', 'facility']
 				if (places.hasOwnProperty(region))
-					table
-						caption= places[region].placeName
-						each aggType, ixAgg in [{label: 'Average', key: 'avg', dataType: 'float'}, {label: 'Least', key: 'min', dataType: dataType}, {label: 'Most', key: 'max', dataType: dataType}]
+					table(class=region)
+						caption !{places[region].placeName}
+						each col in cols
+							-var aggType = aggTypes[col];
+							-var aggDataType = aggType.dataType || dataType
 							-var aggKey = (aggType.key + '_' + key)
-							-var val = (places && places[region] && places[region][aggKey]) ? places[region][aggKey] : null;
+							-var val = places[region][aggKey];
 							tr
-								td.agg-label= aggType.label
-								+writeVal(val, aggType.dataType)
+								+writeVal(val, aggDataType)
+								th.agg-label !{aggType.label}
+								//- td.agg-label= aggKey
+
+
+
+mixin writeTexts(section, label, key, dataType)
+	-sections[section].subs.push({key: key, label: label})
+	.panel.panel-default.texts(id=key)
+		.panel-heading
+			h3 !{label}
+		.panel-body
+			each region, ixRegion in ['nation', 'state', 'city', 'facility']
+				if (places.hasOwnProperty(region))
+					table(class=region)
+						col(width="10%")
+						col
+						caption !{places[region].placeName}
+						each text, ixText in GLOBAL.DATA.REFERENCE.texts
+							-var textKey = ('text' + text.id + '_' + key)
+							-var val = places[region][textKey];
+							if (val !== null)
+								tr
+									+writeVal(val, dataType)
+									th.text-label !{text.val || 'Not Available'}
+
+
+
+
+mixin writeApplied(section, label, key, dataType)
+	-sections[section].subs.push({key: key, label: label})
+	.panel.panel-default.applied(id=key)
+		.panel-heading
+			h3 !{label}
+		.panel-body
+			each region, ixRegion in ['nation', 'state', 'city', 'facility']
+				if (places.hasOwnProperty(region))
+					table(class=region)
+						col(width="10%")
+						col
+						caption !{places[region].placeName}
+						each applied, ixApplied in GLOBAL.DATA.REFERENCE.applies
+							-var appliedKey = ('applied' + applied.id + '_' + key)
+							-var val = places[region][appliedKey]
+							if (val !== null)
+								tr
+									+writeVal(val, dataType)
+									th.applied-label !{applied.val || 'Not Available'}
 
 
 
@@ -153,12 +366,17 @@ mixin writeAvgMinMax(section, label, key, dataType)
 
 
 mixin writeVal(val, dataType)
-	if (dataType === 'int')
-		td.value.int= numeral(val).format('0,0')
+	-var valClass = ['value'];
 
-	else if (dataType === 'float')
-		td.value.float= numeral(val).format('0,0.00')
-		
-	else
-		td.value= val
+	-if(dataType === 'int') valClass.push('int')
+	-if(dataType === 'float') valClass.push('float')
+
+	if (val === null)
+		-val = 'N/A'
+	else if(dataType === 'int')
+		-val = numeral(val).format('0,0')
+	else if(dataType === 'float')
+		-val = numeral(val).format('0,0.00')
+
+	td(class=valClass)= val
 	

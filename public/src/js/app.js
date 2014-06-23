@@ -53,7 +53,7 @@ $(function() {
 
 
 
-	var $stats = $('#statistics');
+	var $stats = $('#statistics article');
 	if ($stats.length) {
 		var $statisticsNav = $('#statisticsNav');
 

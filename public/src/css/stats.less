@@ -1,9 +1,19 @@
 #statisticsNav {
-	&.affix {
-		top: 12px;
+	* {
+		.transition(all .4s ease);
 	}
 
-	max-width: 20em;
+
+	&.affix {
+		top: .5em;
+
+		max-height: 90%;
+		overflow-y: auto;
+
+		width: 240px;
+		@media(min-width: @screen-lg-min) { width: 280px; }
+	}
+
 
 	ul, li, a{
 		margin: 0;
@@ -12,41 +22,99 @@
 		display: block;
 	}
 
-	li {
-		padding: .25em 0;
+	ul.nav {
+
+		& > li {
+			& > a {
+				font: 14pt/100% @font-family-condensed;
+			}
+
+			&:hover, &.active {
+
+				& > ul.nav {
+					display: block;
+
+					li.active a, 
+					li a:hover {
+						.opacity(1);
+
+						white-space: normal;
+					}
+				}
+			}
+		}
+
+		ul.nav {
+			margin-left: .6em;
+			margin-top: .3em;
+			display: none;
+
+			li {
+				a {
+					font: 9pt/100% @font-family-sans-serif;
+					.opacity(.8);
+				}
+			}
+		}
+
+	}
+
+	li a {
+		font: 9pt/100% @font-family-sans-serif;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 90%;
 	}
 
 	li a,
 	li.active li a {
+		padding: .2em .4em;
+
 		border-left: 2px solid white;
-		padding: .25em .5em;
-		font-size: 12pt;
 		color: @gray-light;
 	}
+
 	li.active a,
 	li.active li.active a {
 		border-left: 2px solid @link-color;
 		color: @link-color;
 	}
-
-	ul.nav ul.nav {
-		margin-left: 1em;
-		margin-top: .5em;
-
-		display: none;
-
-		li a {
-			font-size: 10pt;
-		}
-	}
-
-	ul.nav > li.active > ul.nav {
-		display: block;
-	}
-	// position: relative;
 }
 
+
+
 #statistics {
+
+
+	h1 {
+		margin: .5em 0;
+		text-align: center;
+		font-size: 18pt;
+		@media(min-width: @screen-xs-min) { font-size: 28pt; }
+		@media(min-width: @screen-md-min) { font-size: 40pt; }
+		@media(min-width: @screen-lg-min) { font-size: 48pt; }
+		small {
+			font-size: 40%;
+			margin-top: .5em;
+			line-height: 140%;
+			font-weight: 200;
+		}
+
+
+		@media(max-width: @screen-xs-max) {
+			nobr {
+				white-space: normal;
+			}
+		}
+	}
+	h2 {
+		font-size: 12pt;
+		@media(min-width: @screen-md-min) { font-size: 14pt; }
+		@media(min-width: @screen-lg-min) { font-size: 18pt; }
+	}
+
+
 	section {
 		margin-bottom: 40px;
 	}
@@ -60,8 +128,11 @@
 	}
 
 	.panel + .panel.simple,
-	.panel + .panel.agg {
-		margin-top: 20px;
+	.panel + .panel.agg,
+	.panel + .panel.texts {
+		margin-top: 16px;
+		@media(min-width: @screen-xs-min) { margin-top: 24px; }
+		@media(min-width: @screen-lg-min) { margin-top: 32px; }
 	}
 
 	.panel + .panel.codes {
@@ -70,17 +141,29 @@
 
 
 	.panel-heading h2 {
-		font-size: 32pt;
+		font-size: 14pt;
 		margin: 0;
 		padding: 0;
+
+		@media(min-width: @screen-xs-min) { font-size: 24pt; }
+		@media(min-width: @screen-md-min) { font-size: 24pt; }
+		@media(min-width: @screen-lg-min) { font-size: 32pt; }
 	}
 
 	.panel-heading h3 {
-		font: 18pt/100% @font-family-condensed;
+		font: 12pt/100% @font-family-condensed;
 		margin: 0;
 		padding: 0;
-		@media(max-width: @screen-sm-min) {font-size: 14pt;}
-		@media(min-width: @screen-md-min) and (max-width: @screen-md-max) {font-size: 14pt;}
+
+		@media(min-width: @screen-xs-min) { font-size: 18pt; }
+		@media(min-width: @screen-md-min) { font-size: 16pt; }
+		@media(min-width: @screen-lg-min) { font-size: 18pt; }
+	}
+
+	.panel-body {
+		padding: 4px;
+		@media(min-width: @screen-xs-min) { padding: 8px; }
+		@media(min-width: @screen-lg-min) { padding: 16px; }
 	}
 
 	table {
@@ -102,11 +185,12 @@
 			& + tr {
 				border-top: 1px solid @table-border-color;
 			}
-			&:nth-child(odd) {
+			&:nth-child(even) {
 				background-color: @table-bg-accent;
 			}
 			&:hover {
 				background-color: @table-bg-hover;
+				.transition(background-color 250ms);
 			}
 		}
 
@@ -116,8 +200,11 @@
 			padding: .3em .5em;
 			vertical-align: top;
 
-			&.int, &.float {
-				text-align: right;
+			&.value {
+				width: 10%;
+				&.int, &.float {
+					text-align: right;
+				}
 			}
 		}
 	}
@@ -132,7 +219,8 @@
 		}
 	}
 
-	.codes {
+	.codes,
+	.applied {
 		.panel-heading {
 			border: none;
 			h3 {
@@ -149,14 +237,26 @@
 				}
 			}
 		}
-		.panel-body {
-			border-top: 1px solid @panel-default-border;
-			display: none;
-		}
 		table {
+			caption {
+				font-size: 12pt;
+			}
 			th, td {
 				font-size: 7.5pt;
 			}
+		}
+		.panel-body {
+			border-top: 1px solid @panel-default-border;
+		}
+	}
+	
+	.applied {
+		border-top: none;
+	}
+	
+	.codes {
+		.panel-body {
+			display: none;
 		}
 	}
 

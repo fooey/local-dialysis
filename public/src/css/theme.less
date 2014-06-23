@@ -1,6 +1,19 @@
 
 
+/*
+*	Tabs
+*/
 
+.nav-tabs li.active a {
+	color: @panel-primary-text;
+	background-color: @panel-primary-border;
+}
+
+
+
+/*
+*	Panels
+*/
 
 .panel.panel-default {
 	color: @panel-default-text;
@@ -12,16 +25,6 @@
 	}
 }
 
-.panel.panel-info {
-	color: @panel-info-text;
-	border-color: @panel-info-border;
-	& > .panel-heading {
-		color: @panel-primary-text;
-		background-color: @panel-info-border;
-		border-color: @panel-info-border;
-	}
-}
-
 .panel.panel-primary {
 	color: @panel-primary-text;
 	border-color: @panel-primary-border;
@@ -29,6 +32,16 @@
 		color: @panel-primary-text;
 		background-color: @panel-primary-border;
 		border-color: @panel-primary-border;
+	}
+}
+
+.panel.panel-info {
+	color: @panel-info-text;
+	border-color: @panel-info-border;
+	& > .panel-heading {
+		color: @panel-primary-text;
+		background-color: @panel-info-border;
+		border-color: @panel-info-border;
 	}
 }
 
