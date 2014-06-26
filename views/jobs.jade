@@ -1,0 +1,66 @@
+extends layout
+
+
+block headClose
+	//- link(rel="canonical", href=canonical)
+	if(options.pageNum !== options.prevPageNum)
+		link(rel="prev", href=options.prevPageUrl)
+	if(options.pageNum !== options.nextPageNum)
+		link(rel="next", href=options.nextPageUrl)
+
+
+block bodyClose
+	script(src='http://gdc.indeed.com/ads/apiresults.js')
+
+
+
+
+block content
+	//- include includes/statistics/mixins
+	-var activeTab = 'jobs'
+
+	#jobs.container
+		include includes/breadcrumb
+
+		.row
+			.col-lg-24
+				header
+					h1.pageTitle !{pageTitle}
+						small.pageDescription.text-muted= pageDescription
+
+				.leader: include includes/adsense
+
+				//- section.description
+				//- 	p Dialysis Jobs, including Hemodialysis and Peritoneal Dialysis, currently available in !{place.placeName}
+
+
+		.row: .col-lg-24
+			include includes/browse/tabs
+
+
+		.row
+			.col-md-7.col-md-push-17
+				include includes/jobs/paging
+				.sky: include includes/adsense
+
+			.col-md-17.col-md-pull-7
+				-var inlineSlot1 = 0;
+				-var inlineSlot2 = null//(jobs.results.length >= 4) ? 5 : ((jobs.results.length > 1) ? jobs.results.length - 1 : infinity ); // 5 or last or none
+
+				#postings
+					each posting, ixPosting in jobs.results
+						include includes/jobs/posting
+
+						if (ixPosting === inlineSlot1 || ixPosting === inlineSlot2)
+							.inlined: include includes/adsense
+
+		.row: .col-lg-24
+			span#indeed_at
+				a(href="http://www.indeed.com/") jobs 
+				| by 
+				a(href="http://www.indeed.com/", title="Job Search")
+					img(src="http://www.indeed.com/p/jobsearch.gif", style="border: 0; vertical-align: middle;", alt="Indeed job search")
+
+
+
+

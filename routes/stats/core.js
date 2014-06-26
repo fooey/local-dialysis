@@ -33,7 +33,7 @@ const numeral = require('numeral');
 me.render = function(req, res, place, places) {
 
 	var title = 'Dialysis Provider Statistics';
-	var description = util.format('Statistical breakdown of %d Medicare certified dialysis facilties', place.numFacilities);
+	var description = util.format('Statistical breakdown of %s Medicare certified dialysis facilties', numeral(place.numFacilities).format('0,0'));
 
 	var pageTitle = util.format('Dialysis Provider Statistics');
 	var pageDescription = description;

@@ -16,11 +16,12 @@
     "jade": ">= 1.x",
     "lodash": "*",
     "mkdirp": "^0.5.0",
+    "moment": "^2.7.0",
     "morgan": "*",
     "mv": "^2.0.0",
     "node-uuid": "^1.4.1",
     "numeral": "^1.5.3",
-    "request": "^2.34.0",
+    "request": "^2.36.0",
     "serve-favicon": "*",
     "sqlite3": "^2.2.3"
   },
@@ -31,6 +32,7 @@
     "grunt-contrib-less": "*",
     "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "*",
+    "grunt-node-inspector": "^0.1.5",
     "grunt-nodemon": "*",
     "longjohn": "^0.2.4"
   },

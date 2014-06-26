@@ -1,0 +1,148 @@
+#jobs {
+
+	#postings{
+		li + li{
+			margin-top: 3em;
+		}
+
+		h1 {
+			font-family: @font-family-condensed;
+			padding: 0;
+			margin: 0;
+
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
+			font-size: 14pt;
+			@media(min-width: @screen-sm-min) { font-size: 21pt; }
+			@media(min-width: @screen-lg-min) { font-size: 32pt; }
+			line-height: 120%;
+
+			a {
+				// color: @panel-primary-text;
+			}
+		}
+
+		.panel-body {
+			color: @text-color;
+		}
+
+		p.snippet {
+			text-indent: 2em;
+			margin: 1em 0 2em;
+			font-size: 12pt;
+			@media(min-width: @screen-xs-min) { font-size: 14pt; }
+
+			a{
+				font-size: 75%;
+				text-transform: capitalize;
+
+			}
+		}
+
+		.details {
+			padding-left: 1em;
+			@media(min-width: @screen-xs-min) {padding-left: 2em}
+
+			.address, .company, .posted {
+				font-size: 8pt;
+				display: block;
+
+				strong {
+					display: block;
+				}
+
+				& + div {
+					margin-top: 1em;
+				}
+
+
+				@media(min-width: @screen-xs-min) {
+					& + div {
+						margin-top: 0;
+					}
+					strong {
+						display: inline-block;
+						text-align: right;
+						width: 2em;
+						padding-right: .5em;
+					}
+				}
+			}
+		}
+
+		.buttons {
+			.btn {
+				display: block;
+				i {
+					padding-right: .5em;
+				}
+			}
+		}
+		@media(max-width: @screen-xs-max) {
+
+			.buttons {
+				margin-top: 1em;
+			}
+
+		}
+
+		.panel-footer.sponsored {
+			font-size: 8pt;
+			text-align: right;
+			font-style: italic;
+		}
+
+
+		
+	}
+}
+
+#paging {
+	.pagingInfo {
+		white-space: nowrap;
+		font-size: 12pt;
+		line-height: 20pt;
+
+		@media(min-width: @screen-md-min) { font-size: 15pt; }
+
+		.prev, .numbers, .next {
+			display: block;
+			float: left;
+			white-space: nowrap;
+		}
+
+		.prev, .next {
+			width: 20%;
+		}
+
+		.numbers {
+			text-align: center;
+			width: 60%;
+		}
+
+		.next.disabled, .prev.disabled {
+			&, & a {
+				.opacity(.6);
+				cursor: not-allowed;
+			}
+		}
+
+		.fa:hover{
+			border-bottom: 1px solid #fff;
+		}
+
+		.prev {
+			.fa {
+				margin-right: .4em;
+			}
+		}
+		.next{
+			.fa {
+				margin-left: .4em
+			}
+			text-align: right;
+		}
+	}
+}

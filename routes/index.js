@@ -9,13 +9,16 @@ module.exports = function(app, express) {
 
 
 
+
 	/*
-	*	Dev
+	*	system
 	*/
 
 	app.get('/globals', function(req, res) {
 		res.send(GLOBAL.DATA.REFERENCE);
 	});
+
+	app.get('/robots.txt', require('./robots.js'));
 	
 
 
@@ -51,24 +54,23 @@ module.exports = function(app, express) {
 
 
 	/*
-	*	Browse
+	*	Jobs
 	*/
 
-
-	app.get('/:stateSlug([a-z-]+)/:subSlug([a-z-]+).html', dumpRoute);
-	app.get('/:stateSlug([a-z-]+)', require(GLOBAL.paths.getRoute('browse/state.js')));
-
-	// app.get('/:stateSlug([a-z-]+)/:citySlug([a-z-]+)/:subSlug([a-z-]+).html', dumpRoute);
-	app.get('/:stateSlug([a-z-]+)/:citySlug([a-z-]+)', require(GLOBAL.paths.getRoute('browse/city.js')));
-	
+	app.get('/jobs.html', require(GLOBAL.paths.getRoute('jobs/nation')));
+	app.get('/:stateSlug([a-z-]+)/jobs.html', require(GLOBAL.paths.getRoute('jobs/state')));
+	app.get('/:stateSlug([a-z-]+)/:citySlug([a-z-]+)/jobs.html', require(GLOBAL.paths.getRoute('jobs/city')));
 
 
 
 	/*
-	*	Home
+	*	Browse Providers
 	*/
 
 	app.get('/', require(GLOBAL.paths.getRoute('home')));
+	app.get('/:stateSlug([a-z-]+)', require(GLOBAL.paths.getRoute('browse/state.js')));
+	app.get('/:stateSlug([a-z-]+)/:citySlug([a-z-]+)', require(GLOBAL.paths.getRoute('browse/city.js')));
+
 
 
 

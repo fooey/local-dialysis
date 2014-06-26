@@ -1,0 +1,88 @@
+section.job(itemscope itemtype="http://schema.org/JobPosting")
+	.panel.panel-default
+		.panel-heading
+			h1(itemprop="title")
+				a(href=posting.url, onmousedown=posting.onmousedown)= posting.jobtitle
+
+		.panel-body
+
+			p.snippet
+				span(itemprop="description")= posting.snippet
+				a(href=posting.url, onmousedown=posting.onmousedown) [More]
+
+			.row
+				.col-sm-12
+
+					.details
+						div.company(itemprop="hiringOrganization")
+							strong for 
+							= posting.company
+
+						div.address 
+							strong in 
+							span(itemprop="jobLocation" itemscope itemtype="http://schema.org/Place")
+								span(itemprop="address" itemscope itemtype="http://schema.org/PostalAddress") 
+
+									if (posting.state && posting.city)
+										span(itemprop="addressLocality")
+											= posting.city 
+										| , 
+										span(itemprop="addressRegion")
+											= posting.state
+
+									else if (posting.formattedLocationFull)
+										= posting.formattedLocationFull
+
+
+						-var postedMoment = moment(posting.date, 'ddd, DD MMM YYYY HH:mm:ss GMT');
+						//- div= posting.date
+						div.posted(itemprop="datePosted", content=postedMoment.format())
+							strong on 
+							//- = posting.formattedRelativeTime
+							| !{postedMoment.format('MMMM Do YYYY')} (!{postedMoment.fromNow()})
+
+				.col-sm-12
+					.buttons
+						a.btn.btn-primary(href=posting.url, onmousedown=posting.onmousedown)
+							i.fa.fa-expand
+							| Full Job Posting	
+
+		if (posting.sponsored)
+			.panel-footer.sponsored Sponsored Post
+
+
+
+//- dl
+//- 	dt jobtitle
+//- 	dd= posting.jobtitle
+//- 	dt company
+//- 	dd(itemprop="hiringOrganization")= posting.company
+//- 	dt city
+//- 	dd= posting.city
+//- 	dt state
+//- 	dd= posting.state
+//- 	dt country
+//- 	dd= posting.country
+//- 	dt formattedLocation
+//- 	dd= posting.formattedLocation
+//- 	dt source
+//- 	dd= posting.source
+//- 	dt date
+//- 	dd(itemprop="datePosted")= posting.date
+//- 	dd(itemprop="datePosted", content="!{Date.parse(posting.date)}")= posting.formattedRelativeTime
+//- 	dt url
+//- 	dd= posting.url
+//- 	dt onmousedown
+//- 	dd= posting.onmousedown
+//- 	dt jobkey
+//- 	dd= posting.jobkey
+//- 	dt sponsored
+//- 	dd= posting.sponsored
+//- 	dt expired
+//- 	dd= posting.expired
+//- 	dt indeedApply
+//- 	dd= posting.indeedApply
+//- 	dt formattedLocationFull
+//- 	dd(itemprop="jobLocation")= posting.formattedLocationFull
+//- 	dt formattedRelativeTime
+//- 	dd= posting.formattedRelativeTime

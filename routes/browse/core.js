@@ -131,7 +131,7 @@ me.render = function(req, res, place, facilities, state, city) {
 	// options.currentCity = (city) ? city : null;
 
 	var title = util.format('%s Dialysis Providers', place.placeName);
-	var description = util.format('Find and compare the %d Medicare certified dialysis facilties in %s', place.numFacilities, place.placeName);
+	var description = util.format('Find and compare the %s Medicare certified dialysis facilties in %s', numeral(place.numFacilities).format('0,0'), place.placeName);
 	var canonical = place.getLink() + '?page=viewall';
 	
 	var pageTitle = util.format('%s <nobr>Dialysis Providers</nobr>', place.placeName);

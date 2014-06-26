@@ -20,6 +20,7 @@ const _ = require('lodash');
 const async = require('async');
 
 const nationData = require(GLOBAL.paths.getService('data/nation'));
+const statsCore = require(GLOBAL.paths.getRoute('stats/core'));
 
 
 

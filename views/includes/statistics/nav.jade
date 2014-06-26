@@ -1,0 +1,10 @@
+aside#statisticsNav.hidden-xs.hidden-sm
+	ul.nav
+		each section in sections
+			li
+				a(href='#' + section.key) !{section.label}
+				if (section.subs.length)
+					ul.nav
+						each subSection in section.subs
+							li: a(href='#' + subSection.key) !{subSection.label}
+		li.top: a(href="#") Back to Top

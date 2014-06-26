@@ -9,11 +9,16 @@ block headClose
 
 
 block content
+	-var activeTab = 'providers'
+	
 	#browse.container
+		include includes/breadcrumb
+
 		.row
-			.col-lg-24: header
-				h1.page-header.pageTitle !{pageTitle}
-					small.pageDescription.text-muted= pageDescription
+			.col-lg-24
+				header
+					h1.pageTitle !{pageTitle}
+						small.pageDescription.text-muted= pageDescription
 
 
 				.leader: include includes/adsense
@@ -21,7 +26,6 @@ block content
 				include includes/browse/description
 
 		.row: .col-lg-24
-			-var activeTab = 'providers'
 			include includes/browse/tabs
 
 		.row

@@ -1,0 +1,33 @@
+.row.col-lg-24: #breadcrumb
+	ol.breadcrumb
+		li(class=(activeTab === 'providers' && place.type === 'nation') ? 'active' : '')
+			a(itemprop="breadcrumb", href="/", title="Dialysis Providers")
+				| Home
+
+		if (place.type === 'state' || place.state)
+			-var state = (place.type === 'state') ? place : place.state
+			li(class=(activeTab === 'providers' && place.type === 'state') ? 'active' : '')
+				a(itemprop="breadcrumb", href=state.getLink(), title="#{state.placeName} Dialysis Providers")
+					= state.name
+
+		if (place.type === 'city' || place.city)
+			-var city = (place.type === 'city') ? place : place.city
+			li(class=(activeTab === 'providers' && place.type === 'city') ? 'active' : '')
+				a(itemprop="breadcrumb", href=city.getLink(), title="#{city.placeName} Dialysis Providers")
+					= city.name
+
+		if (place.type === 'facility')
+			li(class=(activeTab === 'providers') ? 'active' : '')
+				a(itemprop="breadcrumb", href=place.getLink(), title="#{place.name}")
+					= place.name
+
+
+		if (activeTab === 'statistics')
+			li(class='active')
+				a(itemprop="breadcrumb", href=place.getLink('statistics'), title="#{place.placeName} Statistics")
+					| Statistics
+
+		else if (activeTab === 'jobs')
+			li(class='active')
+				a(itemprop="breadcrumb", href=place.getLink('jobs'), title="#{place.placeName} Openings")
+					| Jobs Available

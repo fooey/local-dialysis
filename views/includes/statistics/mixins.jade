@@ -1,0 +1,125 @@
+
+
+mixin writeTable(section, label, key, dataType)
+	-sections[section].subs.push({key: key, label: label})
+	.panel.panel-default.simple(id=key)
+		.panel-heading: h3 !{label}
+		.panel-body: table
+			each region in ['nation', 'state', 'city', 'facility']
+				if (places.hasOwnProperty(region))
+					-var val = (places && places[region] && places[region][key]) ? places[region][key] : null;
+					tr(class=region)
+						+writeVal(val, dataType)
+						th !{places[region].placeName}
+
+
+
+mixin writeCodes(section, label, key, dataType)
+	.panel.panel-default.codes(id=key)
+		.panel-heading
+			h3
+				span.expando
+					i.fa.fa-plus-square-o
+				= label
+		.panel-body
+			each region, ixRegion in ['nation', 'state', 'city', 'facility']
+				if (places.hasOwnProperty(region))
+					table
+						col(width="10%")
+						col
+						caption !{places[region].placeName}
+						each code, ixText in GLOBAL.DATA.REFERENCE.codes
+							-var codeKey = ('code' + code.id + '_' + key)
+							-var val = places[region][codeKey]
+							if (val !== null)
+								tr
+									+writeVal(val, dataType)
+									td.code-label !{code.label || 'Data Available'}
+
+
+
+
+mixin writeAgg(section, label, key, cols, dataType)
+	-sections[section].subs.push({key: key, label: label})
+	.panel.panel-default.agg(id=key)
+		.panel-heading: h3 !{label}
+		.panel-body
+			each region, ixRegion in ['nation', 'state', 'city', 'facility']
+				if (places.hasOwnProperty(region))
+					table(class=region)
+						caption !{places[region].placeName}
+						each col in cols
+							-var aggType = aggTypes[col];
+							-var aggDataType = aggType.dataType || dataType
+							-var aggKey = (aggType.key + '_' + key)
+							-var val = places[region][aggKey];
+							tr
+								+writeVal(val, aggDataType)
+								th.agg-label !{aggType.label}
+								//- td.agg-label= aggKey
+
+
+
+mixin writeTexts(section, label, key, dataType)
+	-sections[section].subs.push({key: key, label: label})
+	.panel.panel-default.texts(id=key)
+		.panel-heading
+			h3 !{label}
+		.panel-body
+			each region, ixRegion in ['nation', 'state', 'city', 'facility']
+				if (places.hasOwnProperty(region))
+					table(class=region)
+						col(width="10%")
+						col
+						caption !{places[region].placeName}
+						each text, ixText in GLOBAL.DATA.REFERENCE.texts
+							-var textKey = ('text' + text.id + '_' + key)
+							-var val = places[region][textKey];
+							if (val !== null)
+								tr
+									+writeVal(val, dataType)
+									th.text-label !{text.val || 'Not Available'}
+
+
+
+
+mixin writeApplied(section, label, key, dataType)
+	-sections[section].subs.push({key: key, label: label})
+	.panel.panel-default.applied(id=key)
+		.panel-heading
+			h3 !{label}
+		.panel-body
+			each region, ixRegion in ['nation', 'state', 'city', 'facility']
+				if (places.hasOwnProperty(region))
+					table(class=region)
+						col(width="10%")
+						col
+						caption !{places[region].placeName}
+						each applied, ixApplied in GLOBAL.DATA.REFERENCE.applies
+							-var appliedKey = ('applied' + applied.id + '_' + key)
+							-var val = places[region][appliedKey]
+							if (val !== null)
+								tr
+									+writeVal(val, dataType)
+									th.applied-label !{applied.val || 'Not Available'}
+
+
+
+
+
+
+mixin writeVal(val, dataType)
+	-var valClass = ['value'];
+
+	-if(dataType === 'int') valClass.push('int')
+	-if(dataType === 'float') valClass.push('float')
+
+	if (val === null)
+		-val = 'N/A'
+	else if(dataType === 'int')
+		-val = numeral(val).format('0,0')
+	else if(dataType === 'float')
+		-val = numeral(val).format('0,0.00')
+
+	td(class=valClass)= val
+	

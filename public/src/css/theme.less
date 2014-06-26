@@ -1,12 +1,38 @@
 
 
 /*
-*	Tabs
+*	pageTitle
 */
 
-.nav-tabs li.active a {
-	color: @panel-primary-text;
-	background-color: @panel-primary-border;
+h1.pageTitle {
+	margin: .25em 0 0;
+	padding: 0;
+	text-align: center;
+
+	font-size: 18pt;
+	@media(min-width: @screen-xs-min) { font-size: 28pt; }
+	@media(min-width: @screen-md-min) { font-size: 40pt; }
+	@media(min-width: @screen-lg-min) { font-size: 48pt; }
+
+
+	small {
+		display: block;
+		font-size: 40%;
+		margin-top: .5em;
+		line-height: 140%;
+		font-weight: 200;
+	}
+
+	a {
+		color: @text-color;
+	}
+
+
+	@media(max-width: @screen-xs-max) {
+		nobr {
+			white-space: normal;
+		}
+	}
 }
 
 
@@ -72,5 +98,68 @@
 		color: @panel-primary-text;
 		background-color: @panel-danger-border;
 		border-color: @panel-danger-border;
+	}
+}
+
+
+/*
+*
+*/
+
+.breadcrumb {
+	li.active {
+		a {
+			color: @text-color;
+		}
+	}
+}
+
+
+
+
+
+
+
+/*
+*	Tabs
+*/
+
+.nav-tabs {
+	margin-bottom: 1em;
+	font-size: 12pt;
+	font-family: @font-family-condensed;
+
+	@media(min-width: @screen-md-min) { font-size: 14pt; }
+
+	white-space: nowrap;
+	overflow-y: hidden;;
+	overflow-x: auto;
+
+
+	li, a {
+			white-space: nowrap;
+			display: block;
+			float: none;
+	}
+
+	li.active a {
+		color: @panel-primary-text;
+		background-color: @panel-primary-border;
+	}
+
+	i.fa {
+		width: 1.4em;
+	}
+
+	// li.active a {}
+
+	@media(min-width: @screen-xs-min) {
+		li, a {
+ 			display: inline-block;
+ 			float: none;
+		}
+		a {
+ 			font-size: 14pt;
+		}
 	}
 }
