@@ -13,21 +13,17 @@ block content
 					h1.pageTitle Welcome to Local Dialysis Providers!
 						small.pageDescription.text-muted Research and compare all #{numeral(nation.numFacilities).format('0,0')} <abbr title="The Centers for Medicare &amp; Medicaid Services">CMS</abbr> certified dialysis facilties
 
-				br
-
-				//- .leader: include includes/adsense
-
-				//- h2.page-header Browse #{numeral(nation.numFacilities).format('0,0')} local dialysis providers by selecting a state or city from the list below&hellip;
+				.leader: include includes/adsense
 
 		.row: .col-lg-24
 			-var activeTab = 'providers'
 			include includes/browse/tabs
 
 		.row
-			.col-md-7.col-md-push-17
+			.col-md-5.col-md-push-19.col-lg-7.col-lg-push-17
 				.sky: include includes/adsense
 
-			.col-md-17.col-md-pull-7
+			.col-md-19.col-md-pull-5.col-lg-17.col-lg-pull-7
 
 				section#geoFacilities
 					.row

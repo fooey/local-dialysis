@@ -1,16 +1,22 @@
 
 
-mixin writeTable(section, label, key, dataType)
+mixin writeTable(section, label, key, facilityKey, dataType)
 	-sections[section].subs.push({key: key, label: label})
 	.panel.panel-default.simple(id=key)
 		.panel-heading: h3 !{label}
 		.panel-body: table
-			each region in ['nation', 'state', 'city', 'facility']
+			each region in ['nation', 'state', 'city']
 				if (places.hasOwnProperty(region))
 					-var val = (places && places[region] && places[region][key]) ? places[region][key] : null;
 					tr(class=region)
 						+writeVal(val, dataType)
 						th !{places[region].placeName}
+
+			if (places.hasOwnProperty('facility'))
+				-var val = (facilityKey !== null) ? places.facility[facilityKey] : null;
+				tr.facility
+					+writeVal(val, dataType)
+					th !{places.facility.name}
 
 
 
@@ -22,7 +28,7 @@ mixin writeCodes(section, label, key, dataType)
 					i.fa.fa-plus-square-o
 				= label
 		.panel-body
-			each region, ixRegion in ['nation', 'state', 'city', 'facility']
+			each region, ixRegion in ['nation', 'state', 'city']
 				if (places.hasOwnProperty(region))
 					table
 						col(width="10%")
@@ -36,6 +42,16 @@ mixin writeCodes(section, label, key, dataType)
 									+writeVal(val, dataType)
 									td.code-label !{code.label || 'Data Available'}
 
+			if (places.hasOwnProperty('facility'))
+				table
+					col(width="10%")
+					col
+					caption !{places.facility.name}
+					-var facilityKey = places.facility[key]
+					tr
+						td !{facilityKey}
+						td.code-label !{GLOBAL.DATA.REFERENCE.codes[facilityKey].label}
+
 
 
 
@@ -44,7 +60,7 @@ mixin writeAgg(section, label, key, cols, dataType)
 	.panel.panel-default.agg(id=key)
 		.panel-heading: h3 !{label}
 		.panel-body
-			each region, ixRegion in ['nation', 'state', 'city', 'facility']
+			each region, ixRegion in ['nation', 'state', 'city']
 				if (places.hasOwnProperty(region))
 					table(class=region)
 						caption !{places[region].placeName}
@@ -56,7 +72,14 @@ mixin writeAgg(section, label, key, cols, dataType)
 							tr
 								+writeVal(val, aggDataType)
 								th.agg-label !{aggType.label}
-								//- td.agg-label= aggKey
+
+			if (places.hasOwnProperty('facility'))
+				table.facility
+					caption !{places.facility.name}
+					-var facilityKey = places.facility[key];
+					tr
+						+writeVal(places.facility[key], dataType)
+						th.agg-label !{places.facility.name}
 
 
 
@@ -66,7 +89,7 @@ mixin writeTexts(section, label, key, dataType)
 		.panel-heading
 			h3 !{label}
 		.panel-body
-			each region, ixRegion in ['nation', 'state', 'city', 'facility']
+			each region, ixRegion in ['nation', 'state', 'city']
 				if (places.hasOwnProperty(region))
 					table(class=region)
 						col(width="10%")
@@ -80,6 +103,18 @@ mixin writeTexts(section, label, key, dataType)
 									+writeVal(val, dataType)
 									th.text-label !{text.val || 'Not Available'}
 
+			if (places.hasOwnProperty('facility'))
+				table(class=region)
+					col(width="10%")
+					col
+					caption !{places.facility.name}
+					-var facilityKey = places.facility[key];
+					-console.log('facilityKey', facilityKey)
+					-var text = GLOBAL.DATA.REFERENCE.texts[facilityKey]
+					tr
+						td
+						th.applied-label !{(text) ? text.val : 'N/A'}
+
 
 
 
@@ -89,7 +124,7 @@ mixin writeApplied(section, label, key, dataType)
 		.panel-heading
 			h3 !{label}
 		.panel-body
-			each region, ixRegion in ['nation', 'state', 'city', 'facility']
+			each region, ixRegion in ['nation', 'state', 'city']
 				if (places.hasOwnProperty(region))
 					table(class=region)
 						col(width="10%")
@@ -102,6 +137,18 @@ mixin writeApplied(section, label, key, dataType)
 								tr
 									+writeVal(val, dataType)
 									th.applied-label !{applied.val || 'Not Available'}
+									//- td !{appliedKey}
+
+			if (places.hasOwnProperty('facility'))
+				table.facility
+					col(width="10%")
+					col
+					caption !{places.facility.name}
+					//- -var appliedKey = ('applied' + applied.id + '_' + key)
+					-var facilityKey = places.facility[key]
+					tr
+						td
+						th.applied-label !{GLOBAL.DATA.REFERENCE.applies[facilityKey].val}
 
 
 

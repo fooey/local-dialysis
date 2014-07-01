@@ -31,7 +31,6 @@ const numeral = require('numeral');
 */
 
 me.render = function(req, res, place, places) {
-
 	var title = 'Dialysis Provider Statistics';
 	var description = util.format('Statistical breakdown of %s Medicare certified dialysis facilties', numeral(place.numFacilities).format('0,0'));
 
@@ -39,7 +38,13 @@ me.render = function(req, res, place, places) {
 	var pageDescription = description;
 
 
-	if (place.type !== 'nation') {
+	if (place.type === 'provider') {
+		title = util.format('%s Statistics', place.name);
+		description = util.format('See how %s rates for Anemia Managment, Dialysis Adequacy, and Vascular Access as compared to the averages in %s, %s, and Nationwide.', place.name, place.city.name, place.state.name);
+
+		pageTitle = title;
+	}
+	else if (place.type !== 'nation') {
 		title = util.format('%s %s', place.placeName, title);
 		description = util.format('%s in %s', description, place.placeName);
 
@@ -51,6 +56,7 @@ me.render = function(req, res, place, places) {
 	var hasState = _.has(places, "state");
 	var hasCity = _.has(places, "city");
 	var hasFacility = _.has(places, "facility");
+
 
 
 	res.render('statistics', {

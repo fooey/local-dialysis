@@ -35,7 +35,10 @@ block content
 
 
 		.row: .col-lg-24
-			include includes/browse/tabs
+			if (place.type === 'provider')
+				include includes/providers/tabs
+			else
+				include includes/browse/tabs
 
 
 		.row

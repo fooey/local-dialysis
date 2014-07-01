@@ -1,8 +1,6 @@
 extends layout
 
 
-
-
 block content
 	include includes/statistics/mixins
 	-var activeTab = 'statistics'
@@ -15,12 +13,16 @@ block content
 				header
 					h1.pageTitle !{pageTitle}
 						small.pageDescription.text-muted= pageDescription
-						
+
 				.leader: include includes/adsense
+						
 
 
 		.row: .col-lg-24
-			include includes/browse/tabs
+			if (place.type === 'provider')
+				include includes/providers/tabs
+			else
+				include includes/browse/tabs
 
 
 		.row

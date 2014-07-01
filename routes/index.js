@@ -1,12 +1,7 @@
 'use strict';
 
 module.exports = function(app, express) {
-
-	var dumpRoute = function(req, res) {
-		res.send(req.params);
-	}
 	
-
 
 
 
@@ -18,7 +13,7 @@ module.exports = function(app, express) {
 		res.send(GLOBAL.DATA.REFERENCE);
 	});
 
-	app.get('/robots.txt', require('./robots.js'));
+	app.get('/robots.txt', require('./robots.js').bind(null, app));
 	
 
 
@@ -84,5 +79,11 @@ module.exports = function(app, express) {
 	});
 
 
-	return;
+
+
+	
+
+	function dumpRoute(req, res) {
+		res.send(req.params);
+	}
 };

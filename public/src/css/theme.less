@@ -112,6 +112,8 @@ h1.pageTitle {
 			color: @text-color;
 		}
 	}
+
+	@media(max-width: @screen-sm-min) { display: none; }
 }
 
 
@@ -162,4 +164,30 @@ h1.pageTitle {
  			font-size: 14pt;
 		}
 	}
+}
+
+
+.nav-tabs.provider {
+	a {
+		font-size: 12pt;
+		@media(min-width: @screen-xs-min) {
+			font-size: 12pt;
+		}
+		@media(min-width: @screen-sm-min) {
+			font-size: 14pt;
+		}
+		@media(min-width: @screen-md-min) {
+			font-size: 16pt;
+		}
+		@media(min-width: @screen-lg-min) {
+			font-size: 18pt;
+		}
+	}
+
+	.verbose {
+		@media(min-width: @screen-xs-min) and (max-width: @screen-sm-max) {
+			display: none;
+		}
+	}
+
 }

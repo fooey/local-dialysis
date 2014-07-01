@@ -55,7 +55,16 @@ me.render = function(req, res, place, places) {
 	var canonical = place.getLink('jobs');
 
 
-	if (place.type !== 'nation') {
+
+	if (place.type === 'provider') {
+		title = util.format('%s Job Openings', place.name);
+		description = util.format('Job openings at %s and other dialysis related facilties in the area surrounding %s', place.name, place.city.placeName);
+
+		pageTitle = title;
+		q = util.format('"%s" OR %s', place.name, q);
+		l = place.zip;
+	}
+	else if (place.type !== 'nation') {
 		title = util.format('%s %s', place.placeName, title);
 		description = util.format('%s in %s', description, place.placeName);
 

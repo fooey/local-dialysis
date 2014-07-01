@@ -1,0 +1,26 @@
+ul.nav.nav-tabs.provider
+
+	li(class=(activeTab === 'home')?'active':'')
+		a(href=place.getLink(), title="#{place.name} Home Page")
+			i.fa.fa-hospital-o
+			| Home <span class="verbose">Page</span>
+
+	li(class=(activeTab === 'statistics')?'active':'')
+		a(href=place.getLink('statistics'), title="Compare #{place.name} Againstd Regional Averages")
+			i.fa.fa-bar-chart-o
+			| Statistics
+			
+	li(class=(activeTab === 'jobs')?'active':'')
+		a(href=place.getLink('jobs'), title="#{place.name} Jobs Available")
+			i.fa.fa-clock-o
+			| Jobs <span class="verbose">Available</span>
+			
+	li(class=(activeTab === 'hotels')?'active':'')
+		a(href=place.getLink('hotels'), title="Recommended Hotels Near #{place.name}")
+			i.fa.fa-clock-o
+			| <span class="verbose">Recommended</span> Hotels
+			
+	li(class=(activeTab === 'area')?'active':'')
+		a(href=place.getLink('area'), title="Dialysis Providers Near #{place.name}")
+			i.fa.fa-clock-o
+			| Area <span class="verbose">Providers</span>

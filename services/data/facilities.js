@@ -217,7 +217,7 @@ me.init = function(fnCallback) {
 
 
 
-me.get = function getTotals(filters, fnCallback) {
+me.get = function get(filters, fnCallback) {
 	console.log('data::facilites::get', filters);
 
 	filters = _.defaults(filters, {});
@@ -227,43 +227,49 @@ me.get = function getTotals(filters, fnCallback) {
 	var having = [];
 	var limit = '';
 
+	if (_.has(filters, 'id')) {
+		where.push('f.id = $id');
+		params.$id = filters.id;
+	}
+
+
 	if (_.has(filters, 'stateSlug')) {
-		where.push('stateSlug = $stateSlug');
+		where.push('f.stateSlug = $stateSlug');
 		params.$stateSlug = filters.stateSlug;
 	}
 	if (_.has(filters, 'citySlug')) {
-		where.push('citySlug = $citySlug');
+		where.push('f.citySlug = $citySlug');
 		params.$citySlug = filters.citySlug;
 	}
 
 
 	if (_.has(filters, 'offersLate')) {
-		where.push('offersLate = $offersLate');
+		where.push('f.offersLate = $offersLate');
 		params.$offersLate = filters.offersLate;
 	}
 	if (_.has(filters, 'offersPeri')) {
-		where.push('offersPeri = $offersPeri');
+		where.push('f.offersPeri = $offersPeri');
 		params.$offersPeri = filters.offersPeri;
 	}
 	if (_.has(filters, 'offersTraining')) {
-		where.push('offersTraining = $offersTraining');
+		where.push('f.offersTraining = $offersTraining');
 		params.$offersTraining = filters.offersTraining;
 	}
 	if (_.has(filters, 'offersLate')) {
-		where.push('offersLate = $offersLate');
+		where.push('f.offersLate = $offersLate');
 		params.$offersLate = filters.offersLate;
 	}
 	if (_.has(filters, 'forProfit')) {
-		where.push('forProfit = $forProfit');
+		where.push('f.forProfit = $forProfit');
 		params.$forProfit = filters.forProfit;
 	}
 	if (_.has(filters, 'isChain')) {
-		where.push('isChain = $isChain');
+		where.push('f.isChain = $isChain');
 		params.$isChain = filters.isChain;
 	}
 
 	if (_.has(filters, 'performanceScore')) {
-		where.push('performanceScore >= $performanceScore');
+		where.push('f.performanceScore >= $performanceScore');
 		params.$performanceScore = filters.performanceScore;
 	}
 
@@ -279,50 +285,55 @@ me.get = function getTotals(filters, fnCallback) {
 	}
 
 	var columns = [
-		'id',
-		'name',
-		'slug',
-		'phone',
-		'address',
-		'address2',
-		'state as stateName',
-		'stateCode',
-		'stateSlug',
-		'city as cityName',
-		'citySlug',
-		'county',
-		'countySlug',
-		'zip',
-		'locationLat',
-		'locationLon',
+		'f.id',
+		'f.name',
+		'f.slug',
+		'f.phone',
+		'f.address',
+		'f.address2',
+		'f.state as stateName',
+		'f.stateCode',
+		'f.stateSlug',
+		'f.city as cityName',
+		'f.citySlug',
+		'f.county',
+		'f.countySlug',
+		'f.zip',
+		'f.locationLat',
+		'f.locationLon',
 
-		'networkId',
-		'chainId',
+		'f.networkId',
+		'f.chainId',
+		'f.ownerId',
 
-		'numStations',
-		'offersLate',
-		'offersHemo',
-		'offersPeri',
-		'offersTraining',
-		'forProfit',
-		'isChain',
+		'f.numStations',
+		'f.offersLate',
+		'f.offersHemo',
+		'f.offersPeri',
+		'f.offersTraining',
+		'f.forProfit',
+		'f.isChain',
 
-		'performanceScore',
+		'f.performanceScore',
 	];
+
+	if (_.has(filters, 'withStats')) {
+		columns.push('fs.*');
+	}
 
 
 	var statement = [
 		'SELECT',
 		columns.join(','),
-		'FROM facilities',
+		'FROM facilities f INNER JOIN facilityStats fs on f.id = fs.id',
 		(where.length) ? 'WHERE ' + where.join(' and ') : '',
 		(having.length) ? 'HAVING ' + having.join(' and ') : '',
-		'ORDER BY name',
+		'ORDER BY f.name',
 		(limit.length) ? limit : '',
 	].join(' ');
 
-	console.log(statement);
-	console.log(params);
+	// console.log(statement);
+	// console.log(params);
 
 	db.all(statement, params, fnCallback);
 };

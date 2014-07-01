@@ -18,6 +18,7 @@ var me = module.exports = {};
 
 const _ = require('lodash');
 const async = require('async');
+const moment = require('moment');
 
 
 const facilitiesData = require(GLOBAL.paths.getService('data/facilities'));
@@ -58,7 +59,15 @@ me.Facility = function Facility(facilityData) {
 	delete this.citySlug;
 	delete this.cityCode;
 
+	this.certificationDate = moment(this.certification_date, 'YYYY-MM-DDTHH:mm:ss');
+	delete this.certification_date;
 
+	this.ownershipDate = moment(this.date_of_ownership_record_update, 'YYYY-MM-DDTHH:mm:ss');
+	delete this.date_of_ownership_record_update;
+
+
+
+	this.type = 'provider';
 
 	return this;
 }
@@ -75,8 +84,11 @@ me.Facility.prototype.getLink = function getLink(subPage) {
 }
 
 me.Facility.prototype.getChain = function getChain() {
-	var chainId = this.chainId;
-	return _.find(GLOBAL.DATA.REFERENCE.chains, function(chain) {return chain.id === chainId});
+	return GLOBAL.DATA.REFERENCE.chains[this.chainId];
+}
+
+me.Facility.prototype.getOwner = function getOwner() {
+	return GLOBAL.DATA.REFERENCE.owners[this.ownerId];
 }
 
 me.Facility.prototype.getText = function getText(key) {
@@ -93,11 +105,16 @@ me.Facility.prototype.getText = function getText(key) {
 */
 
 
-// me.getFacility = function getFacility(id, fnCallback) {
-// 	fnCallback(null, new me.Facility(
-// 		require(__getFacilityPath(id))
-// 	));
-// };
+me.getFacility = function getFacility(id, fnCallback) {
+	var filters = {id: id, withStats: true};
+	facilitiesData.get(filters, function(err, data) {
+		if (err) throw (err);
+
+		var facility = new me.Facility(data[0]);
+
+		fnCallback(err, facility);
+	});
+};
 
 
 

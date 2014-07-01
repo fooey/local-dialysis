@@ -1,0 +1,107 @@
+#provider{
+
+
+
+
+
+	.description {
+		margin-top: 20px;
+
+		font-size: 10pt;
+		@media(min-width: @screen-sm-min) {font-size: 12pt;}
+		@media(min-width: @screen-md-min) {font-size: 14pt;}
+
+		p {
+			text-indent: 2em;
+		}
+	}
+
+	.facilityScore {
+	}
+
+	address {
+		line-height: 140%;
+
+		font-size: 10pt;
+		@media(min-width: @screen-xs-min) {font-size: 12pt;}
+		@media(min-width: @screen-sm-min) {font-size: 16pt;}
+	}
+
+	.scores {
+		text-align: center;
+
+		h1 {
+			text-align: left;
+			border-bottom: 1px solid @gray-lighter;
+			padding: 0 0 .1em .25em;
+
+			font-family: @font-family-condensed;
+			font-size: 21pt;
+
+			@media(min-width: @screen-sm-min) {font-size: 32pt;}
+		}
+
+		img{
+
+			width: 32px;
+			height: 32px;
+
+			@media(min-width: @screen-xs-min) {
+				width: 64px;
+				height: 64px;
+			}
+			@media(min-width: @screen-sm-min) {
+				width: 128px;
+				height: 128px;
+			}
+			@media(min-width: @screen-md-min) {
+				width: 96px;
+				height: 96px;
+			}
+			@media(min-width: @screen-lg-min) {
+				width: 128px;
+				height: 128px;
+			}
+		}
+
+		section.scores > section{
+			margin-top: 3em;
+		}
+		.row + .row {
+			margin-top: 1em;
+		}
+
+
+		.totals {
+			img{
+
+				width: 48px;
+				height: 48px;
+
+				@media(min-width: @screen-xs-min) {
+					width: 96px;
+					height: 96px;
+				}
+				@media(min-width: @screen-sm-min) {
+					width: 192px;
+					height: 192px;
+				}
+				@media(min-width: @screen-md-min) {
+					width: 128px;
+					height: 128px;
+				}
+				@media(min-width: @screen-lg-min) {
+					width: 192px;
+					height: 192px;
+				}
+			}
+		}
+		figcaption {
+			max-width: 100%;
+			overflow: hidden;
+			font-size: 8pt;
+			@media(min-width: @screen-sm-min) {font-size: 10pt;}
+		}
+	}
+
+}

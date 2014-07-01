@@ -13,10 +13,10 @@ article
 		section.panel.panel-info(id=sections['Totals'].key)
 			.panel-heading: h2= sections['Totals'].label
 			.panel-body
-				+writeTable('Totals', 'Number of Dialysis Providers', 'numFacilities', 'int')
+				+writeTable('Totals', 'Number of Dialysis Providers', 'numFacilities', null, 'int')
 
-				+writeTable('Totals', 'Total Number of Dialysis Stations', 'numStationsSum', 'int')
-				+writeTable('Totals', 'Average Number of Dialysis Stations', 'numStationsAvg', 'float')
+				+writeTable('Totals', 'Total Number of Dialysis Stations', 'numStationsSum', 'numStations', 'int')
+				+writeTable('Totals', 'Average Number of Dialysis Stations', 'numStationsAvg', null, 'float')
 
 
 		.inlined: include ../adsense
@@ -26,15 +26,15 @@ article
 		section.panel.panel-info(id=sections['Services'].key)
 			.panel-heading: h2= sections['Services'].label
 			.panel-body
-				+writeTable('Services', 'Total Number Offering Hemodialysis', 'offersHemoSum', 'int')
-				+writeTable('Services', 'Total Number Offering Peritoneal Dialysis', 'offersPeriSum', 'int')
-				+writeTable('Services', 'Total Number Offering Home Training', 'offersTrainingSum', 'int')
-				+writeTable('Services', 'Have Shifts after 5pm', 'offersLateSum', 'int')
+				+writeTable('Services', 'Total Number Offering Hemodialysis', 'offersHemoSum', 'offersHemo', 'int')
+				+writeTable('Services', 'Total Number Offering Peritoneal Dialysis', 'offersPeriSum', 'offersPeri', 'int')
+				+writeTable('Services', 'Total Number Offering Home Training', 'offersTrainingSum', 'offersTraining', 'int')
+				+writeTable('Services', 'Have Shifts after 5pm', 'offersLateSum', 'offersLate', 'int')
 
-				+writeTable('Services', 'Total Number of For Profit Facilities', 'forProfitSum', 'int')
-				+writeTable('Services', 'Total Number of Non Profit Facilities', 'nonProfitSum', 'int')
-				+writeTable('Services', 'Total Number of Chain Owned', 'isChainSum', 'int')
-				+writeTable('Services', 'Total Number of Not Chain Owned', 'notChainSum', 'int')
+				+writeTable('Services', 'Total Number of For Profit Facilities', 'forProfitSum', 'forProfit', 'int')
+				+writeTable('Services', 'Total Number of Non Profit Facilities', 'nonProfitSum', 'nonProfit', 'int')
+				+writeTable('Services', 'Total Number of Chain Owned', 'isChainSum', 'isChain', 'int')
+				+writeTable('Services', 'Total Number of Not Chain Owned', 'notChainSum', 'notChain', 'int')
 
 
 
@@ -46,8 +46,6 @@ article
 				+writeAgg('PerformanceScores', 'Total Performance Score', 'total_performance_score', ['avg', 'min', 'max'], 'float')
 				+writeAgg('PerformanceScores', '<abbr title="In-Center Hemodialysis">ICH</abbr> <abbr title="Consumer Assessment of Healthcare Providers and Systems">CAHPS</abbr> Admin Score', 'ich_cahps_admin_score', ['avg', 'min', 'max'], 'float')
 				+writeAgg('PerformanceScores', '<abbr title="National Healthcare Safety Network">NHSN</abbr> Event Reporting Score', 'nhsn_event_reporting_score', ['avg', 'min', 'max'], 'float')
-				+writeAgg('PerformanceScores', 'Vascular Access Combined Measure Score', 'vascular_access_combined_measure_score', ['avg', 'min', 'max'], 'float')
-				+writeAgg('PerformanceScores', 'Mineral Metabolism Reporting Score', 'mineral_metabolism_reporting_score', ['avg', 'min', 'max'], 'float')
 
 
 		-sections['MeasureScores'] = {key: 'MeasureScores', label: 'Measure Scores', subs: []}
@@ -65,6 +63,9 @@ article
 
 				+writeAgg('MeasureScores', '<abbr title="Arteriovenous Fistula">Fistula</abbr> Measure Score', 'fistula_measure_score', ['avg', 'min', 'max'], 'float')
 				+writeApplied('MeasureScores', 'Fistula Score Applied', 'fistula_performance_score_applied', 'int')
+				
+				+writeAgg('MeasureScores', 'Vascular Access Combined Measure Score', 'vascular_access_combined_measure_score', ['avg', 'min', 'max'], 'float')
+				+writeAgg('MeasureScores', 'Mineral Metabolism Reporting Score', 'mineral_metabolism_reporting_score', ['avg', 'min', 'max'], 'float')
 
 
 
