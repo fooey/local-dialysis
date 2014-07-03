@@ -24,10 +24,15 @@
 
 		if (activeTab === 'statistics')
 			li(class='active')
-				a(itemprop="breadcrumb", href=place.getLink('statistics'), title="#{place.placeName} Statistics")
+				a(itemprop="breadcrumb", href=place.getLink('statistics'), title="#{place.placeName || place.name} Statistics")
 					| Statistics
 
 		else if (activeTab === 'jobs')
 			li(class='active')
-				a(itemprop="breadcrumb", href=place.getLink('jobs'), title="#{place.placeName} Openings")
+				a(itemprop="breadcrumb", href=place.getLink('jobs'), title="#{place.placeName || place.name} Openings")
 					| Jobs Available
+
+		else if (activeTab === 'hotels')
+			li(class='active')
+				a(itemprop="breadcrumb", href=place.getLink('hotels'), title="#{place.placeName || place.name} Hotels")
+					| Recommended Hotels
