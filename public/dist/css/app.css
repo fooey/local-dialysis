@@ -6918,6 +6918,86 @@ h1.pageTitle a {
     display: none;
   }
 }
+/*
+*	Paging
+*/
+#paging .pagingInfo {
+  white-space: nowrap;
+  line-height: 20pt;
+  height: 20pt;
+  position: relative;
+  font-size: 12pt;
+}
+@media (min-width: 768px) {
+  #paging .pagingInfo {
+    font-size: 15pt;
+  }
+}
+@media (min-width: 992px) {
+  #paging .pagingInfo {
+    font-size: 10pt;
+  }
+}
+@media (min-width: 1200px) {
+  #paging .pagingInfo {
+    font-size: 15pt;
+  }
+}
+#paging .pagingInfo .prev,
+#paging .pagingInfo .numbers,
+#paging .pagingInfo .next {
+  display: block;
+  white-space: nowrap;
+  position: absolute;
+  width: 100%;
+}
+#paging .pagingInfo .prev {
+  left: 0;
+  top: 0;
+  z-index: 999;
+  width: 33%;
+}
+#paging .pagingInfo .next {
+  right: 0;
+  top: 0;
+  text-align: right;
+  z-index: 999;
+  width: 33%;
+}
+#paging .pagingInfo .numbers {
+  z-index: 998;
+  text-align: center;
+  left: 0;
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  #paging .pagingInfo .numbers {
+    clear: both;
+    width: 100%;
+  }
+}
+#paging .pagingInfo .next.disabled,
+#paging .pagingInfo .prev.disabled,
+#paging .pagingInfo .next.disabled a,
+#paging .pagingInfo .prev.disabled a {
+  zoom: 1;
+  -webkit-opacity: 0.6;
+  -moz-opacity: 0.6;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+  cursor: not-allowed;
+}
+#paging .pagingInfo .fa:hover {
+  border-bottom: 1px solid #fff;
+}
+#paging .pagingInfo .prev .fa {
+  margin-right: .4em;
+}
+#paging .pagingInfo .next {
+  text-align: right;
+}
+#paging .pagingInfo .next .fa {
+  margin-left: 0.4em;
+}
 /*!
 *
 *	app
@@ -7840,53 +7920,101 @@ body {
   text-align: right;
   font-style: italic;
 }
-#paging .pagingInfo {
-  white-space: nowrap;
-  font-size: 12pt;
-  line-height: 20pt;
+#hotels #listings li + li {
+  margin-top: 3em;
 }
-@media (min-width: 992px) {
-  #paging .pagingInfo {
-    font-size: 15pt;
+#hotels #listings h1 {
+  font-family: 'Open Sans Condensed';
+  padding: 0;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14pt;
+  line-height: 120%;
+}
+@media (min-width: 768px) {
+  #hotels #listings h1 {
+    font-size: 21pt;
   }
 }
-#paging .pagingInfo .prev,
-#paging .pagingInfo .numbers,
-#paging .pagingInfo .next {
-  display: block;
-  float: left;
-  white-space: nowrap;
+@media (min-width: 1200px) {
+  #hotels #listings h1 {
+    font-size: 32pt;
+  }
 }
-#paging .pagingInfo .prev,
-#paging .pagingInfo .next {
-  width: 20%;
+#hotels #listings .panel-body {
+  color: #222222;
+  font-size: 10pt;
+  line-height: 140%;
 }
-#paging .pagingInfo .numbers {
+@media (min-width: 480px) {
+  #hotels #listings .panel-body {
+    font-size: 12pt;
+  }
+}
+@media (min-width: 992px) {
+  #hotels #listings .panel-body {
+    font-size: 14pt;
+  }
+}
+#hotels #listings .snippet p {
+  margin: 0 0 1em;
+}
+@media (max-width: 767px) {
+  #hotels #listings .snippet p {
+    margin-top: 1em;
+  }
+}
+#hotels #listings .snippet p a {
+  font-size: 75%;
+  text-transform: capitalize;
+}
+#hotels #listings .amenities {
+  font-size: 75%;
+  line-height: 120%;
+}
+#hotels #listings .rates {
+  font-size: 14pt;
+  font-weight: 600;
+}
+#hotels #listings .ratings {
   text-align: center;
-  width: 60%;
+  font-size: 10pt;
+  line-height: 18pt;
+  margin-bottom: 1em;
 }
-#paging .pagingInfo .next.disabled,
-#paging .pagingInfo .prev.disabled,
-#paging .pagingInfo .next.disabled a,
-#paging .pagingInfo .prev.disabled a {
-  zoom: 1;
-  -webkit-opacity: 0.6;
-  -moz-opacity: 0.6;
-  opacity: 0.6;
-  filter: alpha(opacity=60);
-  cursor: not-allowed;
+#hotels #listings .ratings .rating-label {
+  padding-right: 1em;
 }
-#paging .pagingInfo .fa:hover {
-  border-bottom: 1px solid #fff;
+#hotels #listings .ratings .stars {
+  font-size: 14pt;
+  line-height: 18pt;
+  white-space: nowrap;
+  color: #fc0;
 }
-#paging .pagingInfo .prev .fa {
-  margin-right: .4em;
+#hotels #listings .ratings .taRating .stars {
+  color: #43ac6a;
 }
-#paging .pagingInfo .next {
-  text-align: right;
+#hotels #listings .buttons {
+  margin-top: 1em;
 }
-#paging .pagingInfo .next .fa {
-  margin-left: 0.4em;
+#hotels #listings .buttons .btn {
+  display: block;
+  font-size: 9pt;
+}
+#hotels #listings .buttons .btn i {
+  padding-right: .5em;
+}
+@media (min-width: 768px) {
+  #hotels #listings .buttons .btn {
+    font-size: 12pt;
+  }
+}
+@media (min-width: 992px) {
+  #hotels #listings .buttons .btn {
+    font-size: 14pt;
+  }
 }
 #provider .description {
   margin-top: 20px;

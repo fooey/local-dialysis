@@ -13,8 +13,6 @@ module.exports = function(app, express) {
 
 	const morgan = require('morgan');
 	const errorHandler = require('errorhandler');
-	const favicon = require('serve-favicon');
-
 
 	if (app.get('env') === 'development') {
 		app.use(errorHandler({ dumpExceptions: true, showStack: true }));
@@ -33,9 +31,28 @@ module.exports = function(app, express) {
 
 
 
+	const favicon = require('serve-favicon');
 	app.use(
 		favicon(GLOBAL.paths.getPublic('img/favicon.ico'))
 	);
+
+
+	const cookieParser = require('cookie-parser');
+	app
+		.use(cookieParser('optional secret string'))
+		.use(function(req, res, next) {
+			var uid = req.cookies.uid;
+
+			if (!uid) {
+				uid = require('uuid').v4();
+
+	 			const cookieMaxAge = 1000 * 60 * 60 * 24 * 356 * 2; // 2 years
+				res.cookie('uid', uid, { maxAge: cookieMaxAge, httpOnly: true});
+			}
+
+			next();
+		});
+
 
 
 

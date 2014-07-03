@@ -99,50 +99,5 @@
 	}
 }
 
-#paging {
-	.pagingInfo {
-		white-space: nowrap;
-		font-size: 12pt;
-		line-height: 20pt;
 
-		@media(min-width: @screen-md-min) { font-size: 15pt; }
 
-		.prev, .numbers, .next {
-			display: block;
-			float: left;
-			white-space: nowrap;
-		}
-
-		.prev, .next {
-			width: 20%;
-		}
-
-		.numbers {
-			text-align: center;
-			width: 60%;
-		}
-
-		.next.disabled, .prev.disabled {
-			&, & a {
-				.opacity(.6);
-				cursor: not-allowed;
-			}
-		}
-
-		.fa:hover{
-			border-bottom: 1px solid #fff;
-		}
-
-		.prev {
-			.fa {
-				margin-right: .4em;
-			}
-		}
-		.next{
-			.fa {
-				margin-left: .4em
-			}
-			text-align: right;
-		}
-	}
-}

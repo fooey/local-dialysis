@@ -19,32 +19,37 @@ module.exports = function(app, express) {
 		});
 	});
 
-	router.get('/:facilitySlug.hotels.:facilityId([0-9]{6}).html', function(req, res) {
-		facilitySvc.getFacility(req.params.facilityId, function(err, place) {
-			console.log(place);
+	// router.get('/:facilitySlug.hotels.:facilityId([0-9]{6}).html', function(req, res) {
+	// 	facilitySvc.getFacility(req.params.facilityId, function(err, place) {
+	// 		console.log(place);
 
-			var address = util.format(
-				'%s, %s, %s',
-				place.address,
-				place.city.name,
-				place.state.code
-			);
-			// address = address.replace(/ /gi, '+');
-			address = encodeURIComponent(address);
-			address = address.replace(/%20/gi, '+');
+	// 		var address = util.format(
+	// 			'%s, %s, %s',
+	// 			place.address,
+	// 			place.city.name,
+	// 			place.state.code
+	// 		);
+	// 		// address = address.replace(/ /gi, '+');
+	// 		address = encodeURIComponent(address);
+	// 		address = address.replace(/%20/gi, '+');
 
-			var pageLink = (
-				'http://www.travelnow.com/templates/337937/hotels/list?destination='
-				+ address
-				+ util.format('&targetId=LATLONG-%s,%s', place.locationLat, place.locationLon)
-			);
-			res.send(pageLink);
-			// res.redirect(301, pageLink);
-		});
-	});
+	// 		var pageLink = (
+	// 			'http://www.travelnow.com/templates/337937/hotels/list?destination='
+	// 			+ address
+	// 			+ util.format('&targetId=LATLONG-%s,%s', place.locationLat, place.locationLon)
+	// 		);
+	// 		res.send(pageLink);
+	// 		// res.redirect(301, pageLink);
+	// 	});
+	// });
 
 	router.get('/:facilitySlug.statistics.:facilityId([0-9]{6}).html', require(GLOBAL.paths.getRoute('stats/provider')));
 	router.get('/:facilitySlug.jobs.:facilityId([0-9]{6}).html', require(GLOBAL.paths.getRoute('jobs/provider')));
+
+	router.get('/:facilitySlug.hotels.:facilityId([0-9]{6}).html', require(GLOBAL.paths.getRoute('hotels/provider')));
+	
+
+
 
 	router.get('/:facilityId([0-9]{6})', require(providerRoute));
 	router.get('/:facilityId([0-9]{6}).html?', require(providerRoute));

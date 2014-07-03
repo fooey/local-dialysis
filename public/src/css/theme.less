@@ -191,3 +191,81 @@ h1.pageTitle {
 	}
 
 }
+
+
+
+
+/*
+*	Paging
+*/
+
+#paging {
+	.pagingInfo {
+		white-space: nowrap;
+		line-height: 20pt;
+		height: 20pt;
+		position: relative;
+
+
+		font-size: 12pt;
+		@media(min-width: @screen-sm-min) { font-size: 15pt; }
+		@media(min-width: @screen-md-min) { font-size: 10pt; }
+		@media(min-width: @screen-lg-min) { font-size: 15pt; }
+
+
+		.prev, .numbers, .next {
+			display: block;
+			white-space: nowrap;
+			position: absolute;
+			width: 100%;
+		}
+
+		.prev {
+			left: 0;
+			top: 0;
+			z-index: 999;
+			width: 33%;
+		}
+		.next {
+			right: 0;
+			top: 0;
+			text-align: right;
+			z-index: 999;
+			width: 33%;
+		}
+
+		.numbers {
+			z-index: 998;
+			text-align: center;
+			left: 0;
+
+			@media(min-width: @screen-md-min) and (max-width: @screen-md-max) {
+				clear: both;
+				width: 100%;
+			}
+		}
+
+		.next.disabled, .prev.disabled {
+			&, & a {
+				.opacity(.6);
+				cursor: not-allowed;
+			}
+		}
+
+		.fa:hover{
+			border-bottom: 1px solid #fff;
+		}
+
+		.prev {
+			.fa {
+				margin-right: .4em;
+			}
+		}
+		.next{
+			.fa {
+				margin-left: .4em
+			}
+			text-align: right;
+		}
+	}
+}

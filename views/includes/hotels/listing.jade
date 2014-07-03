@@ -1,0 +1,57 @@
+section.job()
+	.panel.panel-default
+		.panel-heading
+			h1()
+				a(href=hotel.deepLink)!= hotel.name
+
+		.panel-body
+
+			.row.ratings
+				.col-sm-7.starRating
+					span.rating-label Star Rating: 
+					span.stars(title="Star Rating")!= getStarIcons(hotel.hotelRating)
+				.col-sm-7.taRating
+					span.rating-label Trip Advisor: 
+					span.stars(title="Trip Advisor Rating")!= getStarIcons(hotel.tripAdvisorRating)
+				.col-sm-10
+					//- i.fa.fa-question-circle(title="The room rates listed are for double occupancy per room unless otherwise stated and exclude tax recovery charges and service fees.")
+					span.rating-label
+						| Rates: 
+					span.rates(title="Room Rates")
+						span= numeral(hotel.lowRate).format('$0,0.00')
+						if (hotel.lowRate && hotel.highRate)
+							span  &ndash; 
+						span= numeral(hotel.highRate).format('$0,0.00')
+						| **
+
+
+			.row
+				.col-sm-8.text-center
+					if (hotel.thumbNailUrl)
+						img.img-thumbnail.img-responsive(src=hotel.thumbNailUrl)
+
+				.col-sm-16
+
+					.snippet
+						span()!= hotel.shortDescription
+
+						| &hellip; 
+						a(href=hotel.deepLink) [More]
+
+					p.amenities Amenities: !{getAmenities(hotel.amenityMask)}
+					p.amenities !{Math.round(hotel.proximityDistance * 10) / 10} miles away away !{hotel.locationDescription}
+
+
+
+			.row.buttons
+				.col-sm-12
+					a.btn.btn-default(href=hotel.deepLink)
+						i.fa.fa-info
+						| More Information
+
+				.col-sm-12
+					a.btn.btn-primary(href=hotel.deepLink)
+						i.fa.fa-sign-in
+						| Reserve a Room!
+
+			//- pre= JSON.stringify(hotel, null, '\t')
