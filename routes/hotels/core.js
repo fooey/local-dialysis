@@ -55,31 +55,12 @@ me.render = function(req, res, place, places) {
 	options.endRow = getEndRow(options.pageNum, options.perPage);
 
 
-	var title = 'Dialysis Provider Job Openings';
-	var description = util.format('Job openings at %s Medicare certified dialysis facilties', numeral(place.numFacilities).format('0,0'));
 
-	var pageTitle = util.format('Dialysis Job Openings');
-	// var pageDescription = description;
-	var canonical = place.getLink('jobs');
+	var title = util.format('%s Hotel Recommendations', place.name);
+	var description = util.format('Hotels in the area surrounding %s, conveniently locationed near %s', place.city.placeName, place.name);
 
-
-
-	if (place.type === 'provider') {
-		title = util.format('%s Job Openings', place.name);
-		description = util.format('Job openings at %s and other dialysis related facilties in the area surrounding %s', place.name, place.city.placeName);
-
-		pageTitle = title;
-	}
-	else if (place.type !== 'nation') {
-		title = util.format('%s %s', place.placeName, title);
-		description = util.format('%s in %s', description, place.placeName);
-
-		pageTitle = util.format('%s <nobr>%s</nobr>', place.placeName, pageTitle);
-	}
-
-	// console.log(place);
-
-	console.log('req.cookies', req.cookies);
+	var pageTitle = title;
+	var pageDescription = description;
 
 
 
@@ -149,7 +130,7 @@ me.render = function(req, res, place, places) {
 
 
 function getHotels(filters, fnCallback) {
-	console.log(requestParams);
+	// console.log(requestParams);
 
 	var requestParams = _.defaults(filters, {
 		// cid: "337937",
@@ -185,9 +166,9 @@ function getHotels(filters, fnCallback) {
 function getSignature(apiKey, secretKey) {
 	var toHash = apiKey + secretKey + Date.now().toString();
 	var hash = require('crypto').createHash('md5').update(toHash).digest("hex");
-	console.log(Date.now().toString());
-	console.log(toHash);
-	console.log(hash);
+	// console.log(Date.now().toString());
+	// console.log(toHash);
+	// console.log(hash);
 	return hash;
 }
 
@@ -232,17 +213,12 @@ function getFromEAN(requestUrl, fnCallback) {
 
 
 function prepareResults(fnCallback, filters, err, data) {
-	console.log('prepareResults()', filters);
+	// console.log('prepareResults()', filters);
 	var results = JSON.parse(data);
 
 
 	results.HotelListResponse.HotelList = results.HotelListResponse.HotelList || {};
 	results.HotelListResponse.HotelList.HotelSummary = results.HotelListResponse.HotelList.HotelSummary || [];
-		console.log(results);
-
-	if (!results.HotelListResponse.HotelList || !results.HotelListResponse) {
-		throw(results);
-	}
 
 
 	var hotels = results.HotelListResponse.HotelList.HotelSummary.slice(filters.startRow, filters.endRow);
@@ -385,7 +361,7 @@ function getAmenities(mask) {
 
 	var amenities = [];
 
-	console.log(mask);
+	// console.log(mask);
 	_.each(eanAmenities, function(val, key) {
 		if (mask & key) {
 			amenities.push(val);
