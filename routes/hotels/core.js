@@ -140,6 +140,7 @@ function getHotels(filters, fnCallback) {
 		locale: 'en_US',
 		_type: 'json',
 		includeDetails: 0,
+		minorRev: 26,
 	});
 
 	requestParams.sig = getSignature(requestParams.apiKey, process.env.EAN_SECRET_KEY);
@@ -152,7 +153,7 @@ function getHotels(filters, fnCallback) {
 		query: requestParams
 	});
 
-	// console.log(requestParams);
+	console.log('getHotels()', requestParams);
 	// console.log(requestUrl);
 
 	getFromEAN(
@@ -179,7 +180,10 @@ function getFromEAN(requestUrl, fnCallback) {
 		uri: requestUrl,
 		headers: {"accept-encoding" : "gzip,deflate"}
 	};
+	console.log('getFromEAN()', requestOptions);
+	
 	var req = request.get(requestOptions);
+
 
 	req.on('response', function(res) {
 		var chunks = [];
