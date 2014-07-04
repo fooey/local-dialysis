@@ -23,6 +23,7 @@
     "morgan": "*",
     "mv": "^2.0.0",
     "node-uuid": "^1.4.1",
+    "nodetime": "^0.8.15",
     "numeral": "^1.5.3",
     "request": "^2.36.0",
     "serve-favicon": "*",
