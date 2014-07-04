@@ -105,6 +105,7 @@ me.render = function(req, res, place, places) {
 			place: place,
 			places: places,
 
+			// results: results,
 			hotels: results.HotelListResponse.HotelList.HotelSummary,
 			eanError: results.HotelListResponse.EanWsError || null,
 			options: options,

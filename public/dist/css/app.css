@@ -7248,6 +7248,10 @@ body {
   color: #6f6f6f;
   text-shadow: none;
 }
+footer {
+  font-size: 10pt;
+  margin: 0 0 2em 0;
+}
 /*
 *
 * bootstrap customizations
