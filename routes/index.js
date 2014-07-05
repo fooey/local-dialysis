@@ -14,6 +14,24 @@ module.exports = function(app, express) {
 	});
 
 	app.get('/robots.txt', require('./robots.js').bind(null, app));
+
+
+
+	/*
+	*	util
+	*/
+
+	app.get(':noTrailingSlash/', function(req, res) {
+		res.redirect(301, req.params.noTrailingSlash);
+	});
+
+
+	/*
+	*	Facilities
+	*/
+
+	var sitemapsRouter = require('./sitemaps')(app, express);
+	app.use('/sitemaps', sitemapsRouter);
 	
 
 
@@ -24,6 +42,8 @@ module.exports = function(app, express) {
 
 	var dataRouter = require('./data')(app, express);
 	app.use('/data', dataRouter);
+
+
 	
 
 

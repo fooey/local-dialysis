@@ -13,6 +13,8 @@ module.exports = function(app, express) {
 
 	const morgan = require('morgan');
 	const errorHandler = require('errorhandler');
+	const compression = require('compression');
+	const slashes = require('connect-slashes');
 
 	if (app.get('env') === 'development') {
 		app.use(errorHandler({ dumpExceptions: true, showStack: true }));
@@ -25,6 +27,9 @@ module.exports = function(app, express) {
 	}
 
 	// all environments
+	app.use(compression());
+	app.use(slashes(false)); // no trailing slashes
+
 	app.set('port', process.env.PORT || 3003);
 	app.set('views', GLOBAL.paths.getView());
 	app.set('view engine', 'jade');

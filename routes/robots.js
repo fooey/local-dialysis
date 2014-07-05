@@ -18,7 +18,8 @@ module.exports = function(app, req, res, next) {
 
 
 		robots.push('');
-		robots.push('Sitemap: /sitemap.xml');
+		robots.push('Sitemap: http://local-dialysis.com/sitemaps/geo');
+		robots.push('Sitemap: http://local-dialysis.com/sitemaps/providers');
 		robots.push('');
 	}
 	else {

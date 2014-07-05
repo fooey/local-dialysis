@@ -93,7 +93,18 @@ me.getTotals = function data_getTotals(filters, fnCallback) {
 			return new me.City(cityData);
 		});
 
-		// console.log(cities);
+		fnCallback(err, cities);
+	});
+};
+
+
+
+me.getByState = function getByState(state, fnCallback) {
+	citiesData.getTotals({stateSlug: state.slug}, function(err, data) {
+
+		var cities = data.map(function(cityData) {
+			return new me.City(cityData, state);
+		});
 
 		fnCallback(err, cities);
 	});

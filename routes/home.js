@@ -50,7 +50,7 @@ module.exports = function(req, res, next) {
 			numStates: numStates,
 			numCities: numCities,
 			numPlaces: numPlaces,
-			
+
 			place: place,
 			nation: results.nation,
 			states: results.stateCities,
