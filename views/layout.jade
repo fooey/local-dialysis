@@ -45,28 +45,16 @@ html(lang='en', itemscope, itemtype="http://schema.org/WebPage")
 					a.navbar-brand(href="/")
 						img(src="/img/icon32.png")
 						| Local Dialysis <span class="hidden-xs">Providers</span>
-
-				// Collect the nav links, forms, and other content for toggling
+						
 				#bs-example-navbar-collapse-1.collapse.navbar-collapse
-					//- 
-						ul.nav.navbar-nav
-							li.active: a(href="#") Link
-							li: a(href="#") Link
-							li.dropdown
-								a.dropdown-toggle(href="#", data-toggle="dropdown") Dropdown <b class="caret"></b>
-								ul.dropdown-menu
-									li: a(href="#") Action
-									li: a(href="#") Another action 
-									li: a(href="#") Something else here 
-									li.divider
-									li: a(href="#") Separated link 
-									li.divider
-									li: a(href="#") One more separated link
-
-					form.navbar-form.navbar-right(role="search")
+					form.navbar-form.navbar-right(action="/search" id="cse-search-box")
+						input(type="hidden" name="cx" value="partner-pub-2680194687384513:6701851181")
+						input(type="hidden" name="cof" value="FORID:10")
+						input(type="hidden" name="ie" value="UTF-8")
 						.form-group
-							input.form-control(type="text", placeholder="Search")
-						button.btn.btn-default(type="submit") Submit
+							input.form-control(type="text" name="q")
+						input.btn.btn-default(type="submit" name="sa" value="Search")
+
 
 
 		#content
@@ -96,6 +84,7 @@ html(lang='en', itemscope, itemtype="http://schema.org/WebPage")
 		script(src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js")
 			
 		script(async, src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
+		script(src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en")
 
 		if process.env.NODE_ENV === 'development'
 			script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js')

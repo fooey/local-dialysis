@@ -26,12 +26,21 @@ module.exports = function(app, express) {
 	});
 
 
+
 	/*
-	*	Facilities
+	*	sitemaps
 	*/
 
 	var sitemapsRouter = require('./sitemaps')(app, express);
 	app.use('/sitemaps', sitemapsRouter);
+
+
+
+	/*
+	*	general
+	*/
+
+	app.get('/search', require(GLOBAL.paths.getRoute('search')));
 	
 
 
@@ -85,7 +94,6 @@ module.exports = function(app, express) {
 	app.get('/', require(GLOBAL.paths.getRoute('home')));
 	app.get('/:stateSlug([a-z-]+)', require(GLOBAL.paths.getRoute('browse/state.js')));
 	app.get('/:stateSlug([a-z-]+)/:citySlug([a-z-]+)', require(GLOBAL.paths.getRoute('browse/city.js')));
-
 
 
 
