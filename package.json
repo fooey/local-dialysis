@@ -24,6 +24,7 @@
     "moment": "^2.7.0",
     "morgan": "*",
     "mv": "^2.0.0",
+    "newrelic": "^1.7.5",
     "node-uuid": "^1.4.1",
     "nodetime": "^0.8.15",
     "numeral": "^1.5.3",
