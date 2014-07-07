@@ -50,7 +50,7 @@ mixin writeCodes(section, label, key, dataType)
 					-var facilityKey = places.facility[key]
 					tr
 						td !{facilityKey}
-						td.code-label !{GLOBAL.DATA.REFERENCE.codes[facilityKey].label}
+						td.code-label !{(GLOBAL.DATA.REFERENCE.codes[facilityKey]) ? GLOBAL.DATA.REFERENCE.codes[facilityKey].label : 'N/A'}
 
 
 
@@ -148,7 +148,7 @@ mixin writeApplied(section, label, key, dataType)
 					-var facilityKey = places.facility[key]
 					tr
 						td
-						th.applied-label !{GLOBAL.DATA.REFERENCE.applies[facilityKey].val}
+						th.applied-label !{(GLOBAL.DATA.REFERENCE.applies[facilityKey]) ? GLOBAL.DATA.REFERENCE.applies[facilityKey].val : 'N/A'}
 
 
 
