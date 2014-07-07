@@ -31,15 +31,27 @@ module.exports = function(req, res) {
 
 	}, function(err, results) {
 
-		var place = results.state;
-		place.type = 'state';
+		if (!results.state) {
+			var httpErr = {code: 404, msg: 'Not Found'};
 
+			res.status(httpErr.code);
+			res.render('_error', {
+				msg: httpErr.msg,
+			});
 
-		var places = {
-			'nation': results.nation,
-			'state': results.state,
 		}
+		else {
 
-		jobsCore.render(req, res, place, places);
+			var place = results.state;
+			place.type = 'state';
+
+
+			var places = {
+				'nation': results.nation,
+				'state': results.state,
+			}
+
+			jobsCore.render(req, res, place, places);
+		}
 	});
 };
