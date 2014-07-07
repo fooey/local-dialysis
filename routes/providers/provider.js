@@ -33,45 +33,57 @@ const facilitySvc = require(GLOBAL.paths.getService('facilities/core'));
 
 module.exports = function(req, res) {
 	facilitySvc.getFacility(req.params.facilityId, function(err, place) {
-		if (req.originalUrl !== place.getLink()) {
-			res.redirect(301, place.getLink());
+
+		if (!place || !place.id) {
+			var httpErr = {code: 404, msg: 'Not Found'};
+
+			res.status(httpErr.code);
+			res.render('_error', {
+				msg: httpErr.msg,
+			});
+
 		}
+		else {
+			if (req.originalUrl !== place.getLink()) {
+				res.redirect(301, place.getLink());
+			}
 
-		var title = place.name;
-		var description = util.format(
-			'%s, located at %s in %s, offers Hemodialysis.',
-			place.name,
-			place.address,
-			place.city.placeName
-		);
+			var title = place.name;
+			var description = util.format(
+				'%s, located at %s in %s, offers Hemodialysis.',
+				place.name,
+				place.address,
+				place.city.placeName
+			);
 
-		var pageTitle = place.name;
-
-
-		var numServices = 0;
-		if (place.offersHemo) numServices++;
-		if (place.offersPeri) numServices++;
-		if (place.offersTraining) numServices++;
-		if (place.offersLate) numServices++;
+			var pageTitle = place.name;
 
 
-		res.render('provider', {
-			metaTitle: title,
-			metaDescription: description,
-
-			pageTitle: pageTitle,
-			// pageDescription: pageDescription,
-
-			place: place,
-			servicesList: servicesList(place),
-			numServices: numServices,
+			var numServices = 0;
+			if (place.offersHemo) numServices++;
+			if (place.offersPeri) numServices++;
+			if (place.offersTraining) numServices++;
+			if (place.offersLate) numServices++;
 
 
-			textLabel: textLabel,
-			scoreLabel: scoreLabel,
-			scoreColor: scoreColor,
-			numeral: numeral,
-		});
+			res.render('provider', {
+				metaTitle: title,
+				metaDescription: description,
+
+				pageTitle: pageTitle,
+				// pageDescription: pageDescription,
+
+				place: place,
+				servicesList: servicesList(place),
+				numServices: numServices,
+
+
+				textLabel: textLabel,
+				scoreLabel: scoreLabel,
+				scoreColor: scoreColor,
+				numeral: numeral,
+			});
+		}
 	});
 };
 

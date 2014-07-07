@@ -35,16 +35,27 @@ module.exports = function(req, res) {
 
 	}, function(err, results) {
 
-		var place = results.city;
-		place.type = 'city';
+		if (!results.state || !results.city) {
+			var httpErr = {code: 404, msg: 'Not Found'};
 
+			res.status(httpErr.code);
+			res.render('_error', {
+				msg: httpErr.msg,
+			});
 
-		var places = {
-			'nation': results.nation,
-			'state': results.state,
-			'city': results.city,
 		}
+		else {
+			var place = results.city;
+			place.type = 'city';
 
-		statsCore.render(req, res, place, places);
+			var places = {
+				'nation': results.nation,
+				'state': results.state,
+				'city': results.city,
+			}
+
+			statsCore.render(req, res, place, places);
+		}
+		
 	});
 };

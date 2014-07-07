@@ -41,19 +41,31 @@ module.exports = function(req, res) {
 
 	}, function(err, results) {
 
-		var place = results.facility;
-		place.type = 'provider';
+		if (!results.facility || !results.facility.id) {
+			var httpErr = {code: 404, msg: 'Not Found'};
 
-		// console.log(place);
+			res.status(httpErr.code);
+			res.render('_error', {
+				msg: httpErr.msg,
+			});
 
-
-		var places = {
-			'facility': results.facility,
-			'nation': results.nation,
-			'state': results.state,
-			'city': results.city,
 		}
+		else {
 
-		statsCore.render(req, res, place, places);
+			var place = results.facility;
+			place.type = 'provider';
+
+			// console.log(place);
+
+
+			var places = {
+				'facility': results.facility,
+				'nation': results.nation,
+				'state': results.state,
+				'city': results.city,
+			}
+
+			statsCore.render(req, res, place, places);
+		}
 	});
 };
