@@ -1,10 +1,12 @@
-require('newrelic');
+if (process.env.NODE_ENV !== 'development') {
+	require('newrelic');
 
-if (process.env.NODETIME_ACCOUNT_KEY) {
-	require('nodetime').profile({
-		accountKey: process.env.NODETIME_ACCOUNT_KEY,
-		appName: 'local-dialysis' // optional
-	});
+	if (process.env.NODETIME_ACCOUNT_KEY) {
+		require('nodetime').profile({
+			accountKey: process.env.NODETIME_ACCOUNT_KEY,
+			appName: 'local-dialysis' // optional
+		});
+	}	
 }
 
 
@@ -73,6 +75,15 @@ GLOBAL.DATABASE = require(GLOBAL.paths.getConfig('db'))(app.get('env'));
 
 GLOBAL.showAds = !(process.env.NODE_ENV === 'development');
 // GLOBAL.showAds = false;
+
+
+// const LRU = require("lru-cache");
+GLOBAL.cache = require('lru-cache')({
+	max: 500,
+	// length: function (n) { return n * 2 },
+	// dispose: function (key, n) { n.close() },
+	// maxAge: 1000 * 60 * 60,
+});
 
 
 

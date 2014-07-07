@@ -60,38 +60,65 @@ me.State.prototype.getLink = function getLink(subPage) {
 */
 
 me.getTotals = function getTotals(fnCallback) {
-	statesData.getTotals({}, function(err, data) {
-		if (err) throw (err);
+	var cacheKey = 'state:getTotals';
+	var states = GLOBAL.cache.get(cacheKey);
 
-		var states = data.map(function(stateData) {
-			return new me.State(stateData);
+	if (states) {
+		fnCallback(null, states);
+	}
+	else {
+		statesData.getTotals({}, function(err, data) {
+			if (err) throw (err);
+
+			states = data.map(function(stateData) {
+				return new me.State(stateData);
+			});
+
+			GLOBAL.cache.set(cacheKey, states);
+
+			fnCallback(err, states);
 		});
-
-		fnCallback(err, states);
-	});
+	}
 };
 
 
 me.getBySlug = function getBySlug(slug, fnCallback) {
-	// console.log('states:getBySlug()', slug);
-	// console.log(arguments);
-	statesData.getTotals({stateSlug: slug}, function(err, data) {
-		if (err) throw (err);
+	var cacheKey = 'state:getBySlug:' + slug;
+	var state = GLOBAL.cache.get(cacheKey);
 
-		var state = (data.length) ? new me.State(data[0]) : null;
-		fnCallback(err, state);
-	});
+	if (state) {
+		fnCallback(null, state);
+	}
+	else {
+		statesData.getTotals({stateSlug: slug}, function(err, data) {
+			if (err) throw (err);
+
+			var state = (data.length) ? new me.State(data[0]) : null;
+
+			GLOBAL.cache.set(cacheKey, state);
+			fnCallback(err, state);
+		});
+	}
 };
 
 
 me.getStatsBySlug = function getStatsBySlug(slug, fnCallback) {
-	statesData.getStats({stateSlug: slug}, function(err, data) {
-		if (err) throw (err);
+	// var cacheKey = 'state:getBySlug:' + slug;
+	// var state = GLOBAL.cache.get(cacheKey);
 
-		// console.log('getStatsBySlug()', slug, err, data);
+	// if (state) {
+	// 	fnCallback(null, state);
+	// }
+	// else {
+		statesData.getStats({stateSlug: slug}, function(err, data) {
+			if (err) throw (err);
+
+			// console.log('getStatsBySlug()', slug, err, data);
 
 
-		var state = (data.length) ? new me.State(data[0]) : null;
-		fnCallback(err, state);
-	});
+			var state = (data.length) ? new me.State(data[0]) : null;
+			// GLOBAL.cache.set(cacheKey, state);
+			fnCallback(err, state);
+		});
+	// }
 };

@@ -87,40 +87,68 @@ me.getTotals = function data_getTotals(filters, fnCallback) {
 		filters = {};
 	}
 
-	citiesData.getTotals(filters, function(err, data) {
+	var cacheKey = 'city:getByState:' + filterToString(filters);
+	var cities = GLOBAL.cache.get(cacheKey);
 
-		var cities = data.map(function(cityData) {
-			return new me.City(cityData);
+	if (cities) {
+		fnCallback(null, cities);
+	}
+	else {
+		citiesData.getTotals(filters, function(err, data) {
+
+			var cities = data.map(function(cityData) {
+				return new me.City(cityData);
+			});
+
+			GLOBAL.cache.set(cacheKey, cities);
+
+			fnCallback(err, cities);
 		});
-
-		fnCallback(err, cities);
-	});
+	}
 };
 
 
 
 me.getByState = function getByState(state, fnCallback) {
-	citiesData.getTotals({stateSlug: state.slug}, function(err, data) {
+	var cacheKey = 'city:getByState:' + state.slug;
+	var cities = GLOBAL.cache.get(cacheKey);
 
-		var cities = data.map(function(cityData) {
-			return new me.City(cityData, state);
+	if (cities) {
+		fnCallback(null, cities);
+	}
+	else {
+		citiesData.getTotals({stateSlug: state.slug}, function(err, data) {
+
+			var cities = data.map(function(cityData) {
+				return new me.City(cityData, state);
+			});
+
+			GLOBAL.cache.set(cacheKey, cities);
+
+			fnCallback(err, cities);
 		});
-
-		fnCallback(err, cities);
-	});
+	}
 };
 
 
 
 me.getBySlug = function getBySlug(state, citySlug, fnCallback) {
-	// console.log('cities::getBySlug');
-	var filters = {stateSlug: state.slug, citySlug: citySlug};
-	citiesData.getTotals(filters, function(err, data) {
-		if (err) throw (err);
-		
-		var city = (data.length) ? new me.City(data[0], state) : null;
-		fnCallback(err, city);
-	});
+	var cacheKey = 'city:getBySlug:' + state.slug + ':' + citySlug;
+	var city = GLOBAL.cache.get(cacheKey);
+
+	if (city) {
+		fnCallback(null, city);
+	}
+	else {
+		var filters = {stateSlug: state.slug, citySlug: citySlug};
+		citiesData.getTotals(filters, function(err, data) {
+			if (err) throw (err);
+			
+			var city = (data.length) ? new me.City(data[0], state) : null;
+			GLOBAL.cache.set(cacheKey, city);
+			fnCallback(err, city);
+		});
+	}
 }
 
 
@@ -135,3 +163,15 @@ me.getStatsBySlug = function getStatsBySlug(state, citySlug, fnCallback) {
 		fnCallback(err, city);
 	});
 };
+
+
+function filterToString(filters) {
+	var keys = _.keys(filters).sort();
+	var results = [];
+
+	_.each(keys, function(key) {
+		results.push(key + '=' + filters[key]);
+	});
+
+	return results.join(':');
+}

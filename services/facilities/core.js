@@ -107,28 +107,46 @@ me.Facility.prototype.getText = function getText(key) {
 
 me.getFacility = function getFacility(id, fnCallback) {
 	var filters = {id: id, withStats: true};
-	facilitiesData.get(filters, function(err, data) {
-		if (err) throw (err);
+	var cacheKey = 'facility:getFacility:' + id;
+	var facility = GLOBAL.cache.get(cacheKey);
 
-		var facility = new me.Facility(data[0]);
+	if (facility) {
+		fnCallback(null, facility);
+	}
+	else {
+		facilitiesData.get(filters, function(err, data) {
+			if (err) throw (err);
 
-		fnCallback(err, facility);
-	});
+			var facility = new me.Facility(data[0]);
+			GLOBAL.cache.set(cacheKey, facility);
+			fnCallback(err, facility);
+		});
+	}
 };
 
 
 
 me.get = function get(filters, fnCallback) {
-	// console.log('facilites::core:get', filters);
-	facilitiesData.get(filters, function(err, data) {
-		if (err) throw(err);
 
-		var facilities = data.map(function(facilityData) {
-			return new me.Facility(facilityData);
+	var cacheKey = 'facility:get:' + filterToString(filters);
+	var facilities = GLOBAL.cache.get(cacheKey);
+
+	if (facilities) {
+		fnCallback(null, facilities);
+	}
+	else {
+		facilitiesData.get(filters, function(err, data) {
+			if (err) throw (err);
+
+			var facilities = data.map(function(facilityData) {
+				return new me.Facility(facilityData);
+			});
+
+			GLOBAL.cache.set(cacheKey, facilities);
+
+			fnCallback(err, facilities);
 		});
-
-		fnCallback(err, facilities);
-	});
+	}
 };
 
 
@@ -147,6 +165,18 @@ function sortByName(a, b) {
 	if (a > b) return 1;
 	if (a < b) return -1;
 	return 0;
+}
+
+
+function filterToString(filters) {
+	var keys = _.keys(filters).sort();
+	var results = [];
+
+	_.each(keys, function(key) {
+		results.push(key + '=' + filters[key]);
+	});
+
+	return results.join(':');
 }
 
 

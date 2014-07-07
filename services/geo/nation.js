@@ -65,21 +65,39 @@ me.NationStats = function(jsonData) {
 */
 
 me.getTotals = function data_getTotals(fnCallback) {
-	nationData.getTotals(function(err, data) {
-		if (err) throw (err);
+	var cacheKey = 'nation:getTotals';
+	var nation = GLOBAL.cache.get(cacheKey);
 
-		var nation = new me.Nation(data[0]);
-		fnCallback(err, nation);
-	});
+	if (nation) {
+		fnCallback(null, nation);
+	}
+	else {
+		nationData.getTotals(function(err, data) {
+			if (err) throw (err);
+
+			var nation = new me.Nation(data[0]);
+			GLOBAL.cache.set(cacheKey, nation);
+			fnCallback(err, nation);
+		});
+	}
+
 };
 
 
 me.getStats = function data_getStats(fnCallback) {
-	nationData.getStats(function(err, data) {
-		if (err) throw (err);
+	// var cacheKey = 'nation:getStats';
+	// var nationStats = GLOBAL.cache.get(cacheKey);
 
-		var nationStats = new me.Nation(data[0]);
+	// if (nationStats) {
+	// 	fnCallback(null, nationStats);
+	// }
+	// else {
+		nationData.getStats(function(err, data) {
+			if (err) throw (err);
 
-		fnCallback(err, nationStats);
-	});
+			var nationStats = new me.Nation(data[0]);
+			// GLOBAL.cache.set(cacheKey, nationStats);
+			fnCallback(err, nationStats);
+		});
+	// }
 };
