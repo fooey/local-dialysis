@@ -6,6 +6,8 @@ block headClose
 		link(rel="prev", href=options.prevPageUrl)
 	if(options.pageNum !== options.nextPageNum)
 		link(rel="next", href=options.nextPageUrl)
+	if (options.hasFilter)
+		meta(name="robots", content="noindex")
 
 
 block content

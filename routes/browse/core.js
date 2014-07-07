@@ -116,7 +116,6 @@ me.render = function(req, res, place, facilities, state, city) {
 	options.firstPageUrl = getPageLink(1, req.originalUrl);
 	options.lastPageUrl = getPageLink(options.numPages, req.originalUrl);
 
-	// console.log('options', options);
 	if (options.pageNum !== 'viewall') {
 		if (options.numPages && options.pageNum > options.numPages) {
 			res.redirect(301, options.lastPageUrl);
@@ -130,9 +129,6 @@ me.render = function(req, res, place, facilities, state, city) {
 	options.state = state;
 	options.city = city;
 
-	// options.currentState = (state) ? state : null;
-	// options.currentCity = (city) ? city : null;
-
 	var title = util.format('%s Dialysis Providers', place.placeName);
 	var description = util.format('Find and compare the %s Medicare certified dialysis facilties in %s', numeral(place.numFacilities).format('0,0'), place.placeName);
 	var canonical = place.getLink() + '?page=viewall';
@@ -140,12 +136,14 @@ me.render = function(req, res, place, facilities, state, city) {
 	var pageTitle = util.format('%s <nobr>Dialysis Providers</nobr>', place.placeName);
 	var pageDescription = description;
 
-	// console.log('OPTIONS', options);
+
+	options.hasFilter = !!(canonical !== req.originalUrl && place.getLink() !== req.originalUrl);
 
 	async.auto({
 		states: statesSvc.getTotals,
 		cities: citiesSvc.getTotals.bind(null, {stateSlug: state.slug}),
 	}, function(err, results) {
+		console.log('options', options);
 
 		res.render('browse', {
 			metaTitle: title,
