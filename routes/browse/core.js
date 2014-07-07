@@ -116,12 +116,15 @@ me.render = function(req, res, place, facilities, state, city) {
 	options.firstPageUrl = getPageLink(1, req.originalUrl);
 	options.lastPageUrl = getPageLink(options.numPages, req.originalUrl);
 
-	if (options.numPages && options.pageNum > options.numPages) {
-		res.redirect(301, options.lastPageUrl);
-	}
+	// console.log('options', options);
+	if (options.pageNum !== 'viewall') {
+		if (options.numPages && options.pageNum > options.numPages) {
+			res.redirect(301, options.lastPageUrl);
+		}
 
-	if (options.pageNum !== Math.abs(options.pageNum)) {
-		res.redirect(301, getPageLink(Math.abs(options.pageNum), req.originalUrl));
+		if (options.pageNum !== Math.abs(options.pageNum)) {
+			res.redirect(301, getPageLink(Math.abs(options.pageNum), req.originalUrl));
+		}
 	}
 
 	options.state = state;
@@ -180,7 +183,7 @@ me.getFilters = function(inQuery) {
 		query: inQuery,
 	});
 
-	console.log('curUrl', curUrl);
+	// console.log('curUrl', curUrl);
 
 	filters = _.map(filters, function(filter) {
 		var thisQuery = _.cloneDeep(inQuery);
@@ -236,9 +239,12 @@ me.getCity = function(state, citySlug, callback) {
 
 function getPageNum(qryPage) {
 	var pageNum = qryPage || 1;
-	if (pageNum !== 'viewall' && isNaN(pageNum)) {
-		pageNum = 1;
+	if (pageNum === 'viewall') {
+		return pageNum;
 	}
+	// else if (isNaN(pageNum)) {
+	// 	pageNum = 1;
+	// }
 	return _.parseInt(pageNum);
 };
 
