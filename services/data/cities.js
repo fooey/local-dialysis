@@ -32,7 +32,7 @@ var db = GLOBAL.DATABASE;
 */
 
 me.getTotals = function getTotals(filters, fnCallback) {
-	console.log('data::cities::getTotals');
+	// console.log('data::cities::getTotals');
 
 	filters = _.defaults(filters, {
 		threshold: 0
@@ -84,7 +84,7 @@ me.getTotals = function getTotals(filters, fnCallback) {
 
 
 me.getStats = function getStats(filters, fnCallback) {
-	console.log('data::cities::getStats');
+	// console.log('data::cities::getStats');
 
 	filters = _.defaults(filters, {
 		threshold: 0

@@ -203,7 +203,7 @@ const statColumnsConfig = [
 */
 
 me.init = function(fnCallback) {
-	console.log('facilities::init()');
+	// console.log('facilities::init()');
 
 	async.series([
 		createTables,
@@ -218,7 +218,7 @@ me.init = function(fnCallback) {
 
 
 me.get = function get(filters, fnCallback) {
-	console.log('data::facilites::get', filters);
+	// console.log('data::facilites::get', filters);
 
 	filters = _.defaults(filters, {});
 
@@ -347,7 +347,7 @@ me.get = function get(filters, fnCallback) {
 */
 
 function createTables(fnCallback) {
-	console.log('facilities::createTables()');
+	// console.log('facilities::createTables()');
 
 	var facilityColumns = _.map(facilityColumnsConfig, function(val, index) {
 		return val.define;
@@ -382,7 +382,7 @@ function createTables(fnCallback) {
 
 
 function populateTables(fnCallback) {
-	console.log('facilities::populateTables()');
+	// console.log('facilities::populateTables()');
 
 	var facilityColumns = _.map(facilityColumnsConfig, function(val, index) {
 		return val.bind;
@@ -418,7 +418,7 @@ function populateTables(fnCallback) {
 
 
 function generateParams(fnCallback) {
-	console.log('facilities::generateParams()');
+	// console.log('facilities::generateParams()');
 
 	const facilitiesPath = GLOBAL.paths.getData('/medicare/facilities');
 	const facilitiesData = require(GLOBAL.paths.getData('medicare/merged.json'));
@@ -426,7 +426,7 @@ function generateParams(fnCallback) {
 	var facilityIds = _.keys(facilitiesData);
 	// facilityIds = facilityIds.slice(0, 10);
 
-	console.log('facilities::generateParams()', 'records: ' + facilityIds.length);
+	// console.log('facilities::generateParams()', 'records: ' + facilityIds.length);
 
 
 	var params = {
@@ -462,7 +462,7 @@ function generateParams(fnCallback) {
 
 
 function batchInsert(params, tableName, columns, fnCallback) {
-	console.log('facilities::batchInsert()', tableName, params.length, _.keys(params[0]).length);
+	// console.log('facilities::batchInsert()', tableName, params.length, _.keys(params[0]).length);
 
 	const maxBindings = 999;
 	var bindingsPerInsert = columns.length;
@@ -504,7 +504,7 @@ function batchInsert(params, tableName, columns, fnCallback) {
 	}
 
 
-	console.log('facilities::batchInsert()', tableName, 'inserting batches', batches.length);
+	// console.log('facilities::batchInsert()', tableName, 'inserting batches', batches.length);
 	async.each(
 		batches,
 		function(batch, fnNext) {

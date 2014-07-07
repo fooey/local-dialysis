@@ -32,7 +32,7 @@ var db = GLOBAL.DATABASE;
 */
 
 me.getTotals = function getTotals(fnCallback) {
-	console.log('data::nation::getTotals');
+	// console.log('data::nation::getTotals');
 
 	var statement = [
 		'SELECT',
@@ -49,7 +49,7 @@ me.getTotals = function getTotals(fnCallback) {
 
 
 me.getStats = function getStats(fnCallback) {
-	console.log('data::nation::getStats');
+	// console.log('data::nation::getStats');
 
 	var columns = common.getTotalsColumns().concat(common.getStatsColumns());
 

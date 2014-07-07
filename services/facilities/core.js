@@ -119,7 +119,7 @@ me.getFacility = function getFacility(id, fnCallback) {
 
 
 me.get = function get(filters, fnCallback) {
-	console.log('facilites::core:get', filters);
+	// console.log('facilites::core:get', filters);
 	facilitiesData.get(filters, function(err, data) {
 		if (err) throw(err);
 

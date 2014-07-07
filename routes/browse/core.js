@@ -143,7 +143,7 @@ me.render = function(req, res, place, facilities, state, city) {
 		states: statesSvc.getTotals,
 		cities: citiesSvc.getTotals.bind(null, {stateSlug: state.slug}),
 	}, function(err, results) {
-		console.log('options', options);
+		// console.log('options', options);
 
 		res.render('browse', {
 			metaTitle: title,

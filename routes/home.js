@@ -66,7 +66,7 @@ module.exports = function(req, res, next) {
 
 
 function attachCities(fnCallback, data) {
-	console.log('num cities', data.cities.length);
+	// console.log('num cities', data.cities.length);
 
 	async.each(
 		data.states,

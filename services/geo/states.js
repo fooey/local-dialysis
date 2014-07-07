@@ -73,8 +73,8 @@ me.getTotals = function getTotals(fnCallback) {
 
 
 me.getBySlug = function getBySlug(slug, fnCallback) {
-	console.log('states:getBySlug()', slug);
-	console.log(arguments);
+	// console.log('states:getBySlug()', slug);
+	// console.log(arguments);
 	statesData.getTotals({stateSlug: slug}, function(err, data) {
 		if (err) throw (err);
 

@@ -8,8 +8,6 @@ const util = require('util');
 module.exports = function(app, express) {
 	var router = express.Router();
 
-	console.log('sitemaps!');
-
 
 	/*
 	*	/sitemaps/geo.xml

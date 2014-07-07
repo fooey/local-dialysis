@@ -135,8 +135,8 @@ function getJobs(requestParams, fnCallback) {
 		query: requestParams
 	});
 
-	console.log(requestParams);
-	console.log(requestUrl);
+	// console.log(requestParams);
+	// console.log(requestUrl);
 
 	request(requestUrl, function(error, response, data) {
 		if (!error && response.statusCode == 200) {

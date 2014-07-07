@@ -154,7 +154,7 @@ function getHotels(filters, fnCallback) {
 		query: requestParams
 	});
 
-	console.log('getHotels()', requestParams);
+	// console.log('getHotels()', requestParams);
 	// console.log(requestUrl);
 
 	getFromEAN(
@@ -181,7 +181,7 @@ function getFromEAN(requestUrl, fnCallback) {
 		uri: requestUrl,
 		headers: {"accept-encoding" : "gzip,deflate"}
 	};
-	console.log('getFromEAN()', requestOptions);
+	// console.log('getFromEAN()', requestOptions);
 	
 	var req = request.get(requestOptions);
 

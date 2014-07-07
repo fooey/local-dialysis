@@ -113,7 +113,7 @@ me.getByState = function getByState(state, fnCallback) {
 
 
 me.getBySlug = function getBySlug(state, citySlug, fnCallback) {
-	console.log('cities::getBySlug');
+	// console.log('cities::getBySlug');
 	var filters = {stateSlug: state.slug, citySlug: citySlug};
 	citiesData.getTotals(filters, function(err, data) {
 		if (err) throw (err);
@@ -125,7 +125,7 @@ me.getBySlug = function getBySlug(state, citySlug, fnCallback) {
 
 
 me.getStatsBySlug = function getStatsBySlug(state, citySlug, fnCallback) {
-	console.log('cities::getStatsBySlug');
+	// console.log('cities::getStatsBySlug');
 	var filters = {stateSlug: state.slug, citySlug: citySlug};
 
 	citiesData.getStats(filters, function(err, data) {
