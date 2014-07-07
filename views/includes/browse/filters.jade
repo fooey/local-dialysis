@@ -38,7 +38,7 @@ section#filters
 					- var link = place.getLink() + filter.link;
 					- var className = (filter.isActive) ? 'active' : '';
 					li.toggle(class=className)
-						a(href=link)
+						a(href=link, rel="nofollow")
 							if (filter.isActive)
 								i.fa.fa-check-square-o
 							else 
