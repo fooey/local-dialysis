@@ -20,10 +20,12 @@ module.exports = function(app, express) {
 		app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 		app.locals.pretty = true;
 		app.use(morgan('dev'));
+		app.set('view cache', false);
 	}
 	else {
 		app.use(errorHandler());
 		app.use(morgan());
+		app.set('view cache', true);
 	}
 
 	// all environments
