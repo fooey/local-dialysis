@@ -166,11 +166,14 @@ function getHotels(filters, fnCallback) {
 
 
 function getSignature(apiKey, secretKey) {
-	var toHash = apiKey + secretKey + Date.now().toString();
+	var now = Math.floor(Date.now() / 1000).toString()
+	var toHash = apiKey + secretKey + now;
 	var hash = require('crypto').createHash('md5').update(toHash).digest("hex");
-	// console.log(Date.now().toString());
-	// console.log(toHash);
-	// console.log(hash);
+	console.log(apiKey);
+	console.log(secretKey);
+	console.log(now);
+	console.log(process.env.EAN_HOST_NAME);
+	console.log(hash);
 	return hash;
 }
 
