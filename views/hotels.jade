@@ -53,6 +53,10 @@ block content
 							h3= eanError.presentationMessage
 							p= eanError.verboseMessage
 
+					else if (hotels.length === 0)
+						.alert.alert-danger
+							h3 No results
+
 					else
 						//- pre= JSON.stringify(results, null, '\t')
 

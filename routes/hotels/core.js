@@ -221,8 +221,22 @@ function getFromEAN(requestUrl, fnCallback) {
 
 
 function prepareResults(fnCallback, filters, err, data) {
+	var results;
+
+	try {
+		results = JSON.parse(data);
+	}
+	catch (e) {
+		results = {HotelListResponse: {
+			HotelList: {HotelSummary: [], },
+			EanWsError: {
+				presentationMessage: 'No Results',
+				verboseMessage: 'The data provider returned an invalid response, please reload the page to try again.',
+			}
+		}};
+	}
 	// console.log('prepareResults()', filters);
-	var results = JSON.parse(data);
+	// var results = JSON.parse(data);
 
 
 	results.HotelListResponse.HotelList = results.HotelListResponse.HotelList || {};
