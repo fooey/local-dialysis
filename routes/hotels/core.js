@@ -28,6 +28,8 @@ const moment = require('moment');
 const numeral = require('numeral');
 const request = require('request');
 
+const netSvc = require(GLOBAL.paths.getService('net'));
+
 const propertyCategories = {
 	"1": "Hotel",
 	"2": "Suite",
@@ -154,10 +156,7 @@ function getHotels(filters, fnCallback) {
 		query: requestParams
 	});
 
-	// console.log('getHotels()', requestParams);
-	// console.log(requestUrl);
-
-	getFromEAN(
+	netSvc.requestJson(
 		requestUrl,
 		prepareResults.bind(null, fnCallback, filters)
 	);
@@ -178,63 +177,14 @@ function getSignature(apiKey, secretKey) {
 }
 
 
-
-function getFromEAN(requestUrl, fnCallback) {
-	var requestOptions = {
-		uri: requestUrl,
-		headers: {"accept-encoding" : "gzip,deflate"}
-	};
-	// console.log('getFromEAN()', requestOptions);
-	
-	var req = request.get(requestOptions);
-
-
-	req.on('response', function(res) {
-		var chunks = [];
-		res.on('data', function(chunk) {
-			chunks.push(chunk);
-		});
-
-		res.on('end', function() {
-			var buffer = Buffer.concat(chunks);
-			var encoding = res.headers['content-encoding'];
-			if (encoding == 'gzip') {
-				zlib.gunzip(buffer, function(err, decoded) {
-					fnCallback(err, decoded && decoded.toString());
-				});
-			}
-			else if (encoding == 'deflate') {
-				zlib.inflate(buffer, function(err, decoded) {
-					fnCallback(err, decoded && decoded.toString());
-				});
-			}
-			else {
-				fnCallback(null, buffer.toString());
-			}
-		});
-	});
-
-	req.on('error', function(err) {
-		fnCallback(err);
-	});
-}
-
-
-function prepareResults(fnCallback, filters, err, data) {
-	var results;
-
-	try {
-		results = JSON.parse(data);
-	}
-	catch (e) {
-		results = {HotelListResponse: {
-			HotelList: {HotelSummary: [], },
-			EanWsError: {
-				presentationMessage: 'No Results',
-				verboseMessage: 'The data provider returned an invalid response, please reload the page to try again.',
-			}
-		}};
-	}
+function prepareResults(fnCallback, filters, err, results) {
+	results = results || {HotelListResponse: {
+		HotelList: {HotelSummary: [], },
+		EanWsError: {
+			presentationMessage: 'No Results',
+			verboseMessage: 'The data provider returned an invalid response, please reload the page to try again.',
+		}
+	}};
 	// console.log('prepareResults()', filters);
 	// var results = JSON.parse(data);
 

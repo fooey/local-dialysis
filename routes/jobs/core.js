@@ -19,12 +19,15 @@ var me = module.exports = {};
 
 const url = require('url');
 const util = require('util');
+const zlib = require('zlib');
 
 const _ = require('lodash');
 const async = require('async');
 const moment = require('moment');
 const numeral = require('numeral');
 const request = require('request');
+
+const netSvc = require(GLOBAL.paths.getService('net'));
 
 
 /*
@@ -90,9 +93,10 @@ me.render = function(req, res, place, places) {
 		l: l,
 	};
 
-	getJobs(requestParams, function(err, jobs) {
+	getJobs(requestParams, function(err, results) {
+		results = results || {results: []};
 
-		options.numPages = Math.ceil(jobs.totalResults / options.perPage);
+		options.numPages = Math.ceil(results.totalResults / options.perPage);
 		options.prevPageNum = getPrevPageNum(options.pageNum);
 		options.nextPageNum = getNextPageNum(options.pageNum, options.numPages);
 
@@ -112,7 +116,7 @@ me.render = function(req, res, place, places) {
 			place: place,
 			places: places,
 
-			jobs: jobs,
+			jobs: results,
 			options: options,
 			// canonical: canonical,
 
@@ -135,18 +139,7 @@ function getJobs(requestParams, fnCallback) {
 		query: requestParams
 	});
 
-	// console.log(requestParams);
-	// console.log(requestUrl);
-
-	request(requestUrl, function(error, response, data) {
-		if (!error && response.statusCode == 200) {
-			fnCallback(null, JSON.parse(data));
-		}
-		else {
-			fnCallback(error, {results: []});
-		}
-	});
-
+	netSvc.requestJson(requestUrl, fnCallback);
 };
 
 
