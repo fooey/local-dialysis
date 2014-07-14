@@ -85,8 +85,6 @@ GLOBAL.cache = require('lru-cache')({
 	// maxAge: 1000 * 60 * 60,
 });
 
-console.log(process.env.CACHE_SIZE);
-
 
 
 /*
