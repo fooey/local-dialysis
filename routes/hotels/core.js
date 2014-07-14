@@ -193,7 +193,9 @@ function prepareResults(fnCallback, filters, err, results) {
 	results.HotelListResponse.HotelList.HotelSummary = results.HotelListResponse.HotelList.HotelSummary || [];
 
 
-	var hotels = results.HotelListResponse.HotelList.HotelSummary.slice(filters.startRow, filters.endRow);
+	var hotels = results.HotelListResponse.HotelList.HotelSummary;
+	hotels = (_.isArray(hotels)) ? hotels.slice(filters.startRow, filters.endRow) : [];
+	
 
 	_.map(hotels, function(hotel) {
 		hotel.name = ent.decode(hotel.name);
