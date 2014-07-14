@@ -79,11 +79,13 @@ GLOBAL.showAds = !(process.env.NODE_ENV === 'development');
 
 // const LRU = require("lru-cache");
 GLOBAL.cache = require('lru-cache')({
-	max: 500,
+	max: process.env.CACHE_SIZE || 32,
 	// length: function (n) { return n * 2 },
 	// dispose: function (key, n) { n.close() },
 	// maxAge: 1000 * 60 * 60,
 });
+
+console.log(process.env.CACHE_SIZE);
 
 
 
