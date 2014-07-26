@@ -37,10 +37,10 @@ module.exports = function(fnCallback) {
 
 
 	async.auto({
-		// 'transformData': [transformData],
-		// 'mergeData': ['transformData', mergeData],
+		'transformData': [transformData],
+		'mergeData': ['transformData', mergeData],
 
-		'mergeData': function(callback) {callback();}, //FIXME
+		// 'mergeData': function(callback) {callback();}, //FIXME
 
 		'reference': ['mergeData', referenceData.init],
 		'facilities': ['reference', facilityData.init],

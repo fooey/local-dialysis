@@ -30,7 +30,7 @@ module.exports = function(callback) {
 		'toUpdate': ['mkdir', checkForUpdates.bind(null, dataConfig)],
 		'updateData': ['toUpdate', updateData],
 		'updateConfig': ['updateData', updateConfig.bind(null, dataConfig)],
-		'notify': ['updateData', sendNotification],
+		// 'notify': ['updateData', sendNotification],
 	}, callback);
 };
 
@@ -123,25 +123,25 @@ function updateConfig(dataConfig, callback, results) {
 	);
 }
 
-function sendNotification(callback, results) {
-	console.log('sendNotification()', results.toUpdate.length);
+// function sendNotification(callback, results) {
+// 	console.log('sendNotification()', results.toUpdate.length);
 
-	if (results.toUpdate.length) {
+// 	if (results.toUpdate.length) {
 
-		const AmazonSES = require('amazon-ses');
-  		const ses = new AmazonSES(process.env.AMAZON_ACCESS_KEY, process.env.AMAZON_SECRET_KEY);
+// 		const AmazonSES = require('amazon-ses');
+//   		const ses = new AmazonSES(process.env.AMAZON_ACCESS_KEY, process.env.AMAZON_SECRET_KEY);
 
-  		console.log('Emailing Update Notification');
+//   		console.log('Emailing Update Notification');
 
-  		ses.send({
-			from: 'notifications@the-ln.com',
-			to: ['heroku+local-dialysis@the-ln.com'],
-			subject: 'Local-Dialysis.com: New Data Updated',
-			body: {
-				text: 'Local-Dialysis.com\nNew Data Updated'
-			}
-		});
-	}
+//   		ses.send({
+// 			from: 'notifications@the-ln.com',
+// 			to: ['heroku+local-dialysis@the-ln.com'],
+// 			subject: 'Local-Dialysis.com: New Data Updated',
+// 			body: {
+// 				text: 'Local-Dialysis.com\nNew Data Updated'
+// 			}
+// 		});
+// 	}
 
-	callback();
-}
+// 	callback();
+// }
