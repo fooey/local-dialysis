@@ -15,6 +15,7 @@ const async = require('async');
 const nationSvc = require(GLOBAL.paths.getService('geo/nation'));
 const statesSvc = require(GLOBAL.paths.getService('geo/states'));
 const sitemapsSvc = require(GLOBAL.paths.getService('sitemaps'));
+const fsSvc = require(GLOBAL.paths.getService('fs'));
 
 
 /*
@@ -28,7 +29,6 @@ module.exports = function(req, res) {
 
 		nation: nationSvc.getTotals,
 		states: statesSvc.getTotals,
-		lastMod: sitemapsSvc.getLastMod,
 
 	}, function renderView(err, results) {
 
@@ -40,7 +40,7 @@ module.exports = function(req, res) {
 
 		sitemapsSvc.send(
 			res,
-			sitemapsSvc.generate(results.lastMod, urls)
+			sitemapsSvc.generate(GLOBAL.lastMod, urls)
 		);
 	});
 };

@@ -35,17 +35,6 @@ me.send = function send(res, xmlString) {
 
 
 
-me.getLastMod = function getLastMod(fnCallback) {
-	const fs = require('fs');
-	const dbPath = GLOBAL.paths.getData('sqlite.bin');
-
-	fs.stat(dbPath, function(err, stats) {
-		fnCallback(err, stats.mtime);
-	});
-};
-
-
-
 me.generateIndex = function urlsToIndex(lastMod, urls) {
 	return [
 		'<?xml version="1.0" encoding="UTF-8"?>',

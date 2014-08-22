@@ -19,6 +19,7 @@ if (process.env.NODE_ENV !== 'development') {
 */
 
 GLOBAL.paths = require('./config/paths');
+GLOBAL.lastMod = new Date('2014-08-22');
 
 
 

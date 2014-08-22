@@ -14,6 +14,7 @@ const async = require('async');
 
 const statesSvc = require(GLOBAL.paths.getService('geo/states'));
 const sitemapsSvc = require(GLOBAL.paths.getService('sitemaps'));
+const fsSvc = require(GLOBAL.paths.getService('fs'));
 
 
 /*
@@ -26,7 +27,6 @@ module.exports = function(req, res) {
 	async.auto({
 
 		states: statesSvc.getTotals,
-		lastMod: sitemapsSvc.getLastMod,
 
 	}, function renderView(err, results) {
 		var baseUrl = 'http://local-dialysis.com/sitemaps/providers/';
@@ -39,7 +39,7 @@ module.exports = function(req, res) {
 
 		sitemapsSvc.send(
 			res,
-			sitemapsSvc.generateIndex(results.lastMod, indexUrls)
+			sitemapsSvc.generateIndex(GLOBAL.lastMod, indexUrls)
 		);
 	});
 
