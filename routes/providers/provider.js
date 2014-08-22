@@ -92,8 +92,19 @@ module.exports = function(req, res) {
 
 
 function servicesList(place) {
-	var serviceSchema = (
-		'<span itemprop="availableService" itemscope itemtype="http://schema.org/TherapeuticProcedure">'
+	// var serviceSchema = (
+	// 	'<span itemprop="availableService" itemscope itemtype="http://schema.org/TherapeuticProcedure">'
+	// 		+ '<span itemprop="procedureType" itemscope itemtype="http://schema.org/PercutaneousProcedure">' 
+	// 			+ '<span itemprop="medicalSpecialty" itemscope itemtype="http://schema.org/Renal"></span>'
+	// 			+ '<span itemprop="recognizingAuthority" itemscope itemtype="http://schema.org/recognizingAuthority">' 
+	// 				+ '<span itemprop="name" content="The Centers for Medicare & Medicaid Services"></span>' 
+	// 			+ '</span>'
+	// 		+ '</span>'
+	// 		+ '<span itemprop="name">%s</span>'
+	// 	+ '</span>'
+	// );
+	var offeredServiceSchema = (
+		'<span itemprop="makesOffer" itemscope itemtype="http://schema.org/TherapeuticProcedure">'
 			+ '<span itemprop="procedureType" itemscope itemtype="http://schema.org/PercutaneousProcedure">' 
 				+ '<span itemprop="medicalSpecialty" itemscope itemtype="http://schema.org/Renal"></span>'
 				+ '<span itemprop="recognizingAuthority" itemscope itemtype="http://schema.org/recognizingAuthority">' 
@@ -110,8 +121,8 @@ function servicesList(place) {
 	);
 
 	var services = [];
-	if (place.offersHemo) services.push(util.format(serviceSchema, 'Hemodialysis'));
-	if (place.offersPeri) services.push(util.format(serviceSchema, 'Peritoneal Dialysis'));
+	if (place.offersHemo) services.push(util.format(offeredServiceSchema, 'Hemodialysis'));
+	if (place.offersPeri) services.push(util.format(offeredServiceSchema, 'Peritoneal Dialysis'));
 	if (place.offersTraining) services.push(util.format(offerSchema, 'Home Training'));
 	if (place.offersLate) services.push(util.format(offerSchema, 'Shifts after 5pm'));
 
