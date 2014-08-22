@@ -7,15 +7,16 @@ block content
 	.container
 		include includes/breadcrumb
 		
-		#provider(itemscope itemtype="http://schema.org/MedicalClinic")
+		#provider(itemscope itemtype="http://schema.org/LocalBusiness")
+			//- #provider(itemscope itemtype="http://schema.org/MedicalClinic")
 
-			span(itemprop="medicalSpecialty" itemscope itemtype="http://schema.org/Renal")
-				span(itemprop="recognizingAuthority" itemscope itemtype="http://schema.org/recognizingAuthority")
-					span(itemprop="name" content="The Centers for Medicare & Medicaid Services")
-				if place.offersHemo
-					span(itemprop="alternativeName" content="Hemodialysis")
-				if place.offersPeri						
-					span(itemprop="alternativeName" content="Peritoneal Dialysis")
+			//- span(itemprop="medicalSpecialty" itemscope itemtype="http://schema.org/Renal")
+			//- 	span(itemprop="recognizingAuthority" itemscope itemtype="http://schema.org/recognizingAuthority")
+			//- 		span(itemprop="name" content="The Centers for Medicare & Medicaid Services")
+			//- 	if place.offersHemo
+			//- 		span(itemprop="alternativeName" content="Hemodialysis")
+			//- 	if place.offersPeri						
+			//- 		span(itemprop="alternativeName" content="Peritoneal Dialysis")
 
 			.row
 				.col-lg-24
