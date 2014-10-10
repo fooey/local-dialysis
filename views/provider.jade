@@ -7,16 +7,23 @@ block content
 	.container
 		include includes/breadcrumb
 		
-		#provider(itemscope itemtype="http://schema.org/LocalBusiness")
-			//- #provider(itemscope itemtype="http://schema.org/MedicalClinic")
+		//- #provider(itemscope itemtype="http://schema.org/LocalBusiness")
 
-			//- span(itemprop="medicalSpecialty" itemscope itemtype="http://schema.org/Renal")
-			//- 	span(itemprop="recognizingAuthority" itemscope itemtype="http://schema.org/recognizingAuthority")
-			//- 		span(itemprop="name" content="The Centers for Medicare & Medicaid Services")
-			//- 	if place.offersHemo
-			//- 		span(itemprop="alternativeName" content="Hemodialysis")
-			//- 	if place.offersPeri						
-			//- 		span(itemprop="alternativeName" content="Peritoneal Dialysis")
+		#provider(itemscope itemtype="http://schema.org/MedicalClinic")
+			if (place.performanceScore)
+				span(itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating")
+					span(itemprop="worstRating" content=0)
+					span(itemprop="bestRating" content=100)
+					span(itemprop="ratingCount" content=1)
+					span(itemprop="ratingValue" content=place.performanceScore)
+
+			span(itemprop="medicalSpecialty" itemscope itemtype="http://schema.org/Renal")
+				span(itemprop="recognizingAuthority" itemscope itemtype="http://schema.org/recognizingAuthority")
+					span(itemprop="name" content="The Centers for Medicare & Medicaid Services")
+				if place.offersHemo
+					span(itemprop="alternativeName" content="Hemodialysis")
+				if place.offersPeri						
+					span(itemprop="alternativeName" content="Peritoneal Dialysis")
 
 			.row
 				.col-lg-24
@@ -40,163 +47,182 @@ block content
 								= place.performanceScore || 'N/A'
 
 						.col-sm-20
-							address(itemprop="location" itemscope itemtype="http://schema.org/Place") 
-								span(itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates")
-									span(itemprop="latitude" content=place.locationLat)
-									span(itemprop="longitude" content=place.locationLon)
-
-								address(itemprop="address" itemscope itemtype="http://schema.org/PostalAddress")
-									div(itemprop="streetAddress") !{place.address}
-									if (place.address2)
-										div(itemprop="streetAddress") !{place.address2}
-									div
-										a(itemprop="addressLocality" href=place.city.getLink()) !{place.city.name}
-										| , 
-										a(itemprop="addressRegion" href=place.state.getLink()) !{place.state.name} 
-										span(itemprop="postalCode") !{place.zip}
-
-									div
-										| Phone: 
-										span(itemprop="telephone") !{place.phone}
+							+address()
 
 					section.description
 						.inline-rect: include includes/adsense
-
-						p
-							if (place.performanceScore)
-								| !{place.name} was awarded a total performance score of 
-								span(itemprop="review" itemscope itemtype="http://schema.org/Review")
-									span(itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating")
-										span(itemprop="worstRating" content=0)
-										span(itemprop="ratingValue") !{place.performanceScore} 
-										| out of 
-										span(itemprop="bestRating") 100 
-									span(itemprop="sourceOrganization" itemscope itemtype="http://schema.org/Organization")
-										span(itemprop="name") by The Centers for Medicare &amp; Medicaid Services. 
-
-							| !{(place.performanceScore) ? 'It' : place.name} has been Medicare certified since 
-							span(itemprop="foundingDate" content="#{place.certificationDate.toString()}")
-								| !{place.certificationDate.format('MM/DD/YYYY')}.
-
-						p !{servicesList}
-							|  !{(numServices.length === 1) ? 'is' : 'are'} provided at !{place.name},
-							| where !{place.numStations} dialysis stations are available.
-							| For the latest information, or to schedule an appointment, call <nobr>!{place.phone}</nobr>
-							| or visit the facility at <nobr>!{place.address} </nobr> in !{place.city.placeName}.
-
-						p
-							| !{place.name} is a !{(place.forProfit) ? 'for ' : 'non-'}profit dialysis provider 
-							-var owner = place.getOwner();
-							-var chain = place.getChain();
-							if (!owner || owner.label === 'Independent')
-								| independently owned
-							else
-								| owned by 
-								span(itemprop="owns" itemscope itemtype="http://schema.org/OwnershipInfo")
-									span(itemprop="name") !{owner.label}
-
-							| , and is 
-							if (!chain || chain.label === 'Independent')
-								| not part of a larger chain of providers.
-							else
-								| part of a chain of providers, 
-								span(itemprop="brand" itemscope itemtype="http://schema.org/Brand")
-									span(itemprop="name") !{chain.label}. 
-
-							| The last reported change of ownership was recorded on !{place.ownershipDate.format('MM/DD/YYYY')}
+						+description()
 
 					section.scores
 						section.totals
-							h1 Overall Scores
-							.row
-								.col-xs-8
-									figure.score
-										+pie(place.performanceScore, 100, 128)
-										figcaption
-											if (parseInt(place.performanceScore) === place.performanceScore)
-												div !{place.performanceScore} / 100
-											else
-												div N/A
-											div Total Performance Score
-
-								.col-xs-8
-									figure.score
-										+pie(place.ich_cahps_admin_score, 10, 128)
-										figcaption
-											if (parseInt(place.ich_cahps_admin_score) === place.ich_cahps_admin_score)
-												div !{place.ich_cahps_admin_score} / 10
-											else
-												div N/A
-											div <abbr title="In-Center Hemodialysis">ICH</abbr> <abbr title="Consumer Assessment of Healthcare Providers and Systems">CAHPS</abbr> Admin Score
-
-								.col-xs-8
-									figure.score
-										+pie(place.nhsn_event_reporting_score, 10, 128)
-										figcaption
-											if (parseInt(place.nhsn_event_reporting_score) === place.nhsn_event_reporting_score)
-												div !{place.nhsn_event_reporting_score} / 10
-											else
-												div N/A
-											div <abbr title="National Healthcare Safety Network">NHSN</abbr> Event Reporting Score
+							+overallScores()
 
 						section.measures
-							h1 Measure Scores
-							.row
-								.col-xs-8
-									figure.score(title="Patient(s) who had an average hemoglobin value greater than 12.0 g/dL")
-										+pie(place.hg_12_g_dlmeasurescore, 10, 64)
-										figcaption
-											if (parseInt(place.hg_12_g_dlmeasurescore) === place.hg_12_g_dlmeasurescore)
-												div !{place.hg_12_g_dlmeasurescore} / 10
-											else
-												div N/A
-											div Hgb &gt; 12.0 g/dL
-								.col-xs-8
-									figure.score(title="Hemodialysis patients who had enough wastes removed from their blood during dialysis: Urea Reduction Ratio greater than or equal to 65%")
-										+pie(place.urr_65_measurescore, 10, 64)
-										figcaption
-											if (parseInt(place.urr_65_measurescore) === place.urr_65_measurescore)
-												div !{place.urr_65_measurescore} / 10
-											else
-												div N/A
-											div URR &gt; 65%
-								.col-xs-8
-									figure.score(title="Vascular Catheter Measure Score")
-										+pie(place.catheter_measure_score, 10, 64)
-										figcaption
-											if (parseInt(place.catheter_measure_score) === place.catheter_measure_score)
-												div !{place.catheter_measure_score} / 10
-											else
-												div N/A
-											div Catheters
-							.row
-								.col-xs-8
-									figure.score(title="Arteriovenous Fistula Measure Score")
-										+pie(place.fistula_measure_score, 10, 64)
-										figcaption
-											if (parseInt(place.fistula_measure_score) === place.fistula_measure_score)
-												div !{place.fistula_measure_score} / 10
-											else
-												div N/A
-											div Fistulas
-								.col-xs-8
-									figure.score(title="Vascular Access Combined Measure Score")
-										+pie(place.vascular_access_combined_measure_score, 10, 64)
-										figcaption
-											if (parseInt(place.vascular_access_combined_measure_score) === place.vascular_access_combined_measure_score)
-												div !{place.vascular_access_combined_measure_score} / 10
-											else
-												div N/A
-											div Vascular Access
-								.col-xs-8
-									figure.score(title="Mineral Metabolism Reporting Score")
-										+pie(place.mineral_metabolism_reporting_score, 10, 64)
-										figcaption
-											if (parseInt(place.mineral_metabolism_reporting_score) === place.mineral_metabolism_reporting_score)
-												div !{place.mineral_metabolism_reporting_score} / 10
-											else
-												div N/A
-											div Mineral Metabolism
+							+measureScores()
+
+
+
+mixin address()
+	address(itemprop="location" itemscope itemtype="http://schema.org/Place") 
+		span(itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates")
+			span(itemprop="latitude" content=place.locationLat)
+			span(itemprop="longitude" content=place.locationLon)
+
+		address(itemprop="address" itemscope itemtype="http://schema.org/PostalAddress")
+			div(itemprop="streetAddress") !{place.address}
+			if (place.address2)
+				div(itemprop="streetAddress") !{place.address2}
+			div
+				a(itemprop="addressLocality" href=place.city.getLink()) !{place.city.name}
+				| , 
+				a(itemprop="addressRegion" href=place.state.getLink()) !{place.state.name} 
+				span(itemprop="postalCode") !{place.zip}
+
+			div
+				| Phone: 
+				span(itemprop="telephone") !{place.phone}
+
+
+mixin description()
+	p
+		if (place.performanceScore)
+			| !{place.name} was awarded a total performance score of 
+
+			span(itemprop="review" itemscope itemtype="http://schema.org/Review")
+				span(itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating")
+					span(itemprop="worstRating" content=0)
+					span(itemprop="ratingValue") !{place.performanceScore} 
+					| out of 
+					span(itemprop="bestRating") 100 
+				span(itemprop="sourceOrganization" itemscope itemtype="http://schema.org/Organization")
+					span(itemprop="name") by The Centers for Medicare &amp; Medicaid Services. 
+
+		| !{(place.performanceScore) ? 'It' : place.name} has been Medicare certified since 
+		span(itemprop="foundingDate" content="#{place.certificationDate.toString()}")
+			| !{place.certificationDate.format('MM/DD/YYYY')}.
+
+	p !{servicesList}
+		|  !{(numServices.length === 1) ? 'is' : 'are'} provided at !{place.name},
+		| where !{place.numStations} dialysis stations are available.
+		| For the latest information, or to schedule an appointment, call <nobr>!{place.phone}</nobr>
+		| or visit the facility at <nobr>!{place.address} </nobr> in !{place.city.placeName}.
+
+	p
+		| !{place.name} is a !{(place.forProfit) ? 'for ' : 'non-'}profit dialysis provider 
+		-var owner = place.getOwner();
+		-var chain = place.getChain();
+		if (!owner || owner.label === 'Independent')
+			| independently owned
+		else
+			| owned by 
+			span(itemprop="owns" itemscope itemtype="http://schema.org/OwnershipInfo")
+				span(itemprop="name") !{owner.label}
+
+		| , and is 
+		if (!chain || chain.label === 'Independent')
+			| not part of a larger chain of providers.
+		else
+			| part of a chain of providers, 
+			span(itemprop="brand" itemscope itemtype="http://schema.org/Brand")
+				span(itemprop="name") !{chain.label}. 
+
+		| The last reported change of ownership was recorded on !{place.ownershipDate.format('MM/DD/YYYY')}
+
+
+mixin overallScores()
+	h1 Overall Scores
+	.row
+		.col-xs-8
+			figure.score
+				+pie(place.performanceScore, 100, 128)
+				figcaption
+					if (parseInt(place.performanceScore) === place.performanceScore)
+						div !{place.performanceScore} / 100
+					else
+						div N/A
+					div Total Performance Score
+
+		.col-xs-8
+			figure.score
+				+pie(place.ich_cahps_admin_score, 10, 128)
+				figcaption
+					if (parseInt(place.ich_cahps_admin_score) === place.ich_cahps_admin_score)
+						div !{place.ich_cahps_admin_score} / 10
+					else
+						div N/A
+					div <abbr title="In-Center Hemodialysis">ICH</abbr> <abbr title="Consumer Assessment of Healthcare Providers and Systems">CAHPS</abbr> Admin Score
+
+		.col-xs-8
+			figure.score
+				+pie(place.nhsn_event_reporting_score, 10, 128)
+				figcaption
+					if (parseInt(place.nhsn_event_reporting_score) === place.nhsn_event_reporting_score)
+						div !{place.nhsn_event_reporting_score} / 10
+					else
+						div N/A
+					div <abbr title="National Healthcare Safety Network">NHSN</abbr> Event Reporting Score
+
+
+mixin measureScores()
+	h1 Measure Scores
+	.row
+		.col-xs-8
+			figure.score(title="Patient(s) who had an average hemoglobin value greater than 12.0 g/dL")
+				+pie(place.hg_12_g_dlmeasurescore, 10, 64)
+				figcaption
+					if (parseInt(place.hg_12_g_dlmeasurescore) === place.hg_12_g_dlmeasurescore)
+						div !{place.hg_12_g_dlmeasurescore} / 10
+					else
+						div N/A
+					div Hgb &gt; 12.0 g/dL
+		.col-xs-8
+			figure.score(title="Hemodialysis patients who had enough wastes removed from their blood during dialysis: Urea Reduction Ratio greater than or equal to 65%")
+				+pie(place.urr_65_measurescore, 10, 64)
+				figcaption
+					if (parseInt(place.urr_65_measurescore) === place.urr_65_measurescore)
+						div !{place.urr_65_measurescore} / 10
+					else
+						div N/A
+					div URR &gt; 65%
+		.col-xs-8
+			figure.score(title="Vascular Catheter Measure Score")
+				+pie(place.catheter_measure_score, 10, 64)
+				figcaption
+					if (parseInt(place.catheter_measure_score) === place.catheter_measure_score)
+						div !{place.catheter_measure_score} / 10
+					else
+						div N/A
+					div Catheters
+	.row
+		.col-xs-8
+			figure.score(title="Arteriovenous Fistula Measure Score")
+				+pie(place.fistula_measure_score, 10, 64)
+				figcaption
+					if (parseInt(place.fistula_measure_score) === place.fistula_measure_score)
+						div !{place.fistula_measure_score} / 10
+					else
+						div N/A
+					div Fistulas
+		.col-xs-8
+			figure.score(title="Vascular Access Combined Measure Score")
+				+pie(place.vascular_access_combined_measure_score, 10, 64)
+				figcaption
+					if (parseInt(place.vascular_access_combined_measure_score) === place.vascular_access_combined_measure_score)
+						div !{place.vascular_access_combined_measure_score} / 10
+					else
+						div N/A
+					div Vascular Access
+		.col-xs-8
+			figure.score(title="Mineral Metabolism Reporting Score")
+				+pie(place.mineral_metabolism_reporting_score, 10, 64)
+				figcaption
+					if (parseInt(place.mineral_metabolism_reporting_score) === place.mineral_metabolism_reporting_score)
+						div !{place.mineral_metabolism_reporting_score} / 10
+					else
+						div N/A
+					div Mineral Metabolism
+
+
 
 mixin pie(score, maxScore, size)
 	if (parseInt(score) === score)
