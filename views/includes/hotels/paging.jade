@@ -7,11 +7,11 @@ if (options.numPages > 1)
 
 		.pagingInfo.clearfix
 			.prev(class=prevClass)
-				a(href=options.firstPageUrl, title="First Page"): i.fa.fa-angle-double-left
-				a(href=options.prevPageUrl, title="Previous Page"): i.fa.fa-angle-left
+				a(href=options.firstPageUrl, title="First Page", rel="nofollow"): i.fa.fa-angle-double-left
+				a(href=options.prevPageUrl, title="Previous Page", rel="nofollow"): i.fa.fa-angle-left
 			.next(class=nextClass)
-				a(href=options.nextPageUrl, title="Next Page"): i.fa.fa-angle-right
-				a(href=options.lastPageUrl, title="Last Page"): i.fa.fa-angle-double-right
+				a(href=options.nextPageUrl, title="Next Page", rel="nofollow"): i.fa.fa-angle-right
+				a(href=options.lastPageUrl, title="Last Page", rel="nofollow"): i.fa.fa-angle-double-right
 			.numbers
 				| Page #{options.pageNum} of #{options.numPages}
 
