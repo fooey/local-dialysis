@@ -67,8 +67,6 @@ me.render = function(req, res, place, places) {
 
 
 	var filters = {
-		latitude: place.locationLat.toFixed(5).toString(),
-		longitude: place.locationLon.toFixed(5).toString(),
 
 		startRow: options.startRow,
 		endRow: options.endRow,
@@ -80,6 +78,15 @@ me.render = function(req, res, place, places) {
 		customerIpAddress: req.ip,
 		customerUserAgent: req.headers['user-agent'],
 	};
+
+	if (place.locationLat && place.locationLon) {
+		filters.latitude = place.locationLat.toFixed(5).toString();
+		filters.longitude = place.locationLon.toFixed(5).toString();
+	}
+	else {
+		filters.city = place.city.name;
+		filters.state = place.state.code;
+	}
 
 	getHotels(filters, function(err, results) {
 
