@@ -3,39 +3,24 @@
 
 module.exports = function(app, req, res, next) {
 	var robots = [];
-	robots.push('# ' + req.headers.host);
+	
+	robots.push('');
+	robots.push('User-agent: *');
+	robots.push('Disallow: /api/');
 
-	var devmode = (app.get('env') === 'development' && req.query.hasOwnProperty('dev'))
-		? true
-		: false;
-
-
-	if (req.headers.host === 'local-dialysis.com' || devmode) {
-		robots.push('');
-		robots.push('User-agent: *');
-		robots.push('Disallow: /api/');
-
-		robots.push('Disallow: /*?*hemodialysis=');
-		robots.push('Disallow: /*?*hemodialysistraining=');
-		robots.push('Disallow: /*?*lateshift=');
-		robots.push('Disallow: /*?*chain=');
-		robots.push('Disallow: /*?*page=');
-		robots.push('');
+	robots.push('Disallow: /*?*hemodialysis=');
+	robots.push('Disallow: /*?*hemodialysistraining=');
+	robots.push('Disallow: /*?*lateshift=');
+	robots.push('Disallow: /*?*chain=');
+	robots.push('Disallow: /*?*page=');
+	robots.push('');
 
 
-		robots.push('');
-		robots.push('Sitemap: http://local-dialysis.com/sitemaps/geo');
-		robots.push('Sitemap: http://local-dialysis.com/sitemaps/providers');
-		robots.push('');
-	}
-	else {
-		robots.push('# Non-canonical domain');
-		robots.push('# Use http://local-dialysis.com');
-		robots.push('');
-		robots.push('User-agent: *');
-		robots.push('Disallow: /');
-		robots.push('');
-	}
+	robots.push('');
+	robots.push('Sitemap: http://local-dialysis.com/sitemaps/geo');
+	robots.push('Sitemap: http://local-dialysis.com/sitemaps/providers');
+	robots.push('');
+	
 	
 	res.end(robots.join('\n'));
 };
