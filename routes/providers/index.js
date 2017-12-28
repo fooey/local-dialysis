@@ -46,7 +46,13 @@ module.exports = function(app, express) {
 	router.get('/:facilitySlug.statistics.:facilityId([0-9]{6}).html', require(GLOBAL.paths.getRoute('stats/provider')));
 	router.get('/:facilitySlug.jobs.:facilityId([0-9]{6}).html', require(GLOBAL.paths.getRoute('jobs/provider')));
 
-	router.get('/:facilitySlug.hotels.:facilityId([0-9]{6}).html', require(GLOBAL.paths.getRoute('hotels/provider')));
+	// router.get('/:facilitySlug.hotels.:facilityId([0-9]{6}).html', require(GLOBAL.paths.getRoute('hotels/provider')));
+	router.get('/:facilitySlug.hotels.:facilityId([0-9]{6}).html', (req, res) => {
+		return facilitySvc.getFacility(req.params.facilityId, function(err, place) {
+			console.log('place', place);
+			res.redirect(301, place.getLink());
+		});
+	});
 	
 
 

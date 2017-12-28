@@ -2,10 +2,6 @@
   "name": "local-dialysis",
   "version": "0.0.1",
   "private": true,
-  "engines": {
-    "node": "~0.10.30",
-    "npm": "~1.4.9"
-  },
   "dependencies": {
     "amazon-ses": "0.0.3",
     "async": "^0.9.0",
@@ -24,17 +20,15 @@
     "moment": "^2.8.3",
     "morgan": "^1.3.2",
     "mv": "^2.0.3",
-    "newrelic": "^1.12.0",
     "node-uuid": "^1.4.1",
-    "nodetime": "^0.8.15",
+    "nodemon": "^1.14.3",
     "numeral": "^1.5.3",
     "request": "^2.45.0",
     "serve-favicon": "^2.1.5",
-    "sqlite3": "^3.0.2",
+    "sqlite3": "^3.1.13",
     "uuid": "^2.0.1"
   },
   "devDependencies": {
-    "async": "^0.8.0",
     "grunt": "^0.4.5",
     "grunt-concurrent": "^1",
     "grunt-contrib-cssmin": "^0.10.0",
@@ -45,6 +39,11 @@
     "longjohn": "^0.2.4"
   },
   "scripts": {
-    "postinstall": "node ./node_modules/bower/bin/bower install"
+    "start": "node server.js",
+    "bower": "bower install --allow-root",
+    "build": "grunt build",
+    "docker:build": "docker build -t fooey/local-dialysis .",
+    "docker:run": "docker run -it -p 3000:3000 --rm --memory=128m --cpus=0.5 --name docker-ld fooey/local-dialysis",
+    "dev": "nodemon server.js"
   }
 }

@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 
 					delay: 100,
 					env: {
-						PORT: '3003',
+						PORT: '3000',
 						NODE_ENV: 'development',
 						CACHE_SIZE: '256',
 						EAN_CID: '337937',
@@ -200,7 +200,8 @@ module.exports = function(grunt) {
 	// grunt.registerTask('minify', ['cssmin:css', 'closure-compiler2:appJs', 'uglify:appJs']);
 	grunt.registerTask('dev', ['less', 'cssmin', 'uglify', 'concurrent:dev']);
 	grunt.registerTask('debug', ['less', 'cssmin', 'uglify', 'concurrent:debug']);
-	grunt.registerTask('prod', ['less', 'cssmin', 'uglify', 'nodemon:prod']);
+	grunt.registerTask('build', ['less', 'cssmin', 'uglify']);
+	grunt.registerTask('prod', ['build', 'nodemon:prod']);
 	grunt.registerTask('default', ['dev']);
 	// grunt.registerTask('closure', ['uglify']);
 };

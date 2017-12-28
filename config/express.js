@@ -24,7 +24,7 @@ module.exports = function(app, express) {
 	}
 	else {
 		app.use(errorHandler());
-		app.use(morgan());
+		app.use(morgan('common'));
 		app.set('view cache', true);
 	}
 
@@ -32,7 +32,7 @@ module.exports = function(app, express) {
 	app.use(compression());
 	app.use(slashes(false)); // no trailing slashes
 
-	app.set('port', process.env.PORT || 3003);
+	app.set('port', process.env.PORT || 3000);
 	app.set('views', GLOBAL.paths.getView());
 	app.set('view engine', 'jade');
 

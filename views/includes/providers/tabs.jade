@@ -15,10 +15,10 @@ ul.nav.nav-tabs.provider
 			i.fa.fa-clock-o
 			| Jobs <span class="verbose">Available</span>
 			
-	li(class=(activeTab === 'hotels')?'active':'')
-		a(href=place.getLink('hotels'), title="Recommended Hotels Near #{place.name}")
-			i.fa.fa-clock-o
-			| <span class="verbose">Recommended</span> Hotels
+	//- li(class=(activeTab === 'hotels')?'active':'')
+	//- 	a(href=place.getLink('hotels'), title="Recommended Hotels Near #{place.name}")
+	//- 		i.fa.fa-clock-o
+	//- 		| <span class="verbose">Recommended</span> Hotels
 			
 	li(class=(activeTab === 'area')?'active':'')
 		a(href=place.getLink('area'), title="Dialysis Providers Near #{place.name}")

@@ -1,0 +1,13 @@
+version: "3"
+services:
+  node:
+    image: "mhart/alpine-node:8"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - "8888"
+    command: "npm start"

@@ -42,7 +42,7 @@ function getFacilities(req, callback, results) {
 		// performanceScore: 80,
 	}
 
-	var activeFilters = _.where(browseFilters, {isActive: true}, 'col');
+	var activeFilters = _.find(browseFilters, {isActive: true}, 'col');
 
 	_.each(activeFilters, function(filter) {
 		var val = (filter.val === 'yes') ? 1 : 0;
