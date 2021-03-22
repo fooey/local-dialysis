@@ -27,13 +27,13 @@ module.exports = function(app, express) {
 
 
 
-	router.get('/geo', require(GLOBAL.paths.getRoute('sitemaps/geo')));
-	router.get('/geo/list', require(GLOBAL.paths.getRoute('sitemaps/geo/list')));
-	router.get('/geo/:stateSlug', require(GLOBAL.paths.getRoute('sitemaps/geo/state')));
+	router.get('/geo', require(global.paths.getRoute('sitemaps/geo')));
+	router.get('/geo/list', require(global.paths.getRoute('sitemaps/geo/list')));
+	router.get('/geo/:stateSlug', require(global.paths.getRoute('sitemaps/geo/state')));
 
 
-	router.get('/providers', require(GLOBAL.paths.getRoute('sitemaps/providers')));
-	router.get('/providers/:stateSlug', require(GLOBAL.paths.getRoute('sitemaps/providers/state')));
+	router.get('/providers', require(global.paths.getRoute('sitemaps/providers')));
+	router.get('/providers/:stateSlug', require(global.paths.getRoute('sitemaps/providers/state')));
 
 
 	return router;

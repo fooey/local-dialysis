@@ -6,9 +6,9 @@ const numeral = require('numeral');
 
 
 
-const nationSvc = require(GLOBAL.paths.getService('geo/nation'));
-const statesSvc = require(GLOBAL.paths.getService('geo/states'));
-const citiesSvc = require(GLOBAL.paths.getService('geo/cities'));
+const nationSvc = require(global.paths.getService('geo/nation'));
+const statesSvc = require(global.paths.getService('geo/states'));
+const citiesSvc = require(global.paths.getService('geo/cities'));
 
 const thresholdDefault = 12;
 

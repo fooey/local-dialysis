@@ -14,11 +14,11 @@ module.exports = function(app, express) {
 	}
 	else {
 		router.get('/', function(req, res) {
-			const configData = require(GLOBAL.paths.getData('config.json'));
+			const configData = require(global.paths.getData('config.json'));
 			res.json(configData);
 		});
-		router.get('/get', require(GLOBAL.paths.getRoute('data/get.js')));
-		router.get('/generate', require(GLOBAL.paths.getRoute('data/generate.js')));
+		router.get('/get', require(global.paths.getRoute('data/get.js')));
+		router.get('/generate', require(global.paths.getRoute('data/generate.js')));
 	}
 
 

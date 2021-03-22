@@ -13,11 +13,11 @@ const util = require('util');
 const async = require('async');
 
 
-const facilitySvc = require(GLOBAL.paths.getService('facilities/core'));
-const nationSvc = require(GLOBAL.paths.getService('geo/nation'));
-const stateSvc = require(GLOBAL.paths.getService('geo/states'));
-const citySvc = require(GLOBAL.paths.getService('geo/cities'));
-const statsCore = require(GLOBAL.paths.getRoute('stats/core'));
+const facilitySvc = require(global.paths.getService('facilities/core'));
+const nationSvc = require(global.paths.getService('geo/nation'));
+const stateSvc = require(global.paths.getService('geo/states'));
+const citySvc = require(global.paths.getService('geo/cities'));
+const statsCore = require(global.paths.getRoute('stats/core'));
 
 
 /*

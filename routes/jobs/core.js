@@ -27,7 +27,7 @@ const moment = require('moment');
 const numeral = require('numeral');
 const request = require('request');
 
-const netSvc = require(GLOBAL.paths.getService('net'));
+const netSvc = require(global.paths.getService('net'));
 
 
 /*

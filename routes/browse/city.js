@@ -4,8 +4,8 @@ const _ = require('lodash');
 const async = require('async');
 
 
-const facilitiesSvc = require(GLOBAL.paths.getService('facilities/core'));
-const browse = require(GLOBAL.paths.getRoute('browse/core'));
+const facilitiesSvc = require(global.paths.getService('facilities/core'));
+const browse = require(global.paths.getRoute('browse/core'));
 
 
 module.exports = function(req, res) {

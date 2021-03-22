@@ -21,7 +21,7 @@ const async = require('async');
 
 const common = require('./common.js');
 
-var db = GLOBAL.DATABASE;
+var db = global.DATABASE;
 
 
 

@@ -21,7 +21,7 @@ const async = require('async');
 
 const common = require('./common.js');
 
-var db = GLOBAL.DATABASE;
+var db = global.DATABASE;
 
 
 
@@ -55,7 +55,7 @@ me.getTotals = function getTotals(filters, fnCallback) {
 		having.push('COUNT(*) >= $threshold');
 		params.$threshold = filters.threshold;
 	}
-	
+
 
 	var columns = common.getTotalsColumns().concat([
 		'state AS stateName',
@@ -107,7 +107,7 @@ me.getStats = function getStats(filters, fnCallback) {
 		having.push('COUNT(*) >= $threshold');
 		params.$threshold = filters.threshold;
 	}
-	
+
 
 	var columns = [
 			'state AS stateName',

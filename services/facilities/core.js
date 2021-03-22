@@ -21,10 +21,10 @@ const async = require('async');
 const moment = require('moment');
 
 
-const facilitiesData = require(GLOBAL.paths.getService('data/facilities'));
+const facilitiesData = require(global.paths.getService('data/facilities'));
 
-const statesSvc = require(GLOBAL.paths.getService('geo/states'));
-const citiesSvc = require(GLOBAL.paths.getService('geo/cities'));
+const statesSvc = require(global.paths.getService('geo/states'));
+const citiesSvc = require(global.paths.getService('geo/cities'));
 
 
 
@@ -74,26 +74,26 @@ me.Facility = function Facility(facilityData) {
 
 me.Facility.prototype.getLink = function getLink(subPage) {
 	var pageLink = [
-		this.slug, 
-		subPage, 
-		this.id, 
+		this.slug,
+		subPage,
+		this.id,
 		'html'
 	];
-	
+
 	return '/providers/' + _.compact(pageLink).join('.');
 }
 
 me.Facility.prototype.getChain = function getChain() {
-	return GLOBAL.DATA.REFERENCE.chains[this.chainId];
+	return global.DATA.REFERENCE.chains[this.chainId];
 }
 
 me.Facility.prototype.getOwner = function getOwner() {
-	return GLOBAL.DATA.REFERENCE.owners[this.ownerId];
+	return global.DATA.REFERENCE.owners[this.ownerId];
 }
 
 me.Facility.prototype.getText = function getText(key) {
 	var lookupId = this[key + 'Id'];
-	return _.find(GLOBAL.DATA.REFERENCE.texts, function(text) {return text.id === lookupId});
+	return _.find(global.DATA.REFERENCE.texts, function(text) {return text.id === lookupId});
 }
 
 
@@ -108,7 +108,7 @@ me.Facility.prototype.getText = function getText(key) {
 me.getFacility = function getFacility(id, fnCallback) {
 	var filters = {id: id, withStats: true};
 	var cacheKey = 'facility:getFacility:' + id;
-	var facility = GLOBAL.cache.get(cacheKey);
+	var facility = global.cache.get(cacheKey);
 
 	if (facility) {
 		fnCallback(null, facility);
@@ -118,7 +118,7 @@ me.getFacility = function getFacility(id, fnCallback) {
 			if (err) throw (err);
 
 			var facility = new me.Facility(data[0]);
-			GLOBAL.cache.set(cacheKey, facility);
+			global.cache.set(cacheKey, facility);
 			fnCallback(err, facility);
 		});
 	}
@@ -129,7 +129,7 @@ me.getFacility = function getFacility(id, fnCallback) {
 me.get = function get(filters, fnCallback) {
 
 	var cacheKey = 'facility:get:' + filterToString(filters);
-	var facilities = GLOBAL.cache.get(cacheKey);
+	var facilities = global.cache.get(cacheKey);
 
 	if (facilities) {
 		fnCallback(null, facilities);
@@ -142,7 +142,7 @@ me.get = function get(filters, fnCallback) {
 				return new me.Facility(facilityData);
 			});
 
-			GLOBAL.cache.set(cacheKey, facilities);
+			global.cache.set(cacheKey, facilities);
 
 			fnCallback(err, facilities);
 		});
@@ -209,7 +209,7 @@ function filterToString(filters) {
 // 		'lists_the_facility_s_standardized_transfusion_ratio_facility',
 // 		'lists_the_upper_confident_limit_97_5_for_standardized_transfusion_ratio_strr',
 // 		'lists_the_lower_confident_limit_2_5_for_standardized_transfusion_ratio_strr',
-		
+
 // 		'lists_the_number_of_patients_included_in_the_facility_s_hypercalcemia_summary_facility',
 // 		'lists_the_number_of_patients_included_in_the_facility_s_serum_phosphorus_summary_facility',
 // 		'lists_the_number_of_patients_included_in_the_facility_s_transfusion_summary_facility',
@@ -281,7 +281,7 @@ function filterToString(filters) {
 // 	],
 // 	codes: [
 // 		'adult_hd_kt_v_data_availability_code',
-// 		'adult_pd_kt_v_data_availability_code',	
+// 		'adult_pd_kt_v_data_availability_code',
 // 		'arteriovenous_fistulae_in_place_data_availability_code',
 // 		'hgb_10_data_availability_code',
 // 		'hgb_12_data_availability_code',
@@ -291,7 +291,7 @@ function filterToString(filters) {
 // 		'patient_transfusion_data_availability_code',
 // 		'pediatric_hd_kt_v_data_availability_code',
 // 		'serum_phosphorus_data_availability_code',
-// 		'urr_data_availability_code',	
+// 		'urr_data_availability_code',
 // 		'vascular_catheter_data_availability_code',
 // 	],
 // 	categories: [

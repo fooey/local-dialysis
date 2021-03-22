@@ -7,9 +7,9 @@ const async = require('async');
 const _ = require('lodash');
 
 
-const dataMedicare = GLOBAL.paths.requireLib('data-medicare');
-const configSrc = GLOBAL.paths.getData('config.json');
-const dataPath = GLOBAL.paths.getData('');
+const dataMedicare = global.paths.requireLib('data-medicare');
+const configSrc = global.paths.getData('config.json');
+const dataPath = global.paths.getData('');
 
 
 module.exports = function(req, res, next) {

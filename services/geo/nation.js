@@ -19,8 +19,8 @@ var me = module.exports = {};
 const _ = require('lodash');
 const async = require('async');
 
-const nationData = require(GLOBAL.paths.getService('data/nation'));
-const statsCore = require(GLOBAL.paths.getRoute('stats/core'));
+const nationData = require(global.paths.getService('data/nation'));
+const statsCore = require(global.paths.getRoute('stats/core'));
 
 
 
@@ -66,7 +66,7 @@ me.NationStats = function(jsonData) {
 
 me.getTotals = function data_getTotals(fnCallback) {
 	var cacheKey = 'nation:getTotals';
-	var nation = GLOBAL.cache.get(cacheKey);
+	var nation = global.cache.get(cacheKey);
 
 	if (nation) {
 		fnCallback(null, nation);
@@ -76,7 +76,7 @@ me.getTotals = function data_getTotals(fnCallback) {
 			if (err) throw (err);
 
 			var nation = new me.Nation(data[0]);
-			GLOBAL.cache.set(cacheKey, nation);
+			global.cache.set(cacheKey, nation);
 			fnCallback(err, nation);
 		});
 	}
@@ -86,7 +86,7 @@ me.getTotals = function data_getTotals(fnCallback) {
 
 me.getStats = function data_getStats(fnCallback) {
 	// var cacheKey = 'nation:getStats';
-	// var nationStats = GLOBAL.cache.get(cacheKey);
+	// var nationStats = global.cache.get(cacheKey);
 
 	// if (nationStats) {
 	// 	fnCallback(null, nationStats);
@@ -96,7 +96,7 @@ me.getStats = function data_getStats(fnCallback) {
 			if (err) throw (err);
 
 			var nationStats = new me.Nation(data[0]);
-			// GLOBAL.cache.set(cacheKey, nationStats);
+			// global.cache.set(cacheKey, nationStats);
 			fnCallback(err, nationStats);
 		});
 	// }

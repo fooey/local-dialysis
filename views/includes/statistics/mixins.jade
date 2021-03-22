@@ -34,7 +34,7 @@ mixin writeCodes(section, label, key, dataType)
 						col(width="10%")
 						col
 						caption !{places[region].placeName}
-						each code, ixText in GLOBAL.DATA.REFERENCE.codes
+						each code, ixText in global.DATA.REFERENCE.codes
 							-var codeKey = ('code' + code.id + '_' + key)
 							-var val = places[region][codeKey]
 							if (val !== null)
@@ -50,7 +50,7 @@ mixin writeCodes(section, label, key, dataType)
 					-var facilityKey = places.facility[key]
 					tr
 						td !{facilityKey}
-						td.code-label !{(GLOBAL.DATA.REFERENCE.codes[facilityKey]) ? GLOBAL.DATA.REFERENCE.codes[facilityKey].label : 'N/A'}
+						td.code-label !{(global.DATA.REFERENCE.codes[facilityKey]) ? global.DATA.REFERENCE.codes[facilityKey].label : 'N/A'}
 
 
 
@@ -95,7 +95,7 @@ mixin writeTexts(section, label, key, dataType)
 						col(width="10%")
 						col
 						caption !{places[region].placeName}
-						each text, ixText in GLOBAL.DATA.REFERENCE.texts
+						each text, ixText in global.DATA.REFERENCE.texts
 							-var textKey = ('text' + text.id + '_' + key)
 							-var val = places[region][textKey];
 							if (val !== null)
@@ -110,7 +110,7 @@ mixin writeTexts(section, label, key, dataType)
 					caption !{places.facility.name}
 					-var facilityKey = places.facility[key];
 					//- -console.log('facilityKey', facilityKey)
-					-var text = GLOBAL.DATA.REFERENCE.texts[facilityKey]
+					-var text = global.DATA.REFERENCE.texts[facilityKey]
 					tr
 						td
 						th.applied-label !{(text) ? text.val : 'N/A'}
@@ -130,7 +130,7 @@ mixin writeApplied(section, label, key, dataType)
 						col(width="10%")
 						col
 						caption !{places[region].placeName}
-						each applied, ixApplied in GLOBAL.DATA.REFERENCE.applies
+						each applied, ixApplied in global.DATA.REFERENCE.applies
 							-var appliedKey = ('applied' + applied.id + '_' + key)
 							-var val = places[region][appliedKey]
 							if (val !== null)
@@ -148,7 +148,7 @@ mixin writeApplied(section, label, key, dataType)
 					-var facilityKey = places.facility[key]
 					tr
 						td
-						th.applied-label !{(GLOBAL.DATA.REFERENCE.applies[facilityKey]) ? GLOBAL.DATA.REFERENCE.applies[facilityKey].val : 'N/A'}
+						th.applied-label !{(global.DATA.REFERENCE.applies[facilityKey]) ? global.DATA.REFERENCE.applies[facilityKey].val : 'N/A'}
 
 
 
@@ -169,4 +169,4 @@ mixin writeVal(val, dataType)
 		-val = numeral(val).format('0,0.00')
 
 	td(class=valClass)= val
-	
+

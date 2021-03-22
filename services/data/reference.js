@@ -16,15 +16,15 @@ var me = module.exports = {};
 *
 */
 
-var db = GLOBAL.DATABASE;
+var db = global.DATABASE;
 
 const util = require('util');
 
 const _ = require('lodash');
 const async = require('async');
 
-const stringSvc = require(GLOBAL.paths.getService('string'));
-const arraySvc = require(GLOBAL.paths.getService('array'));
+const stringSvc = require(global.paths.getService('string'));
+const arraySvc = require(global.paths.getService('array'));
 
 
 
@@ -128,7 +128,7 @@ var codeFootnotes = {
 
 me.init = function(fnCallback) {
 	async.series([
-		generateData, // sets GLOBAL
+		generateData, // sets global
 		createTables,
 		populateTables,
 		// me.setGlobals,
@@ -143,7 +143,7 @@ me.init = function(fnCallback) {
 
 me.get = function(tableName, lookupVal, fnCallback) {
 	async.detect(
-		GLOBAL.DATA.REFERENCE[tableName],
+		global.DATA.REFERENCE[tableName],
 		function(record, fn) {
 			fn(record.val === lookupVal);
 		},
@@ -154,7 +154,7 @@ me.get = function(tableName, lookupVal, fnCallback) {
 
 
 me.setGlobals = function(fnCallback) {
-	GLOBAL.DATA.REFERENCE = {};
+	global.DATA.REFERENCE = {};
 
 	console.log('data::reference::setGlobals');
 
@@ -168,7 +168,7 @@ me.setGlobals = function(fnCallback) {
 			db.all(
 				select,
 				function(err, results) {
-					GLOBAL.DATA.REFERENCE[tableName] = results;
+					global.DATA.REFERENCE[tableName] = results;
 					nextTable();
 				}
 			);
@@ -186,7 +186,7 @@ me.setGlobals = function(fnCallback) {
 */
 
 function generateData(fnCallback) {
-	var facilityData = require(GLOBAL.paths.getData('medicare/merged.json'));
+	var facilityData = require(global.paths.getData('medicare/merged.json'));
 	var tables = {};
 
 	async.each(
@@ -216,9 +216,9 @@ function generateData(fnCallback) {
 				function(err) {
 
 					/*
-					*	SET GLOBAL VARIABLE
+					*	SET global VARIABLE
 					*/
-					GLOBAL.DATA.REFERENCE = tables;
+					global.DATA.REFERENCE = tables;
 
 					fnCallback(null);
 				}
@@ -261,7 +261,7 @@ function populateTables(fnCallback) {
 	async.each(
 		_.keys(me.referenceTableMeta),
 		function(tableName, nextTable) {
-			var tableData = GLOBAL.DATA.REFERENCE[tableName];
+			var tableData = global.DATA.REFERENCE[tableName];
 			var rtMeta = me.referenceTableMeta[tableName];
 
 			var insert = (rtMeta.useLabel)
@@ -292,7 +292,7 @@ function checkTables(fnCallback) {
 	console.log('reference::checkTables()');
 
 	async.each(
-		// _.keys(GLOBAL.DATA.REFERENCE),
+		// _.keys(global.DATA.REFERENCE),
 		['owners'],
 		function(tableName, cbEach) {
 			var select = util.format("SELECT * FROM %s ORDER BY id", tableName);
@@ -325,7 +325,7 @@ function buildReferenceTable(meta, column, fnCallback) {
 	else {
 		// console.log('reference:buildReferenceTable()', column);
 
-		var facilities = require(GLOBAL.paths.getData('medicare/merged.json'));
+		var facilities = require(global.paths.getData('medicare/merged.json'));
 		var table = [];
 
 		async.each(

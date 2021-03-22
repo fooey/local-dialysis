@@ -8,7 +8,7 @@ const async = require('async');
 const request = require('request');
 
 
-const myUtil = require(GLOBAL.paths.getService('util'));
+const myUtil = require(global.paths.getService('util'));
 
 
 

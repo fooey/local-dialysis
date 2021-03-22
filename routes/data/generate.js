@@ -1,6 +1,6 @@
 'use strict';
 
-const dataGenerator = require(GLOBAL.paths.getService('data/generate'));
+const dataGenerator = require(global.paths.getService('data/generate'));
 
 
 

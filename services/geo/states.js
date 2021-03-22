@@ -19,7 +19,7 @@ var me = module.exports = {};
 const _ = require('lodash');
 const async = require('async');
 
-const statesData = require(GLOBAL.paths.getService('data/states'));
+const statesData = require(global.paths.getService('data/states'));
 
 
 /*
@@ -61,7 +61,7 @@ me.State.prototype.getLink = function getLink(subPage) {
 
 me.getTotals = function getTotals(fnCallback) {
 	var cacheKey = 'state:getTotals';
-	var states = GLOBAL.cache.get(cacheKey);
+	var states = global.cache.get(cacheKey);
 
 	if (states) {
 		fnCallback(null, states);
@@ -74,7 +74,7 @@ me.getTotals = function getTotals(fnCallback) {
 				return new me.State(stateData);
 			});
 
-			GLOBAL.cache.set(cacheKey, states);
+			global.cache.set(cacheKey, states);
 
 			fnCallback(err, states);
 		});
@@ -84,7 +84,7 @@ me.getTotals = function getTotals(fnCallback) {
 
 me.getBySlug = function getBySlug(slug, fnCallback) {
 	var cacheKey = 'state:getBySlug:' + slug;
-	var state = GLOBAL.cache.get(cacheKey);
+	var state = global.cache.get(cacheKey);
 
 	if (state) {
 		fnCallback(null, state);
@@ -95,7 +95,7 @@ me.getBySlug = function getBySlug(slug, fnCallback) {
 
 			var state = (data.length) ? new me.State(data[0]) : null;
 
-			GLOBAL.cache.set(cacheKey, state);
+			global.cache.set(cacheKey, state);
 			fnCallback(err, state);
 		});
 	}
@@ -104,7 +104,7 @@ me.getBySlug = function getBySlug(slug, fnCallback) {
 
 me.getStatsBySlug = function getStatsBySlug(slug, fnCallback) {
 	// var cacheKey = 'state:getBySlug:' + slug;
-	// var state = GLOBAL.cache.get(cacheKey);
+	// var state = global.cache.get(cacheKey);
 
 	// if (state) {
 	// 	fnCallback(null, state);
@@ -117,7 +117,7 @@ me.getStatsBySlug = function getStatsBySlug(slug, fnCallback) {
 
 
 			var state = (data.length) ? new me.State(data[0]) : null;
-			// GLOBAL.cache.set(cacheKey, state);
+			// global.cache.set(cacheKey, state);
 			fnCallback(err, state);
 		});
 	// }

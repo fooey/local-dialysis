@@ -13,8 +13,8 @@ const util = require('util');
 const async = require('async');
 
 
-const nationSvc = require(GLOBAL.paths.getService('geo/nation'));
-const jobsCore = require(GLOBAL.paths.getRoute('jobs/core'));
+const nationSvc = require(global.paths.getService('geo/nation'));
+const jobsCore = require(global.paths.getRoute('jobs/core'));
 
 
 /*

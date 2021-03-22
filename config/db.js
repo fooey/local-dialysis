@@ -10,9 +10,9 @@ module.exports = function(environment) {
 
 
 	// var storage = ':memory:';
-	var storage = GLOBAL.paths.getData('sqlite.bin');
+	var storage = global.paths.getData('sqlite.bin');
 	// if (environment === 'development') {
-	// 	storage = GLOBAL.paths.getData('sqlite.bin');
+	// 	storage = global.paths.getData('sqlite.bin');
 	// }
 
 

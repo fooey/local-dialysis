@@ -1,11 +1,11 @@
 /*
 *
-*	GLOBAL path helpers
+*	global path helpers
 *
 */
 
-GLOBAL.paths = require('./config/paths');
-GLOBAL.lastMod = new Date('2014-10-10');
+global.paths = require('./config/paths');
+global.lastMod = new Date('2014-10-10');
 
 
 
@@ -25,7 +25,7 @@ const app = express();
 *
 */
 
-require(GLOBAL.paths.getConfig('express'))(app, express);
+require(global.paths.getConfig('express'))(app, express);
 console.log('App Environment', app.get('env'));
 
 if (app.get('env') === 'development') {
@@ -54,18 +54,18 @@ if (app.get('env') === 'development') {
 *
 */
 
-GLOBAL.DATA = {
+global.DATA = {
 	reference: {}
 };
 
-GLOBAL.DATABASE = require(GLOBAL.paths.getConfig('db'))(app.get('env'));
+global.DATABASE = require(global.paths.getConfig('db'))(app.get('env'));
 
-GLOBAL.showAds = !(process.env.NODE_ENV === 'development');
-// GLOBAL.showAds = false;
+global.showAds = !(process.env.NODE_ENV === 'development');
+// global.showAds = false;
 
 
 // const LRU = require("lru-cache");
-GLOBAL.cache = require('lru-cache')({
+global.cache = require('lru-cache')({
 	max: process.env.CACHE_SIZE || 32,
 	// length: function (n) { return n * 2 },
 	// dispose: function (key, n) { n.close() },
@@ -80,7 +80,7 @@ GLOBAL.cache = require('lru-cache')({
 *
 */
 
-require(GLOBAL.paths.getRoute())(app, express);
+require(global.paths.getRoute())(app, express);
 
 
 
@@ -95,13 +95,13 @@ require(GLOBAL.paths.getRoute())(app, express);
 
 
 // if (!generateDatabase) {
-	const referenceData = require(GLOBAL.paths.getService('data/reference'));
+	const referenceData = require(global.paths.getService('data/reference'));
 	referenceData.setGlobals(startServer);
 // }
 // else {
 // 	const async = require('async');
-// 	const dataGetter = require(GLOBAL.paths.getService('data/get'));
-// 	const dataGenerator = require(GLOBAL.paths.getService('data/generate'));
+// 	const dataGetter = require(global.paths.getService('data/get'));
+// 	const dataGenerator = require(global.paths.getService('data/generate'));
 
 // 	async.series([
 // 		function retrieveData(callback) {

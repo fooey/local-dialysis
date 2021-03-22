@@ -33,14 +33,14 @@ module.exports = function(app, express) {
 	app.use(slashes(false)); // no trailing slashes
 
 	app.set('port', process.env.PORT || 3000);
-	app.set('views', GLOBAL.paths.getView());
+	app.set('views', global.paths.getView());
 	app.set('view engine', 'jade');
 
 
 
 	const favicon = require('serve-favicon');
 	app.use(
-		favicon(GLOBAL.paths.getPublic('img/favicon.ico'))
+		favicon(global.paths.getPublic('img/favicon.ico'))
 	);
 
 
@@ -70,10 +70,10 @@ module.exports = function(app, express) {
 	};
 
 	app.use(
-		express.static(GLOBAL.paths.getPublic(), staticOptions)
+		express.static(global.paths.getPublic(), staticOptions)
 	);
 	app.use(
-		express.static(GLOBAL.paths.getBower(), staticOptions)
+		express.static(global.paths.getBower(), staticOptions)
 	);
 };
 

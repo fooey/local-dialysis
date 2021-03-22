@@ -5,9 +5,9 @@ const fs = require('fs');
 const async = require('async');
 const mkdirp = require('mkdirp');
 
-const medicare = require(GLOBAL.paths.getService('data/medicare'));
+const medicare = require(global.paths.getService('data/medicare'));
 
-const dataConfigSrc = GLOBAL.paths.getData('config.json');
+const dataConfigSrc = global.paths.getData('config.json');
 
 
 
@@ -26,7 +26,7 @@ module.exports = function(callback) {
 
 
 	async.auto({
-		'mkdir': mkdirp.bind(null, GLOBAL.paths.getData('medicare')),
+		'mkdir': mkdirp.bind(null, global.paths.getData('medicare')),
 		'toUpdate': ['mkdir', checkForUpdates.bind(null, dataConfig)],
 		'updateData': ['toUpdate', updateData],
 		'updateConfig': ['updateData', updateConfig.bind(null, dataConfig)],
@@ -78,7 +78,7 @@ function updateData(callback, results) {
 		results.toUpdate,
 		function(viewData, nextView) {
 			var viewId = viewData.id;
-			var localPath = GLOBAL.paths.getData('medicare/' + viewId + '.tmp.json');
+			var localPath = global.paths.getData('medicare/' + viewId + '.tmp.json');
 
 			console.log('downloading', viewId, 'to', localPath);
 

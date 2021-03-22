@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(app, express) {
-	
+
 
 
 
@@ -10,7 +10,7 @@ module.exports = function(app, express) {
 	*/
 
 	app.get('/globals', function(req, res) {
-		res.send(GLOBAL.DATA.REFERENCE);
+		res.send(global.DATA.REFERENCE);
 	});
 
 	app.get('/robots.txt', require('./robots.js').bind(null, app));
@@ -40,8 +40,8 @@ module.exports = function(app, express) {
 	*	general
 	*/
 
-	app.get('/search', require(GLOBAL.paths.getRoute('search')));
-	
+	app.get('/search', require(global.paths.getRoute('search')));
+
 
 
 
@@ -53,7 +53,7 @@ module.exports = function(app, express) {
 	app.use('/data', dataRouter);
 
 
-	
+
 
 
 
@@ -63,7 +63,7 @@ module.exports = function(app, express) {
 
 	var providersRouter = require('./providers')(app, express);
 	app.use('/providers', providersRouter);
-	
+
 
 
 
@@ -71,9 +71,9 @@ module.exports = function(app, express) {
 	*	Statistics
 	*/
 
-	app.get('/statistics.html', require(GLOBAL.paths.getRoute('stats/nation')));
-	app.get('/:stateSlug([a-z-]+)/statistics.html', require(GLOBAL.paths.getRoute('stats/state')));
-	app.get('/:stateSlug([a-z-]+)/:citySlug([a-z-]+)/statistics.html', require(GLOBAL.paths.getRoute('stats/city')));
+	app.get('/statistics.html', require(global.paths.getRoute('stats/nation')));
+	app.get('/:stateSlug([a-z-]+)/statistics.html', require(global.paths.getRoute('stats/state')));
+	app.get('/:stateSlug([a-z-]+)/:citySlug([a-z-]+)/statistics.html', require(global.paths.getRoute('stats/city')));
 
 
 
@@ -81,9 +81,9 @@ module.exports = function(app, express) {
 	*	Jobs
 	*/
 
-	app.get('/jobs.html', require(GLOBAL.paths.getRoute('jobs/nation')));
-	app.get('/:stateSlug([a-z-]+)/jobs.html', require(GLOBAL.paths.getRoute('jobs/state')));
-	app.get('/:stateSlug([a-z-]+)/:citySlug([a-z-]+)/jobs.html', require(GLOBAL.paths.getRoute('jobs/city')));
+	app.get('/jobs.html', require(global.paths.getRoute('jobs/nation')));
+	app.get('/:stateSlug([a-z-]+)/jobs.html', require(global.paths.getRoute('jobs/state')));
+	app.get('/:stateSlug([a-z-]+)/:citySlug([a-z-]+)/jobs.html', require(global.paths.getRoute('jobs/city')));
 
 
 
@@ -91,9 +91,9 @@ module.exports = function(app, express) {
 	*	Browse Providers
 	*/
 
-	app.get('/', require(GLOBAL.paths.getRoute('home')));
-	app.get('/:stateSlug([a-z-]+)', require(GLOBAL.paths.getRoute('browse/state.js')));
-	app.get('/:stateSlug([a-z-]+)/:citySlug([a-z-]+)', require(GLOBAL.paths.getRoute('browse/city.js')));
+	app.get('/', require(global.paths.getRoute('home')));
+	app.get('/:stateSlug([a-z-]+)', require(global.paths.getRoute('browse/state.js')));
+	app.get('/:stateSlug([a-z-]+)/:citySlug([a-z-]+)', require(global.paths.getRoute('browse/city.js')));
 
 
 
@@ -109,7 +109,7 @@ module.exports = function(app, express) {
 
 
 
-	
+
 
 	function dumpRoute(req, res) {
 		res.send(req.params);

@@ -12,10 +12,10 @@ const util = require('util');
 const _ = require('lodash');
 const async = require('async');
 
-const statesSvc = require(GLOBAL.paths.getService('geo/states'));
-const citiesSvc = require(GLOBAL.paths.getService('geo/cities'));
-const sitemapsSvc = require(GLOBAL.paths.getService('sitemaps'));
-const fsSvc = require(GLOBAL.paths.getService('fs'));
+const statesSvc = require(global.paths.getService('geo/states'));
+const citiesSvc = require(global.paths.getService('geo/cities'));
+const sitemapsSvc = require(global.paths.getService('sitemaps'));
+const fsSvc = require(global.paths.getService('fs'));
 
 
 /*
@@ -43,7 +43,7 @@ module.exports = function(req, res) {
 
 		sitemapsSvc.send(
 			res,
-			sitemapsSvc.generate(GLOBAL.lastMod, urls)
+			sitemapsSvc.generate(global.lastMod, urls)
 		);
 	});
 };

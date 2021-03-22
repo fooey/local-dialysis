@@ -22,7 +22,7 @@ const util = require('util');
 const _ = require('lodash');
 const numeral = require('numeral');
 
-const facilitySvc = require(GLOBAL.paths.getService('facilities/core'));
+const facilitySvc = require(global.paths.getService('facilities/core'));
 
 
 /*
@@ -94,10 +94,10 @@ module.exports = function(req, res) {
 function servicesList(place) {
 	// var serviceSchema = (
 	// 	'<span itemprop="availableService" itemscope itemtype="http://schema.org/TherapeuticProcedure">'
-	// 		+ '<span itemprop="procedureType" itemscope itemtype="http://schema.org/PercutaneousProcedure">' 
+	// 		+ '<span itemprop="procedureType" itemscope itemtype="http://schema.org/PercutaneousProcedure">'
 	// 			+ '<span itemprop="medicalSpecialty" itemscope itemtype="http://schema.org/Renal"></span>'
-	// 			+ '<span itemprop="recognizingAuthority" itemscope itemtype="http://schema.org/recognizingAuthority">' 
-	// 				+ '<span itemprop="name" content="The Centers for Medicare & Medicaid Services"></span>' 
+	// 			+ '<span itemprop="recognizingAuthority" itemscope itemtype="http://schema.org/recognizingAuthority">'
+	// 				+ '<span itemprop="name" content="The Centers for Medicare & Medicaid Services"></span>'
 	// 			+ '</span>'
 	// 		+ '</span>'
 	// 		+ '<span itemprop="name">%s</span>'
@@ -105,10 +105,10 @@ function servicesList(place) {
 	// );
 	var offeredServiceSchema = (
 		'<span itemprop="makesOffer" itemscope itemtype="http://schema.org/TherapeuticProcedure">'
-			+ '<span itemprop="procedureType" itemscope itemtype="http://schema.org/PercutaneousProcedure">' 
+			+ '<span itemprop="procedureType" itemscope itemtype="http://schema.org/PercutaneousProcedure">'
 				+ '<span itemprop="medicalSpecialty" itemscope itemtype="http://schema.org/Renal"></span>'
-				+ '<span itemprop="recognizingAuthority" itemscope itemtype="http://schema.org/recognizingAuthority">' 
-					+ '<span itemprop="name" content="The Centers for Medicare & Medicaid Services"></span>' 
+				+ '<span itemprop="recognizingAuthority" itemscope itemtype="http://schema.org/recognizingAuthority">'
+					+ '<span itemprop="name" content="The Centers for Medicare & Medicaid Services"></span>'
 				+ '</span>'
 			+ '</span>'
 			+ '<span itemprop="name">%s</span>'

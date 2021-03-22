@@ -16,16 +16,16 @@ const mkdirp = require('mkdirp');
 // const mv = require('mv');
 // const uuid = require('node-uuid');
 
-// const facilitySVc = require(GLOBAL.paths.getService('facilities/core'));
+// const facilitySVc = require(global.paths.getService('facilities/core'));
 
-const medicareData = require(GLOBAL.paths.getService('data/medicare'));
-const referenceData = require(GLOBAL.paths.getService('data/reference'));
-const facilityData = require(GLOBAL.paths.getService('data/facilities'));
+const medicareData = require(global.paths.getService('data/medicare'));
+const referenceData = require(global.paths.getService('data/reference'));
+const facilityData = require(global.paths.getService('data/facilities'));
 
-const fsSvc = require(GLOBAL.paths.getService('fs'));
+const fsSvc = require(global.paths.getService('fs'));
 
 
-var db = GLOBAL.DATABASE;
+var db = global.DATABASE;
 
 
 
@@ -62,8 +62,8 @@ function transformData(callback, results) {
 		['23ew-n7w9', 'qg5v-bgia'],
 		function(viewId, nextView) {
 
-			var tmpPath = GLOBAL.paths.getData('medicare/' + viewId + '.tmp.json');
-			var jsonPath = GLOBAL.paths.getData('medicare/' + viewId + '.json');
+			var tmpPath = global.paths.getData('medicare/' + viewId + '.tmp.json');
+			var jsonPath = global.paths.getData('medicare/' + viewId + '.json');
 
 			medicareData.transformJson(
 				tmpPath,
@@ -83,9 +83,9 @@ function mergeData(callback, results) {
 	console.log('data::generate::mergeData()');
 	var mergedData = {};
 
-	var facilitiesPath = require(GLOBAL.paths.getData('medicare/23ew-n7w9.json'));
-	var scoresPath = require(GLOBAL.paths.getData('medicare/qg5v-bgia.json'));
-	var mergedPath = GLOBAL.paths.getData('medicare/merged.json');
+	var facilitiesPath = require(global.paths.getData('medicare/23ew-n7w9.json'));
+	var scoresPath = require(global.paths.getData('medicare/qg5v-bgia.json'));
+	var mergedPath = global.paths.getData('medicare/merged.json');
 
 	async.auto({
 		'mergeFacilities': function(cbFacilities) {
@@ -110,7 +110,7 @@ function mergeData(callback, results) {
 						delete data.cmscertificationnumber;
 						mergedData[provider_number] = _.merge(mergedData[provider_number], data);
 					}
-						
+
 					fn();
 				},
 				cbFacilities

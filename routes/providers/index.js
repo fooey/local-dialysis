@@ -5,13 +5,13 @@
 */
 const util = require('util');
 
-const facilitySvc = require(GLOBAL.paths.getService('facilities/core'));
+const facilitySvc = require(global.paths.getService('facilities/core'));
 
 module.exports = function(app, express) {
 	var router = express.Router();
 
 
-	var providerRoute = GLOBAL.paths.getRoute('providers/provider');
+	var providerRoute = global.paths.getRoute('providers/provider');
 
 	router.get('/:facilitySlug.area.:facilityId([0-9]{6}).html', function(req, res) {
 		facilitySvc.getFacility(req.params.facilityId, function(err, place) {
@@ -43,17 +43,17 @@ module.exports = function(app, express) {
 	// 	});
 	// });
 
-	router.get('/:facilitySlug.statistics.:facilityId([0-9]{6}).html', require(GLOBAL.paths.getRoute('stats/provider')));
-	router.get('/:facilitySlug.jobs.:facilityId([0-9]{6}).html', require(GLOBAL.paths.getRoute('jobs/provider')));
+	router.get('/:facilitySlug.statistics.:facilityId([0-9]{6}).html', require(global.paths.getRoute('stats/provider')));
+	router.get('/:facilitySlug.jobs.:facilityId([0-9]{6}).html', require(global.paths.getRoute('jobs/provider')));
 
-	// router.get('/:facilitySlug.hotels.:facilityId([0-9]{6}).html', require(GLOBAL.paths.getRoute('hotels/provider')));
+	// router.get('/:facilitySlug.hotels.:facilityId([0-9]{6}).html', require(global.paths.getRoute('hotels/provider')));
 	router.get('/:facilitySlug.hotels.:facilityId([0-9]{6}).html', (req, res) => {
 		return facilitySvc.getFacility(req.params.facilityId, function(err, place) {
 			console.log('place', place);
 			res.redirect(301, place.getLink());
 		});
 	});
-	
+
 
 
 

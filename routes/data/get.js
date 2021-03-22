@@ -1,6 +1,6 @@
 'use strict';
 
-const dataGetter = require(GLOBAL.paths.getService('data/get'));
+const dataGetter = require(global.paths.getService('data/get'));
 
 
 module.exports = function(req, res, next) {

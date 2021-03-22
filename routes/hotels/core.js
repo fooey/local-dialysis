@@ -28,7 +28,7 @@ const moment = require('moment');
 const numeral = require('numeral');
 const request = require('request');
 
-const netSvc = require(GLOBAL.paths.getService('net'));
+const netSvc = require(global.paths.getService('net'));
 
 const propertyCategories = {
 	"1": "Hotel",
@@ -39,7 +39,7 @@ const propertyCategories = {
 	"6": "All-Inclusive",
 };
 
-// const eanAmenities = require(GLOBAL.paths.getData('ean-amenities'));
+// const eanAmenities = require(global.paths.getData('ean-amenities'));
 
 
 /*
@@ -202,7 +202,7 @@ function prepareResults(fnCallback, filters, err, results) {
 
 	var hotels = results.HotelListResponse.HotelList.HotelSummary;
 	hotels = (_.isArray(hotels)) ? hotels.slice(filters.startRow, filters.endRow) : [];
-	
+
 
 	_.map(hotels, function(hotel) {
 		hotel.name = ent.decode(hotel.name);
@@ -356,10 +356,10 @@ function getAmenities(mask) {
 
 // function arrayFromMask(nMask) {
 // 	// nMask must be between -2147483648 and 2147483647
-// 	if (nMask > 0x7fffffff || nMask < -0x80000000) { 
-// 		throw new TypeError("arrayFromMask - out of range"); 
+// 	if (nMask > 0x7fffffff || nMask < -0x80000000) {
+// 		throw new TypeError("arrayFromMask - out of range");
 // 	}
-// 	for (var nShifted = nMask, aFromMask = []; nShifted; 
+// 	for (var nShifted = nMask, aFromMask = []; nShifted;
 // 		aFromMask.push(Boolean(nShifted & 1)), nShifted >>>= 1);
 // 	return aFromMask;
 // }

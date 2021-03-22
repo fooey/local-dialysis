@@ -16,7 +16,7 @@ var me = module.exports = {};
 *
 */
 
-var db = GLOBAL.DATABASE;
+var db = global.DATABASE;
 
 const util = require('util');
 
@@ -26,10 +26,10 @@ const async = require('async');
 const common = require('./common.js');
 
 
-const statesJson = require(GLOBAL.paths.getData('states'));
+const statesJson = require(global.paths.getData('states'));
 
-const stringSvc = require(GLOBAL.paths.getService('string'));
-const referenceSvc = require(GLOBAL.paths.getService('data/reference'));
+const stringSvc = require(global.paths.getService('string'));
+const referenceSvc = require(global.paths.getService('data/reference'));
 
 
 
@@ -113,7 +113,7 @@ const statColumnsConfig = [
 	{name: "percentage_of_adult_pd_pts_with_kt_v_1_7", define: "percentage_of_adult_pd_pts_with_kt_v_1_7 INTEGER", bind: "$percentage_of_adult_pd_pts_with_kt_v_1_7"},
 	{name: "number_of_adult_pd_patients_with_kt_v_data", define: "number_of_adult_pd_patients_with_kt_v_data INTEGER", bind: "$number_of_adult_pd_patients_with_kt_v_data"},
 	{name: "number_of_adult_pd_patient_months_with_kt_v_data", define: "number_of_adult_pd_patient_months_with_kt_v_data INTEGER", bind: "$number_of_adult_pd_patient_months_with_kt_v_data"},
-	
+
 	{name: "pediatric_hd_kt_v_data_availability_code", define: "pediatric_hd_kt_v_data_availability_code INTEGER", bind: "$pediatric_hd_kt_v_data_availability_code"},
 	{name: "percentage_of_pediatric_hd_patients_with_kt_v_1_2", define: "percentage_of_pediatric_hd_patients_with_kt_v_1_2 INTEGER", bind: "$percentage_of_pediatric_hd_patients_with_kt_v_1_2"},
 	{name: "number_of_pediatric_hd_patients_with_kt_v_data", define: "number_of_pediatric_hd_patients_with_kt_v_data INTEGER", bind: "$number_of_pediatric_hd_patients_with_kt_v_data"},
@@ -420,8 +420,8 @@ function populateTables(fnCallback) {
 function generateParams(fnCallback) {
 	// console.log('facilities::generateParams()');
 
-	const facilitiesPath = GLOBAL.paths.getData('/medicare/facilities');
-	const facilitiesData = require(GLOBAL.paths.getData('medicare/merged.json'));
+	const facilitiesPath = global.paths.getData('/medicare/facilities');
+	const facilitiesData = require(global.paths.getData('medicare/merged.json'));
 
 	var facilityIds = _.keys(facilitiesData);
 	// facilityIds = facilityIds.slice(0, 10);
@@ -626,7 +626,7 @@ function generateStatsParams(facilityData, fnCallback) {
 			params.$lists_the_facility_s_standardized_transfusion_ratio_facility = parseFloat(facilityData.lists_the_facility_s_standardized_transfusion_ratio_facility);
 			params.$lists_the_upper_confident_limit_97_5_for_standardized_transfusion_ratio_strr = parseFloat(facilityData.lists_the_upper_confident_limit_97_5_for_standardized_transfusion_ratio_strr);
 			params.$lists_the_lower_confident_limit_2_5_for_standardized_transfusion_ratio_strr = parseFloat(facilityData.lists_the_lower_confident_limit_2_5_for_standardized_transfusion_ratio_strr);
-			
+
 			params.$lists_the_number_of_patients_included_in_the_facility_s_transfusion_summary_facility = _.parseInt(facilityData.lists_the_number_of_patients_included_in_the_facility_s_transfusion_summary_facility);
 
 			params.$percentage_of_hd_patients_with_urr_65 = _.parseInt(facilityData.percentage_of_hd_patients_with_urr_65);
@@ -648,14 +648,14 @@ function generateStatsParams(facilityData, fnCallback) {
 
 			params.$number_of_adult_patients_included_in_arterial_venous_fistula_and_catheter_summaries = _.parseInt(facilityData.number_of_adult_patients_included_in_arterial_venous_fistula_and_catheter_summaries);
 			params.$number_of_adult_patient_months_included_in_arterial_venous_fistula_and_catheter_summaries = _.parseInt(facilityData.number_of_adult_patient_months_included_in_arterial_venous_fistula_and_catheter_summaries);
-			
+
 			params.$lists_the_number_of_patients_included_in_the_facility_s_hypercalcemia_summary_facility = _.parseInt(facilityData.lists_the_number_of_patients_included_in_the_facility_s_hypercalcemia_summary_facility);
 			params.$lists_the_number_of_patient_months_included_in_the_facility_s_hypercalcemia_summary_facility = _.parseInt(facilityData.lists_the_number_of_patient_months_included_in_the_facility_s_hypercalcemia_summary_facility);
 			params.$lists_the_percentage_of_adult_patients_with_hypercalcemia_serum_calcium_greater_than_10_2_mg_dl_facility = _.parseInt(facilityData.lists_the_percentage_of_adult_patients_with_hypercalcemia_serum_calcium_greater_than_10_2_mg_dl_facility);
 
 			params.$lists_the_number_of_patients_included_in_the_facility_s_serum_phosphorus_summary_facility = _.parseInt(facilityData.lists_the_number_of_patients_included_in_the_facility_s_serum_phosphorus_summary_facility);
 			params.$lists_the_number_of_patient_months_included_in_the_facility_s_serum_phosphorus_summary_facility = _.parseInt(facilityData.lists_the_number_of_patient_months_included_in_the_facility_s_serum_phosphorus_summary_facility);
-			
+
 			params.$lists_the_percentage_of_adult_patients_with_serum_phosphorus_less_than_3_5_mg_dl_facility = _.parseInt(facilityData.lists_the_percentage_of_adult_patients_with_serum_phosphorus_less_than_3_5_mg_dl_facility);
 			params.$lists_the_percentage_of_adult_patients_with_serum_phosphorus_between_3_5_4_5_mg_dl_facility = _.parseInt(facilityData.lists_the_percentage_of_adult_patients_with_serum_phosphorus_between_3_5_4_5_mg_dl_facility);
 			params.$lists_the_percentage_of_adult_patients_with_serum_phosphorus_between_4_6_5_5_mg_dl_facility = _.parseInt(facilityData.lists_the_percentage_of_adult_patients_with_serum_phosphorus_between_4_6_5_5_mg_dl_facility);
@@ -666,10 +666,10 @@ function generateStatsParams(facilityData, fnCallback) {
 			params.$smr_upper_confidence_limit_95 = parseFloat(facilityData.smr_upper_confidence_limit_95);
 			params.$shr_lower_confidence_limit_5 = parseFloat(facilityData.shr_lower_confidence_limit_5);
 			params.$smr_lower_confidence_limit_5 = parseFloat(facilityData.smr_lower_confidence_limit_5);
-			
+
 			params.$number_of_patients_included_in_hospitalization_summary = _.parseInt(facilityData.number_of_patients_included_in_hospitalization_summary);
 			params.$standardized_hospitalization_ratio = parseFloat(facilityData.standardized_hospitalization_ratio);
-			
+
 			params.$number_of_patients_included_in_survival_summary = _.parseInt(facilityData.number_of_patients_included_in_survival_summary);
 			params.$standardized_mortality_ratio = parseFloat(facilityData.standardized_mortality_ratio);
 

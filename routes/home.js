@@ -6,9 +6,9 @@ const numeral = require('numeral');
 
 
 
-const nationSvc = require(GLOBAL.paths.getService('geo/nation'));
-const statesSvc = require(GLOBAL.paths.getService('geo/states'));
-const citiesSvc = require(GLOBAL.paths.getService('geo/cities'));
+const nationSvc = require(global.paths.getService('geo/nation'));
+const statesSvc = require(global.paths.getService('geo/states'));
+const citiesSvc = require(global.paths.getService('geo/cities'));
 
 const thresholdDefault = 12;
 
@@ -95,8 +95,8 @@ function attachCities(fnCallback, data) {
 /*
 module.exports = function(req, res, next) {
 
-	const geoAgg = require(GLOBAL.paths.getData('medicare/agg/geo.json'));
-	var topCities = require(GLOBAL.paths.getData('medicare/agg/topCities.json'));
+	const geoAgg = require(global.paths.getData('medicare/agg/geo.json'));
+	var topCities = require(global.paths.getData('medicare/agg/topCities.json'));
 
 	const metaNational = {
 		count: geoAgg.count,

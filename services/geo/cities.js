@@ -19,8 +19,8 @@ var me = module.exports = {};
 const _ = require('lodash');
 const async = require('async');
 
-const statesSvc = require(GLOBAL.paths.getService('geo/states'));
-const citiesData = require(GLOBAL.paths.getService('data/cities'));
+const statesSvc = require(global.paths.getService('geo/states'));
+const citiesData = require(global.paths.getService('data/cities'));
 
 
 /*
@@ -63,7 +63,7 @@ me.City = function(jsonData, state) {
 
 me.City.prototype.getLink = function getLink(subPage) {
 	var pageLink = [
-		this.state.getLink(), 
+		this.state.getLink(),
 		this.slug,
 	];
 	if (subPage && !_.isEmpty(subPage)) {
@@ -88,7 +88,7 @@ me.getTotals = function data_getTotals(filters, fnCallback) {
 	}
 
 	var cacheKey = 'city:getByState:' + filterToString(filters);
-	var cities = GLOBAL.cache.get(cacheKey);
+	var cities = global.cache.get(cacheKey);
 
 	if (cities) {
 		fnCallback(null, cities);
@@ -100,7 +100,7 @@ me.getTotals = function data_getTotals(filters, fnCallback) {
 				return new me.City(cityData);
 			});
 
-			GLOBAL.cache.set(cacheKey, cities);
+			global.cache.set(cacheKey, cities);
 
 			fnCallback(err, cities);
 		});
@@ -111,7 +111,7 @@ me.getTotals = function data_getTotals(filters, fnCallback) {
 
 me.getByState = function getByState(state, fnCallback) {
 	var cacheKey = 'city:getByState:' + state.slug;
-	var cities = GLOBAL.cache.get(cacheKey);
+	var cities = global.cache.get(cacheKey);
 
 	if (cities) {
 		fnCallback(null, cities);
@@ -123,7 +123,7 @@ me.getByState = function getByState(state, fnCallback) {
 				return new me.City(cityData, state);
 			});
 
-			GLOBAL.cache.set(cacheKey, cities);
+			global.cache.set(cacheKey, cities);
 
 			fnCallback(err, cities);
 		});
@@ -134,7 +134,7 @@ me.getByState = function getByState(state, fnCallback) {
 
 me.getBySlug = function getBySlug(state, citySlug, fnCallback) {
 	var cacheKey = 'city:getBySlug:' + state.slug + ':' + citySlug;
-	var city = GLOBAL.cache.get(cacheKey);
+	var city = global.cache.get(cacheKey);
 
 	if (city) {
 		fnCallback(null, city);
@@ -143,9 +143,9 @@ me.getBySlug = function getBySlug(state, citySlug, fnCallback) {
 		var filters = {stateSlug: state.slug, citySlug: citySlug};
 		citiesData.getTotals(filters, function(err, data) {
 			if (err) throw (err);
-			
+
 			var city = (data.length) ? new me.City(data[0], state) : null;
-			GLOBAL.cache.set(cacheKey, city);
+			global.cache.set(cacheKey, city);
 			fnCallback(err, city);
 		});
 	}

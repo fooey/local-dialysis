@@ -24,8 +24,8 @@ const async = require('async');
 const numeral = require('numeral');
 
 
-const statesSvc = require(GLOBAL.paths.getService('geo/states'));
-const citiesSvc = require(GLOBAL.paths.getService('geo/cities'));
+const statesSvc = require(global.paths.getService('geo/states'));
+const citiesSvc = require(global.paths.getService('geo/cities'));
 
 
 
@@ -132,7 +132,7 @@ me.render = function(req, res, place, facilities, state, city) {
 	var title = util.format('%s Dialysis Providers', place.placeName);
 	var description = util.format('Find and compare the %s Medicare certified dialysis facilties in %s', numeral(place.numFacilities).format('0,0'), place.placeName);
 	var canonical = place.getLink() + '?page=viewall';
-	
+
 	var pageTitle = util.format('%s <nobr>Dialysis Providers</nobr>', place.placeName);
 	var pageDescription = description;
 

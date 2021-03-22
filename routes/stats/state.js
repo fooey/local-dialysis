@@ -13,9 +13,9 @@ const util = require('util');
 const async = require('async');
 
 
-const nationSvc = require(GLOBAL.paths.getService('geo/nation'));
-const stateSvc = require(GLOBAL.paths.getService('geo/states'));
-const statsCore = require(GLOBAL.paths.getRoute('stats/core'));
+const nationSvc = require(global.paths.getService('geo/nation'));
+const stateSvc = require(global.paths.getService('geo/states'));
+const statsCore = require(global.paths.getRoute('stats/core'));
 
 
 /*
